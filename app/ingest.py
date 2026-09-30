@@ -89,3 +89,17 @@ def _validate(metas: list[DocMeta]) -> None:
     for m in metas:
         if m.supersedes and m.supersedes not in ids:
             raise DocumentError(f"{m.doc_id}: supersedes -> bilinmeyen doc_id {m.supersedes!r}")
+
+    # status alani, surum numarasindan turetilen kuralla tutarli olmali:
+    # her family'de en yuksek surum 'current', digerleri 'superseded'.
+    families: dict[str, list[DocMeta]] = {}
+    for m in metas:
+        families.setdefault(m.family, []).append(m)
+    for family, docs in families.items():
+        latest = max(docs, key=lambda d: d.version)
+        for d in docs:
+            expected = "current" if d is latest else "superseded"
+            if d.status != expected:
+                raise DocumentError(
+                    f"{d.doc_id}: status={d.status!r} ama '{family}' family'sinde v{d.version} icin {expected!r} bekleniyordu"
+                )

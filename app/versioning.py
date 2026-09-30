@@ -1,0 +1,100 @@
+"""Ayni prosedurun (family) birden fazla surumu varsa guncel olani secer ve nedenini uretir.
+
+Kural (deterministik, LLM'e birakilmaz):
+  1. Yururluk tarihi as_of'tan sonra olan surumler henuz gecerli degildir, elenir.
+  2. Kalanlar arasinda en yuksek surum numarasi (esitlikte en yeni yururluk tarihi) guncel sayilir.
+  3. Diger surumlerden gelen bolumler cevap uretiminde KULLANILMAZ; yalnizca raporlanir.
+"""
+
+from dataclasses import dataclass, field
+from datetime import date
+
+from app.index import Hit
+from app.models import DocMeta
+
+
+@dataclass(frozen=True)
+class DiscardedSection:
+    doc_id: str
+    version: int
+    effective_date: date
+    section: str
+    snippet: str
+
+
+@dataclass(frozen=True)
+class ConflictReport:
+    family: str
+    selected_doc_id: str
+    selected_version: int
+    selected_effective_date: date
+    selected_sections: list[str]
+    discarded: list[DiscardedSection]
+    reason: str
+
+
+@dataclass
+class Resolution:
+    hits: list[Hit]  # yalnizca guncel surumlerden gelenler, skora gore sirali
+    conflicts: list[ConflictReport] = field(default_factory=list)
+
+
+def current_docs(metas: list[DocMeta], as_of: date) -> dict[str, DocMeta]:
+    """family -> o family'nin as_of tarihinde gecerli olan surumu."""
+    by_family: dict[str, list[DocMeta]] = {}
+    for m in metas:
+        by_family.setdefault(m.family, []).append(m)
+    result = {}
+    for family, docs in by_family.items():
+        in_force = [d for d in docs if d.effective_date <= as_of] or docs
+        result[family] = max(in_force, key=lambda d: (d.version, d.effective_date))
+    return result
+
+
+def resolve_versions(hits: list[Hit], metas: list[DocMeta], as_of: date) -> Resolution:
+    current = current_docs(metas, as_of)
+    family_versions: dict[str, list[DocMeta]] = {}
+    for m in metas:
+        family_versions.setdefault(m.family, []).append(m)
+
+    kept: list[Hit] = []
+    dropped: dict[str, list[Hit]] = {}
+    for hit in hits:
+        doc = hit.chunk.doc
+        if doc.doc_id == current[doc.family].doc_id:
+            kept.append(hit)
+        else:
+            dropped.setdefault(doc.family, []).append(hit)
+
+    conflicts = []
+    for family, dropped_hits in dropped.items():
+        winner = current[family]
+        winner_sections = [h.chunk.section for h in kept if h.chunk.doc.family == family]
+        old = sorted({(h.chunk.doc.version, h.chunk.doc.effective_date) for h in dropped_hits})
+        old_txt = ", ".join(f"v{v} ({d.isoformat()})" for v, d in old)
+        reason = (
+            f"Aynı prosedürün birden fazla sürümü eşleşti: {old_txt} ve "
+            f"v{winner.version} ({winner.effective_date.isoformat()}). Yürürlükte olan en yüksek "
+            f"sürüm v{winner.version} seçildi; diğerleri 'superseded' olduğu için yanıtta kullanılmadı."
+        )
+        conflicts.append(
+            ConflictReport(
+                family=family,
+                selected_doc_id=winner.doc_id,
+                selected_version=winner.version,
+                selected_effective_date=winner.effective_date,
+                selected_sections=winner_sections,
+                discarded=[
+                    DiscardedSection(
+                        h.chunk.doc.doc_id,
+                        h.chunk.doc.version,
+                        h.chunk.doc.effective_date,
+                        h.chunk.section,
+                        h.chunk.text,
+                    )
+                    for h in dropped_hits
+                ],
+                reason=reason,
+            )
+        )
+    return Resolution(hits=kept, conflicts=conflicts)
