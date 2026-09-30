@@ -36,15 +36,12 @@ class BM25Index:
         return math.log(1 + (self._n - df + 0.5) / (df + 0.5))
 
     def _backoff(self, term: str) -> str:
-        """F5 kesmesi kisa koklerde (gun -> gundu/gunde) eslesmeyi kacirir: terim dizinde yoksa,
-        dizinde bulunan en uzun 4/3 harfli onekine dus. Yalnizca gercekten dizinde olan terimler doner,
-        bu yuzden dokumanda olmayan konular ('ekran') hala 'bilinmeyen' kalir."""
-        if term in self._df:
+        """F5 kesmesi 3 harfli koklerde (gun -> gundu/gunde) eslesmeyi kacirir: kisa bir terim (en fazla 6 harf)
+        dizinde yoksa ve ilk 3 harfi dizinde bir terimse o terime dus. Bilerek dar tutuldu: 4 harfli
+        onek denendiginde 'homekit' -> 'home' ('Lumora Home' uygulamasi) gibi sahte eslesmeler olusuyordu."""
+        if term in self._df or len(term) > 6:
             return term
-        for k in (4, 3):
-            if len(term) > k and term[:k] in self._df:
-                return term[:k]
-        return term
+        return term[:3] if term[:3] in self._df else term
 
     def search(self, query: str, k: int = 5) -> list[Hit]:
         terms = list(dict.fromkeys(self._backoff(t) for t in tokenize(query)))  # tekrarlari at, sirayi koru
