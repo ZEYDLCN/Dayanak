@@ -35,8 +35,19 @@ class BM25Index:
         df = self._df.get(term, 0)
         return math.log(1 + (self._n - df + 0.5) / (df + 0.5))
 
+    def _backoff(self, term: str) -> str:
+        """F5 kesmesi kisa koklerde (gun -> gundu/gunde) eslesmeyi kacirir: terim dizinde yoksa,
+        dizinde bulunan en uzun 4/3 harfli onekine dus. Yalnizca gercekten dizinde olan terimler doner,
+        bu yuzden dokumanda olmayan konular ('ekran') hala 'bilinmeyen' kalir."""
+        if term in self._df:
+            return term
+        for k in (4, 3):
+            if len(term) > k and term[:k] in self._df:
+                return term[:k]
+        return term
+
     def search(self, query: str, k: int = 5) -> list[Hit]:
-        terms = list(dict.fromkeys(tokenize(query)))  # tekrarlari at, sirayi koru
+        terms = list(dict.fromkeys(self._backoff(t) for t in tokenize(query)))  # tekrarlari at, sirayi koru
         if not terms:
             return []
         total_idf = sum(self.idf(t) for t in terms)
