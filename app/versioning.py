@@ -6,11 +6,13 @@ Kural (deterministik, LLM'e birakilmaz):
   3. Diger surumlerden gelen bolumler cevap uretiminde KULLANILMAZ; yalnizca raporlanir.
 """
 
+import re
 from dataclasses import dataclass, field
 from datetime import date
 
 from app.index import Hit
 from app.models import DocMeta
+from app.textproc import normalize
 
 
 @dataclass(frozen=True)
@@ -102,3 +104,21 @@ def resolve_versions(hits: list[Hit], metas: list[DocMeta], as_of: date) -> Reso
             )
         )
     return Resolution(hits=kept, conflicts=conflicts)
+
+
+_HISTORY = re.compile(r"\b(eski|onceki|eskiden|onceden|gecmis|gecmiste|ilk surum|v1|1\.? surum)\b")
+_YEAR = re.compile(r"\b(19|20)\d\d\b")
+
+
+def wants_history(question: str, metas: list[DocMeta]) -> bool:
+    """Soru bilerek eski bir sürümü mü soruyor? ('eski prosedürde', '2023'te', 'v1')"""
+    q = normalize(question)
+    if _HISTORY.search(q):
+        return True
+    return any(str(m.effective_date.year) in q for m in metas if m.status == "superseded")
+
+
+def strip_history_terms(question: str) -> str:
+    """'Eski', 'önceki', '2023' gibi sürüm-üstü sözcükler içerik değildir; aramada gürültü yapmasın."""
+    q = _HISTORY.sub(" ", normalize(question))
+    return _YEAR.sub(" ", q)

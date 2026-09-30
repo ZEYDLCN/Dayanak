@@ -3,6 +3,8 @@ from datetime import date
 from app.answer import NO_INFO, AnswerService
 from app.llm import Generation
 
+IADE_SURESI = "Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir."
+
 
 class FakeGen:
     def __init__(self, result=None, error=None):
@@ -16,7 +18,7 @@ class FakeGen:
 
 
 def test_unanswerable_never_reaches_llm(kb, settings):
-    gen = FakeGen(Generation(True, "uydurma", [0]))
+    gen = FakeGen(Generation(True, "uydurma", [0], (IADE_SURESI,)))
     svc = AnswerService(kb, settings, generator=gen)
     a = svc.ask("Apple HomeKit ile uyumlu mu?")
     assert not a.answerable and a.answer == NO_INFO and a.sources == []
@@ -31,7 +33,7 @@ def test_llm_abstention_is_respected(kb, settings):
 
 
 def test_llm_answer_reports_only_cited_sources(kb, settings):
-    svc = AnswerService(kb, settings, generator=FakeGen(Generation(True, "30 gün.", [0])))
+    svc = AnswerService(kb, settings, generator=FakeGen(Generation(True, "30 gün.", [0], (IADE_SURESI,))))
     a = svc.ask("İade süresi kaç gün?")
     assert a.mode == "llm" and len(a.sources) == 1
     assert a.sources[0].doc_id == "iade-proseduru-v2"
@@ -78,14 +80,14 @@ def test_orange_led_question_retrieves_do_not_unplug_instruction(kb):
 
 def test_ungrounded_number_in_llm_answer_is_rejected(kb, settings):
     """Model kaynakta olmayan bir sayı uydurursa kullanıcıya gösterilmez."""
-    svc = AnswerService(kb, settings, generator=FakeGen(Generation(True, "İade süresi 45 gündür.", [0])))
+    svc = AnswerService(kb, settings, generator=FakeGen(Generation(True, "İade süresi 45 gündür.", [0], (IADE_SURESI,))))
     a = svc.ask("İade süresi kaç gün?")
     assert not a.answerable and a.mode == "llm-rejected" and a.sources == []
     assert "45" in a.retrieval["guard"]
 
 
 def test_number_echoed_from_question_is_allowed(kb, settings):
-    gen = FakeGen(Generation(True, "Hayır, 14 gün değil; iade süresi 30 gündür.", [0]))
+    gen = FakeGen(Generation(True, "Hayır, 14 gün değil; iade süresi 30 gündür.", [0], (IADE_SURESI,)))
     a = AnswerService(kb, settings, generator=gen).ask("İade süresi 14 gün, doğru mu?")
     assert a.answerable and a.mode == "llm"
 
@@ -110,10 +112,11 @@ def test_cited_source_is_extended_with_passage_that_grounds_the_number(kb):
 
 def test_llm_mode_lets_llm_judge_borderline_retrieval(kb, settings):
     """Skor eşiği geçen ama kapsaması düşük soru: LLM'siz modda ret, LLM modunda LLM'e gider."""
-    question = "Aboneliğimi iptal edersem paramı geri alabilir miyim?"
+    question = "Garanti 12 ay olduğuna göre ne zamana kadar başvurabilirim?"  # yanlış öncül; kapsama düşük
     r = kb.retrieve(question)
     assert r.plausible and not r.sufficient
-    gen = FakeGen(Generation(True, "Kalan döneme ait kısmi ücret iadesi yapılmaz.", [0]))
+    evidence = "Tüm Lumora Hub ve aksesuar ürünleri, teslim tarihinden itibaren 24 ay garantilidir."
+    gen = FakeGen(Generation(True, "Garanti süresi 24 aydır, 12 ay değil.", [0], (evidence,)))
     assert AnswerService(kb, settings, generator=gen).ask(question).mode == "llm"
     assert gen.calls == 1
     assert AnswerService(kb, settings).ask(question).mode == "no-retrieval"

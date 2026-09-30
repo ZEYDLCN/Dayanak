@@ -15,6 +15,12 @@ class Settings(BaseSettings):
     nvidia_api_key: str = ""
     nvidia_model: str = "openai/gpt-oss-20b"
     nvidia_timeout_seconds: float = 15.0
+    nvidia_temperature: float = 0.0  # tekrarlanabilirlik: ayni soru ayni yaniti versin
+    nvidia_reasoning_effort: str = "low"  # yalnizca gpt-oss: low | medium | high
+
+    # Halusinasyon korumalari
+    require_evidence: bool = True  # model, yaniti destekleyen cumleyi bolumden aynen kopyalamali
+    verify_answers: bool = False  # ikinci LLM cagrisi: kanit soruyu dogrudan yanitliyor mu?
 
     docs_dir: Path = ROOT / "data" / "docs"
 

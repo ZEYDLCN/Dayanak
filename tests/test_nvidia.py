@@ -22,7 +22,8 @@ def test_nvidia_generator_uses_retrieved_passages_and_cites_source(kb):
         assert "[3]" not in payload["messages"][1]["content"]
         assert "İade Süresi" in payload["messages"][1]["content"]
         return httpx.Response(200, json={"choices": [{"message": {"content": json.dumps({
-            "answerable": True, "answer": "İade süresi 30 gündür.", "used_passages": [1]
+            "answerable": True, "answer": "İade süresi 30 gündür.", "used_passages": [1],
+            "evidence": ["Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir."]
         })}}]})
 
     client = httpx.Client(transport=httpx.MockTransport(respond))
@@ -48,7 +49,8 @@ def test_gpt_oss_uses_json_output_and_low_reasoning(kb):
         return httpx.Response(200, json={"choices": [{
             "finish_reason": "stop",
             "message": {"content": json.dumps({
-                "answerable": True, "answer": "İade süresi 30 gündür.", "used_passages": [1]
+                "answerable": True, "answer": "İade süresi 30 gündür.", "used_passages": [1],
+            "evidence": ["Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir."]
             })},
         }]})
 

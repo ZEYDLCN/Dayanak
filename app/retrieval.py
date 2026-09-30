@@ -4,7 +4,7 @@ from datetime import date
 from app.config import Settings
 from app.index import BM25Index, Hit
 from app.ingest import load_corpus
-from app.versioning import ConflictReport, resolve_versions
+from app.versioning import ConflictReport, resolve_versions, strip_history_terms, wants_history
 
 
 @dataclass
@@ -27,7 +27,8 @@ class KnowledgeBase:
         s = self.settings
         as_of = as_of or date.today()
         # Eski surumler top-k'da yer kaplamasin diye sürüm çözümünden önce daha genis aday cek
-        raw = self.index.search(question, k=s.top_k * 2)
+        search_q = strip_history_terms(question) if wants_history(question, self.metas) else question
+        raw = self.index.search(search_q, k=s.top_k * 2)
         resolution = resolve_versions(raw, self.metas, as_of)
         hits = resolution.hits[: s.top_k]
 
