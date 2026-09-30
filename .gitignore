@@ -5,3 +5,8 @@ __pycache__/
 .pytest_cache/
 .idea/
 .vscode/
+
+# tanitim videosu: uretilen dosyalar (betikler commit edilir)
+promo/build/
+promo/fonts/
+promo/*.mp4

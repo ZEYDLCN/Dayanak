@@ -309,6 +309,24 @@ Aynı 57 vaka × 2 koşu, aynı istem ve korumalar. Sonuçlar: [`qa-nvidia-opena
 
 ---
 
+## Tanıtım videosu
+
+`promo/` klasörü, projenin ~40 sn'lik Türkçe tanıtım videosunu **kodla** üretir (1920×1080, 30 fps, seslendirmeli). Görüntüler uygulamanın kendi arayüzünden alınan **gerçek ekran görüntüleri**, kendi ikonları, renkleri (`styles.css`) ve yazı tipleridir (Manrope, DM Sans); sayılar bu README'deki ölçümlerdir. Video dosyası (`promo/lumora-tanitim.mp4`) git'e girmez, aşağıdaki adımlarla yeniden üretilir:
+
+```bash
+pip install moviepy pillow numpy edge-tts playwright     # ekstra bağımlılıklar (requirements.txt'e girmez)
+uvicorn app.main:app --port 8000                          # gerçek yanıtlar için LLM_PROVIDER ayarlı olmalı
+python promo/capture_icons.py      # uygulamanın ikon setini görsele çevirir
+python promo/capture.py            # gerçek arayüzden ekran görüntüleri
+python promo/make_voice.py         # Türkçe seslendirme (edge-tts: metni Microsoft'un çevrimiçi servisine gönderir)
+python promo/render.py --preview   # birkaç kareyi promo/build/preview_*.png olarak yazar
+python promo/render.py             # promo/lumora-tanitim.mp4
+```
+
+Yazı tipleri OFL lisanslıdır; `promo/fonts/` içine `Manrope[wght].ttf` ve `DMSans[opsz,wght].ttf` dosyalarını Google Fonts deposundan indirin.
+
+---
+
 ## Bilinen sınırlar
 
 - **Aşırı temkin:** Güvenlik önceliklendirildi; bunun bedeli %14 gereksiz ret (yanlış öncüllü, çok parçalı ve kısmi bilgili sorularda). Uydurma yerine ret tercih edildi.
