@@ -16,6 +16,7 @@ log = logging.getLogger(__name__)
 
 NO_INFO = "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin."
 _SENTENCE = re.compile(r"(?<=[.!?])\s+")
+_MAX_QUOTE_CHARS = 400
 
 
 @dataclass
@@ -83,8 +84,11 @@ class AnswerService:
 
     @staticmethod
     def _extractive(question: str, hits: list[Hit]) -> tuple[list[Hit], str]:
-        """LLM yokken: en iyi bölümden sorgu terimlerini içeren cümleleri aynen alıntılar."""
+        """LLM yokken: en iyi bölümü aynen alıntılar. Bölümler kısa; uzunsa sorgu terimlerini içeren cümleler seçilir."""
         top = hits[0]
+        flat = top.chunk.text.replace("\n", " ").strip()
+        if len(flat) <= _MAX_QUOTE_CHARS:
+            return [top], flat
         q_terms = set(tokenize(question))
         sentences = [s for s in _SENTENCE.split(top.chunk.text.replace("\n", " ")) if s.strip()]
         scored = [(len(q_terms & set(tokenize(s))), i, s) for i, s in enumerate(sentences)]

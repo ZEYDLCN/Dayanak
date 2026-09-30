@@ -1,0 +1,416 @@
+[
+  {
+    "id": "N1",
+    "type": "normal",
+    "question": "Lumora Hub'ı fabrika ayarlarına nasıl döndürürüm?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "kurulum-kilavuzu"
+      ],
+      "must_include": [
+        "10 saniye"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N2",
+    "type": "normal",
+    "question": "Şifre sıfırlama bağlantısı ne kadar süre geçerli?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "hesap-ve-sifre"
+      ],
+      "must_include": [
+        "30 dakika"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N3",
+    "type": "normal",
+    "question": "Ürünlerde garanti süresi ne kadar?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "garanti-ve-servis"
+      ],
+      "must_include": [
+        "24 ay"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N4",
+    "type": "normal",
+    "question": "Ücretsiz kargo için minimum sipariş tutarı nedir?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "kargo-ve-teslimat"
+      ],
+      "must_include": [
+        "750 TL"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N5",
+    "type": "normal",
+    "question": "Lumora+ aboneliğimi nasıl iptal ederim?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "abonelik-ve-faturalama"
+      ],
+      "must_include": [
+        "Ayarlar > Abonelik"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N6",
+    "type": "normal",
+    "question": "Kamera kayıtları ücretsiz kullanıcılarda kaç gün saklanır?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "gizlilik-ve-veri-silme"
+      ],
+      "must_include": [
+        "7 gün"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N7",
+    "type": "normal",
+    "question": "Hub'ın LED ışığı turuncu yanıyorsa bu ne anlama gelir?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "sorun-giderme"
+      ],
+      "must_include": [
+        "güncelleme"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "N8",
+    "type": "normal",
+    "question": "Canlı destek hangi saatlerde çalışıyor?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "destek-kanallari-sla"
+      ],
+      "must_include": [
+        "09:00-21:00"
+      ]
+    },
+    "split": "dev"
+  },
+  {
+    "id": "C1",
+    "type": "conflict",
+    "question": "İade süresi kaç gün?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "30 gün"
+      ],
+      "must_not_include": [
+        "14 gün"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "split": "dev"
+  },
+  {
+    "id": "C2",
+    "type": "conflict",
+    "question": "İade kargo ücretini kim öder?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "Lumora karşılar"
+      ],
+      "must_not_include": [
+        "müşteriye aittir"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "split": "dev"
+  },
+  {
+    "id": "C3",
+    "type": "conflict",
+    "question": "İade başvurusunu nasıl yaparım, telefonla olur mu?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "uygulama"
+      ],
+      "must_not_include": [
+        "yalnızca müşteri hizmetleri"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "split": "dev"
+  },
+  {
+    "id": "C4",
+    "type": "conflict",
+    "question": "İade ödemesi kaç iş günü içinde kartıma yatar?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "5 iş günü"
+      ],
+      "must_not_include": [
+        "10 iş günü"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "split": "dev"
+  },
+  {
+    "id": "U1",
+    "type": "unanswerable",
+    "question": "Lumora Hub Apple HomeKit ile uyumlu mu?",
+    "expect": {
+      "answerable": false
+    },
+    "split": "dev"
+  },
+  {
+    "id": "U2",
+    "type": "unanswerable",
+    "question": "Lumora Hub su geçirmez mi?",
+    "expect": {
+      "answerable": false
+    },
+    "split": "dev"
+  },
+  {
+    "id": "U3",
+    "type": "unanswerable",
+    "question": "Yurt dışına kargo yapıyor musunuz?",
+    "expect": {
+      "answerable": false
+    },
+    "split": "dev"
+  },
+  {
+    "id": "U4",
+    "type": "unanswerable",
+    "question": "Lumora+ için öğrenci indirimi var mı?",
+    "expect": {
+      "answerable": false
+    },
+    "split": "dev"
+  },
+  {
+    "id": "U5",
+    "type": "unanswerable",
+    "question": "Şirketin genel merkezi nerede?",
+    "expect": {
+      "answerable": false
+    },
+    "split": "dev"
+  },
+  {
+    "id": "U6",
+    "type": "unanswerable",
+    "question": "Bugün hava nasıl olacak?",
+    "expect": {
+      "answerable": false
+    },
+    "split": "dev"
+  },
+  {
+    "id": "H1",
+    "type": "normal",
+    "split": "heldout",
+    "question": "Ürünüm arızalanırsa servis ne kadar sürede onarım yapar?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "garanti-ve-servis"
+      ],
+      "must_include": [
+        "10 iş günü"
+      ]
+    }
+  },
+  {
+    "id": "H2",
+    "type": "normal",
+    "split": "heldout",
+    "question": "Hesabım kilitlendi, ne kadar beklemem gerekiyor?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "hesap-ve-sifre"
+      ],
+      "must_include": [
+        "15 dakika"
+      ]
+    }
+  },
+  {
+    "id": "H3",
+    "type": "normal",
+    "split": "heldout",
+    "question": "Kargom teslim edilemezse ne olur?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "kargo-ve-teslimat"
+      ],
+      "must_include": [
+        "7 gün"
+      ]
+    }
+  },
+  {
+    "id": "H4",
+    "type": "normal",
+    "split": "heldout",
+    "question": "Hub'a en fazla kaç cihaz bağlayabilirim?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "kurulum-kilavuzu"
+      ],
+      "must_include": [
+        "50"
+      ]
+    }
+  },
+  {
+    "id": "H5",
+    "type": "normal",
+    "split": "heldout",
+    "question": "Deneme süresi bitmeden aboneliği iptal edersem ücret alınır mı?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "abonelik-ve-faturalama"
+      ],
+      "must_include": [
+        "ücret alınmaz"
+      ]
+    }
+  },
+  {
+    "id": "H6",
+    "type": "normal",
+    "split": "heldout",
+    "question": "Cihaz serviste iken bana geçici cihaz verilir mi?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "garanti-ve-servis"
+      ],
+      "must_include": [
+        "verilmez"
+      ]
+    }
+  },
+  {
+    "id": "H7",
+    "type": "conflict",
+    "split": "heldout",
+    "question": "Ürünü iade ederken kargo parasını ben mi ödüyorum?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "Lumora karşılar"
+      ],
+      "must_not_include": [
+        "müşteriye aittir"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    }
+  },
+  {
+    "id": "H8",
+    "type": "conflict",
+    "split": "heldout",
+    "question": "İade için hangi yoldan başvuru yapılıyor?",
+    "expect": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "web formu"
+      ],
+      "must_not_include": [
+        "yalnızca müşteri hizmetleri"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    }
+  },
+  {
+    "id": "H9",
+    "type": "unanswerable",
+    "split": "heldout",
+    "question": "Lumora Hub Alexa ile birlikte çalışır mı?",
+    "expect": {
+      "answerable": false
+    }
+  },
+  {
+    "id": "H10",
+    "type": "unanswerable",
+    "split": "heldout",
+    "question": "Kamera kayıtlarını kendi bilgisayarıma indirebilir miyim?",
+    "expect": {
+      "answerable": false
+    }
+  },
+  {
+    "id": "H11",
+    "type": "unanswerable",
+    "split": "heldout",
+    "question": "Lumora+ aboneliğimi başka bir kişiye devredebilir miyim?",
+    "expect": {
+      "answerable": false
+    }
+  },
+  {
+    "id": "H12",
+    "type": "unanswerable",
+    "split": "heldout",
+    "question": "En yakın Lumora mağazası nerede?",
+    "expect": {
+      "answerable": false
+    }
+  }
+]

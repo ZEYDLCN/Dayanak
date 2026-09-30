@@ -1,0 +1,836 @@
+[
+  {
+    "id": "N1",
+    "type": "normal",
+    "question": "Lumora Hub'ı fabrika ayarlarına nasıl döndürürüm?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "kurulum-kilavuzu"
+      ],
+      "must_include": [
+        "10 saniye"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Cihazın arkasındaki reset düğmesine 10 saniye boyunca basılı tutun. LED kırmızı renkte yanıp söndüğünde cihaz fabrika ayarlarına dönmüştür. Bu işlem cihazdaki tüm eşleşmeleri siler.",
+      "mode": "extractive",
+      "sources": [
+        "kurulum-kilavuzu#Fabrika Ayarlarına Dönme"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 8.91,
+        "top_coverage": 0.62
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N2",
+    "type": "normal",
+    "question": "Şifre sıfırlama bağlantısı ne kadar süre geçerli?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "hesap-ve-sifre"
+      ],
+      "must_include": [
+        "30 dakika"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Giriş ekranında \"Şifremi Unuttum\" seçeneğine dokunun. E-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı 30 dakika boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir.",
+      "mode": "extractive",
+      "sources": [
+        "hesap-ve-sifre#Şifre Sıfırlama"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 18.04,
+        "top_coverage": 1.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N3",
+    "type": "normal",
+    "question": "Ürünlerde garanti süresi ne kadar?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "garanti-ve-servis"
+      ],
+      "must_include": [
+        "24 ay"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Tüm Lumora Hub ve aksesuar ürünleri, teslim tarihinden itibaren 24 ay garantilidir.",
+      "mode": "extractive",
+      "sources": [
+        "garanti-ve-servis#Garanti Süresi"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 8.89,
+        "top_coverage": 1.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N4",
+    "type": "normal",
+    "question": "Ücretsiz kargo için minimum sipariş tutarı nedir?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "kargo-ve-teslimat"
+      ],
+      "must_include": [
+        "750 TL"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "750 TL ve üzeri siparişlerde kargo ücretsizdir. 750 TL altındaki siparişlerde kargo ücreti 49,90 TL'dir.",
+      "mode": "extractive",
+      "sources": [
+        "kargo-ve-teslimat#Kargo Ücreti"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 10.08,
+        "top_coverage": 0.39
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N5",
+    "type": "normal",
+    "question": "Lumora+ aboneliğimi nasıl iptal ederim?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "abonelik-ve-faturalama"
+      ],
+      "must_include": [
+        "Ayarlar > Abonelik"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Abonelik, Lumora Home uygulamasında Ayarlar > Abonelik bölümünden iptal edilir. İptal edilen abonelik, ödenmiş dönemin sonuna kadar kullanılmaya devam eder. Kalan döneme ait kısmi ücret iadesi yapılmaz.",
+      "mode": "extractive",
+      "sources": [
+        "abonelik-ve-faturalama#Abonelik İptali"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 8.94,
+        "top_coverage": 0.55
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N6",
+    "type": "normal",
+    "question": "Kamera kayıtları ücretsiz kullanıcılarda kaç gün saklanır?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "gizlilik-ve-veri-silme"
+      ],
+      "must_include": [
+        "7 gün"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Bulut kamera kayıtları Lumora+ abonelerinde 30 gün, ücretsiz kullanıcılarda 7 gün saklanır. Süre dolan kayıtlar otomatik olarak silinir.",
+      "mode": "extractive",
+      "sources": [
+        "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 19.32,
+        "top_coverage": 1.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N7",
+    "type": "normal",
+    "question": "Hub'ın LED ışığı turuncu yanıyorsa bu ne anlama gelir?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "sorun-giderme"
+      ],
+      "must_include": [
+        "güncelleme"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Mavi yanıp sönen LED cihazın kurulum modunda olduğunu gösterir. Sabit yeşil LED normal çalışmayı belirtir. Sürekli kırmızı LED internet bağlantısının olmadığını gösterir. Turuncu LED cihazın güncelleme yaptığını belirtir.",
+      "mode": "extractive",
+      "sources": [
+        "sorun-giderme#LED Renklerinin Anlamı"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 9.74,
+        "top_coverage": 0.32
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "N8",
+    "type": "normal",
+    "question": "Canlı destek hangi saatlerde çalışıyor?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "destek-kanallari-sla"
+      ],
+      "must_include": [
+        "09:00-21:00"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Uygulama içi canlı destek her gün 09:00-21:00 saatleri arasında hizmet verir.",
+      "mode": "extractive",
+      "sources": [
+        "destek-kanallari-sla#Canlı Destek"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 11.24,
+        "top_coverage": 0.69
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "C1",
+    "type": "conflict",
+    "question": "İade süresi kaç gün?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "30 gün"
+      ],
+      "must_not_include": [
+        "14 gün"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir. Bu süreden sonra yapılan başvurular kabul edilmez. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "extractive",
+      "sources": [
+        "iade-proseduru-v2#İade Süresi"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
+      "retrieval": {
+        "top_score": 6.0,
+        "top_coverage": 1.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "C2",
+    "type": "conflict",
+    "question": "İade kargo ücretini kim öder?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "Lumora karşılar"
+      ],
+      "must_not_include": [
+        "müşteriye aittir"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "İade kargo ücretini Lumora karşılar. Başvuru onaylandığında e-postayla ücretsiz kargo kodu gönderilir; ürün bu kodla anlaşmalı kargo şubesine teslim edilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "extractive",
+      "sources": [
+        "iade-proseduru-v2#İade Kargo Ücreti"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
+      "retrieval": {
+        "top_score": 8.73,
+        "top_coverage": 0.53
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "C3",
+    "type": "conflict",
+    "question": "İade başvurusunu nasıl yaparım, telefonla olur mu?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "uygulama"
+      ],
+      "must_not_include": [
+        "yalnızca müşteri hizmetleri"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "İade talebi Lumora Home uygulaması veya lumora.example/iade adresindeki web formu üzerinden oluşturulur. Talep sırasında sipariş numarası ve iade nedeni girilmelidir. Telefonla iade başvurusu artık alınmamaktadır. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "extractive",
+      "sources": [
+        "iade-proseduru-v2#İade Başvurusu"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
+      "retrieval": {
+        "top_score": 7.21,
+        "top_coverage": 0.55
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "C4",
+    "type": "conflict",
+    "question": "İade ödemesi kaç iş günü içinde kartıma yatar?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "5 iş günü"
+      ],
+      "must_not_include": [
+        "10 iş günü"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Ürün depoya ulaşıp kontrol edildikten sonra ödeme, 5 iş günü içinde ödemenin yapıldığı karta iade edilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "extractive",
+      "sources": [
+        "iade-proseduru-v2#Geri Ödeme"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
+      "retrieval": {
+        "top_score": 12.77,
+        "top_coverage": 0.56
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "U1",
+    "type": "unanswerable",
+    "question": "Lumora Hub Apple HomeKit ile uyumlu mu?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 4.35,
+        "top_coverage": 0.16
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "U2",
+    "type": "unanswerable",
+    "question": "Lumora Hub su geçirmez mi?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 4.35,
+        "top_coverage": 0.22
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "U3",
+    "type": "unanswerable",
+    "question": "Yurt dışına kargo yapıyor musunuz?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 4.02,
+        "top_coverage": 0.15
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "U4",
+    "type": "unanswerable",
+    "question": "Lumora+ için öğrenci indirimi var mı?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 1.35,
+        "top_coverage": 0.09
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "U5",
+    "type": "unanswerable",
+    "question": "Şirketin genel merkezi nerede?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 0.0,
+        "top_coverage": 0.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "U6",
+    "type": "unanswerable",
+    "question": "Bugün hava nasıl olacak?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 0.0,
+        "top_coverage": 0.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H1",
+    "type": "normal",
+    "question": "Ürünüm arızalanırsa servis ne kadar sürede onarım yapar?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "garanti-ve-servis"
+      ],
+      "must_include": [
+        "10 iş günü"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Arıza tespit edilirse öncelik onarımdadır. Onarımın mümkün olmadığı durumlarda aynı model yeni veya yenilenmiş bir cihazla değiştirilir.",
+      "mode": "extractive",
+      "sources": [
+        "garanti-ve-servis#Onarım ve Değişim"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 11.56,
+        "top_coverage": 0.45
+      }
+    },
+    "passed": false,
+    "problems": [
+      "yanıtta yok: '10 iş günü'"
+    ]
+  },
+  {
+    "id": "H2",
+    "type": "normal",
+    "question": "Hesabım kilitlendi, ne kadar beklemem gerekiyor?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "hesap-ve-sifre"
+      ],
+      "must_include": [
+        "15 dakika"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Art arda 5 hatalı şifre denemesinden sonra hesap 15 dakika süreyle kilitlenir. Kilit süresi dolunca tekrar giriş yapabilirsiniz.",
+      "mode": "extractive",
+      "sources": [
+        "hesap-ve-sifre#Hesap Kilidi"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 5.06,
+        "top_coverage": 0.29
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H3",
+    "type": "normal",
+    "question": "Kargom teslim edilemezse ne olur?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "kargo-ve-teslimat"
+      ],
+      "must_include": [
+        "7 gün"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Kargo firması adrese 3 kez teslimat dener. Teslim edilemeyen gönderi 7 gün boyunca kargo şubesinde bekletilir, ardından depoya geri döner.",
+      "mode": "extractive",
+      "sources": [
+        "kargo-ve-teslimat#Teslim Edilemeyen Gönderiler"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 9.31,
+        "top_coverage": 1.0
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H4",
+    "type": "normal",
+    "question": "Hub'a en fazla kaç cihaz bağlayabilirim?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "kurulum-kilavuzu"
+      ],
+      "must_include": [
+        "50"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Bir Lumora Hub'a en fazla 50 akıllı cihaz eklenebilir. Daha fazla cihaz için ikinci bir Hub kurulmalıdır.",
+      "mode": "extractive",
+      "sources": [
+        "kurulum-kilavuzu#Cihaz Sınırı"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 10.94,
+        "top_coverage": 0.73
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H5",
+    "type": "normal",
+    "question": "Deneme süresi bitmeden aboneliği iptal edersem ücret alınır mı?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "abonelik-ve-faturalama"
+      ],
+      "must_include": [
+        "ücret alınmaz"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Yeni kullanıcılar için 14 günlük ücretsiz deneme sunulur. Deneme süresi bitmeden iptal edilirse ücret alınmaz.",
+      "mode": "extractive",
+      "sources": [
+        "abonelik-ve-faturalama#Ücretsiz Deneme"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 18.92,
+        "top_coverage": 0.66
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H6",
+    "type": "normal",
+    "question": "Cihaz serviste iken bana geçici cihaz verilir mi?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "garanti-ve-servis"
+      ],
+      "must_include": [
+        "verilmez"
+      ]
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Onarım için servise ulaşan ürünler en geç 10 iş günü içinde onarılır veya değiştirilir. Servis süresince geçici cihaz verilmez.",
+      "mode": "extractive",
+      "sources": [
+        "garanti-ve-servis#Teknik Servis Süresi"
+      ],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 10.5,
+        "top_coverage": 0.65
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H7",
+    "type": "conflict",
+    "question": "Ürünü iade ederken kargo parasını ben mi ödüyorum?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "Lumora karşılar"
+      ],
+      "must_not_include": [
+        "müşteriye aittir"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 5.78,
+        "top_coverage": 0.17
+      }
+    },
+    "passed": false,
+    "problems": [
+      "answerable=False, beklenen True"
+    ]
+  },
+  {
+    "id": "H8",
+    "type": "conflict",
+    "question": "İade için hangi yoldan başvuru yapılıyor?",
+    "expected": {
+      "answerable": true,
+      "doc_ids": [
+        "iade-proseduru-v2"
+      ],
+      "must_include": [
+        "web formu"
+      ],
+      "must_not_include": [
+        "yalnızca müşteri hizmetleri"
+      ],
+      "conflict_selected": "iade-proseduru-v2"
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir. Bu süreden sonra yapılan başvurular kabul edilmez. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "extractive",
+      "sources": [
+        "iade-proseduru-v2#İade Süresi"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
+      "retrieval": {
+        "top_score": 6.11,
+        "top_coverage": 0.53
+      }
+    },
+    "passed": false,
+    "problems": [
+      "yanıtta yok: 'web formu'"
+    ]
+  },
+  {
+    "id": "H9",
+    "type": "unanswerable",
+    "question": "Lumora Hub Alexa ile birlikte çalışır mı?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 4.35,
+        "top_coverage": 0.18
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H10",
+    "type": "unanswerable",
+    "question": "Kamera kayıtlarını kendi bilgisayarıma indirebilir miyim?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 8.82,
+        "top_coverage": 0.25
+      }
+    },
+    "passed": true,
+    "problems": []
+  },
+  {
+    "id": "H11",
+    "type": "unanswerable",
+    "question": "Lumora+ aboneliğimi başka bir kişiye devredebilir miyim?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": true,
+      "answer": "Kişiye özel gravürlü ürünler iade edilemez. Lumora+ abonelik ücretlerinin iadesi için Abonelik ve Faturalama dokümanına bakınız. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "extractive",
+      "sources": [
+        "iade-proseduru-v2#İade Kapsamı Dışındaki Ürünler"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
+      "retrieval": {
+        "top_score": 6.57,
+        "top_coverage": 0.29
+      }
+    },
+    "passed": false,
+    "problems": [
+      "answerable=True, beklenen False"
+    ]
+  },
+  {
+    "id": "H12",
+    "type": "unanswerable",
+    "question": "En yakın Lumora mağazası nerede?",
+    "expected": {
+      "answerable": false
+    },
+    "actual": {
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "no-retrieval",
+      "sources": [],
+      "conflict_selected": [],
+      "retrieval": {
+        "top_score": 1.35,
+        "top_coverage": 0.09
+      }
+    },
+    "passed": true,
+    "problems": []
+  }
+]

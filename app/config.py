@@ -17,8 +17,8 @@ class Settings(BaseSettings):
 
     top_k: int = 4
     # Cevapsiz karari icin esikler (bkz. README "Cevapsiz tespiti")
-    min_score: float = 2.0
-    min_coverage: float = 0.4
+    min_score: float = 5.0
+    min_coverage: float = 0.27
 
     @property
     def use_llm(self) -> bool:
