@@ -72,10 +72,14 @@ def resolve_versions(hits: list[Hit], metas: list[DocMeta], as_of: date) -> Reso
         winner_sections = [h.chunk.section for h in kept if h.chunk.doc.family == family]
         old = sorted({(h.chunk.doc.version, h.chunk.doc.effective_date) for h in dropped_hits})
         old_txt = ", ".join(f"v{v} ({d.isoformat()})" for v, d in old)
+        if all(v < winner.version for v, _ in old):
+            why = "daha eski sürüm olduğu için"
+        else:
+            why = f"{as_of.isoformat()} tarihinde henüz yürürlükte olmadığı için"
         reason = (
             f"Aynı prosedürün birden fazla sürümü eşleşti: {old_txt} ve "
-            f"v{winner.version} ({winner.effective_date.isoformat()}). Yürürlükte olan en yüksek "
-            f"sürüm v{winner.version} seçildi; diğerleri 'superseded' olduğu için yanıtta kullanılmadı."
+            f"v{winner.version} ({winner.effective_date.isoformat()}). {as_of.isoformat()} tarihinde "
+            f"yürürlükte olan en yüksek sürüm v{winner.version} seçildi; diğerleri {why} yanıtta kullanılmadı."
         )
         conflicts.append(
             ConflictReport(

@@ -2,7 +2,7 @@
 
 import logging
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date
 
 from app.config import Settings
@@ -103,12 +103,24 @@ def _to_source(h: Hit) -> Source:
 
 
 def _relevant_conflicts(conflicts: list[ConflictReport], used: list[Hit]) -> list[ConflictReport]:
-    """Yalnızca yanıtta gerçekten kullanılan bir family'yi ilgilendiren çelişkiler raporlanır."""
-    used_families = {h.chunk.doc.family for h in used}
-    return [c for c in conflicts if c.family in used_families]
+    """Yalnızca yanıtta kullanılan bölümle aynı bölüm adını taşıyan eski/başka sürüm bölümleri raporlanır."""
+    used_sections: dict[str, set[str]] = {}
+    for h in used:
+        used_sections.setdefault(h.chunk.doc.family, set()).add(h.chunk.section)
+
+    relevant = []
+    for c in conflicts:
+        sections = used_sections.get(c.family, set())
+        discarded = [d for d in c.discarded if d.section in sections]
+        if discarded:
+            relevant.append(replace(c, discarded=discarded, selected_sections=sorted(sections)))
+    return relevant
 
 
 def _conflict_note(conflicts: list[ConflictReport]) -> str:
     c = conflicts[0]
-    old = ", ".join(sorted({f"v{d.version}" for c in conflicts for d in c.discarded}))
-    return f"(Not: Bu konuda eski sürüm ({old}) farklı olabilir; güncel sürüm v{c.selected_version} esas alınmıştır.)"
+    others = ", ".join(sorted({f"v{d.version}" for x in conflicts for d in x.discarded}))
+    return (
+        f"(Not: Bu konuda {others} sürümünde farklı bilgi var; "
+        f"yürürlükteki v{c.selected_version} esas alınmıştır.)"
+    )
