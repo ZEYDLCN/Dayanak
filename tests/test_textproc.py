@@ -16,3 +16,14 @@ def test_stopwords_removed_but_numbers_kept():
 
 def test_prefix_stemming_matches_inflections():
     assert tokenize("ayarlarına") == tokenize("ayarlar")
+
+
+def test_spelling_variants_map_to_same_tokens():
+    assert tokenize("wifi") == tokenize("Wi-Fi")
+    assert tokenize("5ghz") == tokenize("5 GHz")
+    assert tokenize("Hub'ın fişi") == tokenize("Hub fişi")
+    assert tokenize("e-posta") == tokenize("eposta")
+
+
+def test_hyphen_between_numbers_is_not_joined():
+    assert tokenize("09:00-21:00") == ["09", "00", "21", "00"]
