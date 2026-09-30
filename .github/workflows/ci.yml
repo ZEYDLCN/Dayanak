@@ -1,0 +1,41 @@
+name: CI
+
+# Anahtarsız çalışır: birim testleri + alıntılayan mod (LLM'siz) değerlendirme + regresyon tabanı + sızıntı taraması.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kaynakta API anahtarı var mı?
+        run: |
+          if git grep -nE "nvapi-[A-Za-z0-9_-]{20,}|sk-ant-[A-Za-z0-9_-]{20,}" -- . ':!.github'; then
+            echo "::error::Kaynak kodda API anahtarı bulundu"; exit 1
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Birim ve API testleri
+        run: pytest -q
+
+      - name: Değerlendirme seti (alıntılayan mod)
+        # Taban: 30 sorudan 26'sı geçiyor (dev 18/18, held-out 8/12). Düşerse CI kırılır.
+        run: python -m eval.run_eval --no-llm --fail-under 26
+
+      - name: QA seti (alıntılayan mod) - halüsinasyon bayrağı 0 olmalı
+        run: python -m eval.qa_run --no-llm --fail-under 40 --max-hallucinations 0
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: eval/results/

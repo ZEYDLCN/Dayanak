@@ -1,0 +1,53 @@
+name: QA (gerçek LLM)
+
+# Elle tetiklenir (Actions > QA (gerçek LLM) > Run workflow). Gerçek modele istek atar, kota harcar.
+# Anahtar kodda değil, repo ayarlarındaki Secret'ta durur: Settings > Secrets and variables > Actions > NVIDIA_API_KEY
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "NVIDIA model kimliği"
+        default: "openai/gpt-oss-20b"
+      repeat:
+        description: "Her soruyu kaç kez sor (tutarlılık ölçümü)"
+        default: "2"
+      verify:
+        description: "Doğrulayıcı ikinci LLM geçişi açık mı?"
+        type: boolean
+        default: false
+      context_passages:
+        description: "LLM'e verilen bölüm sayısı"
+        default: "2"
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      LLM_PROVIDER: nvidia
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      NVIDIA_MODEL: ${{ inputs.model }}
+      VERIFY_ANSWERS: ${{ inputs.verify }}
+      LLM_CONTEXT_PASSAGES: ${{ inputs.context_passages }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Anahtar tanımlı mı?
+        run: test -n "$NVIDIA_API_KEY" || (echo "::error::NVIDIA_API_KEY secret tanımlı değil"; exit 1)
+
+      - name: Klasik değerlendirme seti (30 soru)
+        run: python -m eval.run_eval
+
+      - name: QA seti - kaynakta olmayan sayı (halüsinasyon bayrağı) 0 olmalı
+        run: python -m eval.qa_run --repeat ${{ inputs.repeat }} --pause 1 --tag ci --max-hallucinations 0
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: llm-qa-results
+          path: eval/results/

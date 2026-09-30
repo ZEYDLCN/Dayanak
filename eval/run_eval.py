@@ -80,6 +80,7 @@ def describe_actual(a) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-llm", action="store_true", help="LLM'i kapat (extractive mod)")
+    ap.add_argument("--fail-under", type=int, default=0, help="geçen vaka sayısı bunun altındaysa çıkış kodu 1 (CI regresyon tabanı)")
     args = ap.parse_args()
 
     settings = get_settings()
@@ -152,6 +153,8 @@ def main() -> None:
     for r in rows:
         if r["problems"]:
             print(f"  ✗ {r['case']['id']} {r['case']['question']} -> {'; '.join(r['problems'])}")
+    if passed < args.fail_under:
+        raise SystemExit(f"REGRESYON: {passed} < {args.fail_under}")
 
 
 if __name__ == "__main__":
