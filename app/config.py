@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     docs_dir: Path = ROOT / "data" / "docs"
 
     top_k: int = 4
+    llm_context_passages: int = 2  # LLM'e verilen en iyi bölüm sayısı (top_k'nin alt kümesi)
     # Cevapsiz karari icin esikler (bkz. README "Cevapsiz tespiti")
     min_score: float = 5.0
     min_coverage: float = 0.27

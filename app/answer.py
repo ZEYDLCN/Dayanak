@@ -6,6 +6,7 @@ from dataclasses import dataclass, field, replace
 from datetime import date
 
 from app.config import Settings
+from app.grounding import check_numbers, says_no_info
 from app.index import Hit
 from app.llm import AnthropicGenerator, Generator, NvidiaGenerator
 from app.retrieval import KnowledgeBase
@@ -38,13 +39,14 @@ class Answer:
     answer: str
     sources: list[Source]
     conflicts: list[ConflictReport]
-    mode: str  # "llm" | "extractive" | "extractive-fallback" | "no-retrieval"
+    mode: str  # "llm" | "extractive" | "extractive-fallback" | "no-retrieval" | "llm-rejected"
     retrieval: dict = field(default_factory=dict)
 
 
 class AnswerService:
     def __init__(self, kb: KnowledgeBase, settings: Settings, generator: Generator | None = None):
         self.kb = kb
+        self.settings = settings
         if generator is not None:
             self.generator = generator
         elif settings.llm_provider == "nvidia" and settings.use_llm:
@@ -58,33 +60,44 @@ class AnswerService:
         r = self.kb.retrieve(question, as_of)
         diag = {"top_score": round(r.top_score, 2), "top_coverage": round(r.top_coverage, 2)}
 
-        if not r.sufficient:
+        # Kapi, ardindaki karar vericiye gore secilir: LLM varsa LLM karar verir (genis kapi),
+        # yoksa alintilanan bolum tek savunmadir (siki kapi).
+        if not (r.plausible if self.generator else r.sufficient):
             return Answer(question, False, NO_INFO, [], [], "no-retrieval", diag)
 
         mode = "llm" if self.generator else "extractive"
         gen = None
+        context = r.hits[: self.settings.llm_context_passages]
         if self.generator:
             try:
-                gen = self.generator.generate(question, r.hits)
+                gen = self.generator.generate(question, context)
             except Exception:  # ağ/kota/şema hatası: servis düşmesin, kaynak alıntılayan yanıta dön
                 log.exception("LLM çağrısı başarısız, extractive moda düşülüyor")
                 mode = "extractive-fallback"
 
         if gen is None:
-            # LLM hatasinda zayif eslesmis bir bolumu kesin cevap gibi gostermeyelim.
-            if mode == "extractive-fallback" and r.top_coverage < 0.5:
+            # LLM yokken/hatada zayif eslesmis bir bolumu kesin cevap gibi gostermeyelim.
+            if not r.sufficient or (mode == "extractive-fallback" and r.top_coverage < 0.5):
                 return Answer(question, False, NO_INFO, [], [], mode, diag)
             used_hits, text = self._extractive(question, r.hits)
             answerable = bool(used_hits)
         else:
-            answerable = gen.answerable
-            used_hits = [r.hits[i] for i in gen.used] if answerable else []
+            # "answerable=true" ama metin "bilgi yok" diyorsa model kendiyle celisiyor: ret say.
+            answerable = gen.answerable and not says_no_info(gen.answer)
+            used_hits = [context[i] for i in gen.used] if answerable else []
             if answerable and not used_hits:
-                used_hits = r.hits[:1]  # atıf verilmediyse en iyi bölüm
+                used_hits = context[:1]  # atıf verilmediyse en iyi bölüm
             text = gen.answer
+            if answerable:
+                grounding = check_numbers(question, text, used_hits, context)
+                if not grounding.ok:  # kaynakta olmayan sayi = uydurma; kullaniciya gostermiyoruz
+                    log.warning("dayanaksiz sayi nedeniyle LLM yaniti reddedildi: %s", sorted(grounding.ungrounded))
+                    diag["guard"] = f"kaynakta olmayan sayi: {sorted(grounding.ungrounded)}"
+                    return Answer(question, False, NO_INFO, [], [], "llm-rejected", diag)
+                used_hits = grounding.support
 
         if not answerable:
-            return Answer(question, False, text or NO_INFO, [], [], mode, diag)
+            return Answer(question, False, NO_INFO, [], [], mode, diag)
 
         sources = [_to_source(h) for h in used_hits]
         conflicts = _relevant_conflicts(r.conflicts, used_hits)

@@ -26,7 +26,8 @@ def test_unanswerable_never_reaches_llm(kb, settings):
 def test_llm_abstention_is_respected(kb, settings):
     svc = AnswerService(kb, settings, generator=FakeGen(Generation(False, "Dokümanda yok.", [])))
     a = svc.ask("Telefon desteği hafta sonu açık mı?")
-    assert not a.answerable and a.sources == [] and a.answer == "Dokümanda yok."
+    # Ret metni modelin serbest yazdığı değil, sabit ve güvenli mesajdır
+    assert not a.answerable and a.sources == [] and a.answer == NO_INFO
 
 
 def test_llm_answer_reports_only_cited_sources(kb, settings):
@@ -73,3 +74,46 @@ def test_orange_led_question_retrieves_do_not_unplug_instruction(kb):
     assert result.sufficient
     assert result.hits[0].chunk.section == "Güncelleme Sırasında Yapılmaması Gerekenler"
     assert "fişini çekmeyin" in result.hits[0].chunk.text
+
+
+def test_ungrounded_number_in_llm_answer_is_rejected(kb, settings):
+    """Model kaynakta olmayan bir sayı uydurursa kullanıcıya gösterilmez."""
+    svc = AnswerService(kb, settings, generator=FakeGen(Generation(True, "İade süresi 45 gündür.", [0])))
+    a = svc.ask("İade süresi kaç gün?")
+    assert not a.answerable and a.mode == "llm-rejected" and a.sources == []
+    assert "45" in a.retrieval["guard"]
+
+
+def test_number_echoed_from_question_is_allowed(kb, settings):
+    gen = FakeGen(Generation(True, "Hayır, 14 gün değil; iade süresi 30 gündür.", [0]))
+    a = AnswerService(kb, settings, generator=gen).ask("İade süresi 14 gün, doğru mu?")
+    assert a.answerable and a.mode == "llm"
+
+
+def test_self_contradicting_llm_answer_is_rejected(kb, settings):
+    gen = FakeGen(Generation(True, "Bu konuda yeterli bilgi bulunmuyor.", [0]))
+    a = AnswerService(kb, settings, generator=gen).ask("Telefon desteği hafta sonu açık mı?")
+    assert not a.answerable and a.answer == NO_INFO and a.sources == []
+
+
+def test_cited_source_is_extended_with_passage_that_grounds_the_number(kb):
+    """Model 30 gün'ü söyleyip yalnızca kargo bölümünü atıf yaparsa, 30'u içeren bölüm kaynaklara eklenir."""
+    from app.grounding import check_numbers
+
+    hits = {h.chunk.chunk_id: h for h in kb.index.search("iade süresi kargo ücreti", k=20)}
+    cargo, period = hits["kargo-ve-teslimat#2"], hits["iade-proseduru-v2#2"]
+    ok = check_numbers("soru", "İade süresi 30 gün, kargo 49,90 TL.", [cargo], [cargo, period])
+    assert ok.ok and period in ok.support
+    bad = check_numbers("soru", "İade süresi 45 gün.", [cargo], [cargo, period])
+    assert not bad.ok and bad.ungrounded == {"45"}
+
+
+def test_llm_mode_lets_llm_judge_borderline_retrieval(kb, settings):
+    """Skor eşiği geçen ama kapsaması düşük soru: LLM'siz modda ret, LLM modunda LLM'e gider."""
+    question = "Aboneliğimi iptal edersem paramı geri alabilir miyim?"
+    r = kb.retrieve(question)
+    assert r.plausible and not r.sufficient
+    gen = FakeGen(Generation(True, "Kalan döneme ait kısmi ücret iadesi yapılmaz.", [0]))
+    assert AnswerService(kb, settings, generator=gen).ask(question).mode == "llm"
+    assert gen.calls == 1
+    assert AnswerService(kb, settings).ask(question).mode == "no-retrieval"

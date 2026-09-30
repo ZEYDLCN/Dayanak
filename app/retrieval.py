@@ -11,9 +11,10 @@ from app.versioning import ConflictReport, resolve_versions
 class Retrieval:
     hits: list[Hit]  # yalnizca guncel surumler
     conflicts: list[ConflictReport]
-    sufficient: bool  # esikleri gecti mi (False ise LLM'e hic gitmeden "bilgi yok" denir)
+    sufficient: bool  # skor VE kapsama esigi gecti (yuksek kesinlik; LLM'siz modda kapi budur)
     top_score: float
     top_coverage: float
+    plausible: bool = False  # skor VEYA kapsama esigi gecti (yuksek duyarlilik; LLM modunda kapi budur)
 
 
 class KnowledgeBase:
@@ -32,5 +33,8 @@ class KnowledgeBase:
 
         top_score = hits[0].score if hits else 0.0
         top_cov = hits[0].coverage if hits else 0.0
+        # Iki kapi: LLM yokken yanlis kabul pahali (bolumu cevap diye alintilariz) -> VE.
+        # LLM varken karari LLM verir, yanlis ret pahali (mesru soru "bilgi yok" olur) -> VEYA.
         sufficient = bool(hits) and top_score >= s.min_score and top_cov >= s.min_coverage
-        return Retrieval(hits, resolution.conflicts, sufficient, top_score, top_cov)
+        plausible = bool(hits) and (top_score >= s.min_score or top_cov >= s.min_coverage)
+        return Retrieval(hits, resolution.conflicts, sufficient, top_score, top_cov, plausible)

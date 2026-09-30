@@ -96,9 +96,7 @@ class AnthropicGenerator:
             log.warning("model yaniti reddetti: %s", response.stop_details)
             return Generation(False, "", [])
         text = next(b.text for b in response.content if b.type == "text")
-        data = json.loads(text)
-        used = [n - 1 for n in data["used_passages"] if 1 <= n <= len(hits)]
-        return Generation(bool(data["answerable"]), data["answer"].strip(), used)
+        return parse_generation(json.loads(text), len(hits))
 
 
 class NvidiaGenerator:
@@ -112,7 +110,7 @@ class NvidiaGenerator:
         self.client = client or httpx.Client(timeout=httpx.Timeout(settings.nvidia_timeout_seconds, connect=5.0))
 
     def generate(self, question: str, hits: list[Hit]) -> Generation:
-        selected_hits = hits[:2]
+        selected_hits = hits
         is_gpt_oss = self.model == "openai/gpt-oss-20b"
         payload = {
             "model": self.model,
@@ -145,10 +143,23 @@ class NvidiaGenerator:
         if content.startswith("```"):
             content = content.split("\n", 1)[1].rsplit("```", 1)[0].strip()
         data = json.loads(content)
-        if not isinstance(data.get("answerable"), bool) or not isinstance(data.get("answer"), str):
-            raise ValueError("NVIDIA yanıt şeması geçersiz")
-        passages = data.get("used_passages")
-        if not isinstance(passages, list) or any(type(n) is not int for n in passages):
-            raise ValueError("NVIDIA kaynak listesi geçersiz")
-        used = [n - 1 for n in passages if 1 <= n <= len(selected_hits)]
-        return Generation(data["answerable"], data["answer"].strip(), used)
+        return parse_generation(data, len(selected_hits))
+
+
+def parse_generation(data: object, n_passages: int) -> Generation:
+    """Model çıktısını doğrular. Geçerli bir ret ({"answerable": false}) hata DEĞİLDİR;
+    answer/used_passages yalnızca cevaplanabilir yanıtlarda zorunludur."""
+    if not isinstance(data, dict) or not isinstance(data.get("answerable"), bool):
+        raise ValueError("LLM yanıt şeması geçersiz: answerable (bool) yok")
+    answer = data.get("answer")
+    passages = data.get("used_passages")
+    if passages is None:
+        passages = []
+    if not isinstance(passages, list) or any(type(n) is not int for n in passages):
+        raise ValueError("LLM kaynak listesi geçersiz")
+    if answer is not None and not isinstance(answer, str):
+        raise ValueError("LLM answer alanı metin değil")
+    if data["answerable"] and not (answer or "").strip():
+        raise ValueError("LLM cevaplanabilir dedi ama yanıt metni boş")
+    used = [n - 1 for n in passages if 1 <= n <= n_passages]
+    return Generation(data["answerable"], (answer or "").strip(), used)
