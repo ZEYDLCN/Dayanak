@@ -9,12 +9,15 @@ ROOT = Path(__file__).resolve().parent.parent
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore")
 
-    llm_provider: str = "anthropic"  # "anthropic" | "nvidia" | "none"
+    llm_provider: str = "anthropic"  # "anthropic" | "nvidia" | "gemini" | "none"
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
     nvidia_api_key: str = ""
     nvidia_model: str = "openai/gpt-oss-20b"
     nvidia_timeout_seconds: float = 15.0
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-3.1-flash-lite"
+    gemini_timeout_seconds: float = 20.0
     nvidia_temperature: float = 0.0  # tekrarlanabilirlik: ayni soru ayni yaniti versin
     nvidia_reasoning_effort: str = "low"  # yalnizca gpt-oss: low | medium | high
 
@@ -35,6 +38,7 @@ class Settings(BaseSettings):
         return (
             (self.llm_provider == "anthropic" and bool(self.anthropic_api_key))
             or (self.llm_provider == "nvidia" and bool(self.nvidia_api_key))
+            or (self.llm_provider == "gemini" and bool(self.gemini_api_key))
         )
 
 

@@ -142,6 +142,36 @@ def extract_json(content: str) -> object:
     return json.loads(text[start : end + 1])
 
 
+_RETRY_STATUS = (429, 500, 502, 503, 504)
+_MAX_ATTEMPTS = 3
+
+
+def _retry_delay(response: httpx.Response, attempt: int) -> float:
+    try:
+        return min(float(response.headers["retry-after"]), 10.0)
+    except (KeyError, ValueError):
+        return 1.5 * attempt
+
+
+def post_with_retry(client: httpx.Client, url: str, headers: dict, payload: dict) -> httpx.Response:
+    """Geçici hatalarda (kota/hız sınırı 429, 5xx/503 yoğunluk, zaman aşımı) en fazla 3 deneme; Retry-After'a uyar."""
+    for attempt in range(1, _MAX_ATTEMPTS + 1):
+        last = attempt == _MAX_ATTEMPTS
+        try:
+            response = client.post(url, headers=headers, json=payload)
+        except (httpx.TimeoutException, httpx.TransportError):
+            if last:
+                raise
+            time.sleep(1.0 * attempt)
+            continue
+        if response.status_code in _RETRY_STATUS and not last:
+            time.sleep(_retry_delay(response, attempt))
+            continue
+        response.raise_for_status()
+        return response
+    raise RuntimeError("ulaşılamaz")  # pragma: no cover
+
+
 class AnthropicGenerator:
     def __init__(self, settings: Settings):
         self.model = settings.llm_model
@@ -209,38 +239,6 @@ class NvidiaGenerator:
         self.reasoning_effort = settings.nvidia_reasoning_effort
         self.client = client or httpx.Client(timeout=httpx.Timeout(settings.nvidia_timeout_seconds, connect=5.0))
 
-    _RETRY_STATUS = (429, 500, 502, 503, 504)
-    _MAX_ATTEMPTS = 3
-
-    def _post_with_retry(self, payload: dict) -> httpx.Response:
-        """Geçici hatalarda (kota/hız sınırı 429, 5xx, zaman aşımı) en fazla 3 deneme; 429'da Retry-After'a uyar."""
-        for attempt in range(1, self._MAX_ATTEMPTS + 1):
-            last = attempt == self._MAX_ATTEMPTS
-            try:
-                response = self.client.post(
-                    self.URL,
-                    headers={"Authorization": f"Bearer {self.api_key}", "Accept": "application/json"},
-                    json=payload,
-                )
-            except (httpx.TimeoutException, httpx.TransportError):
-                if last:
-                    raise
-                time.sleep(1.0 * attempt)
-                continue
-            if response.status_code in self._RETRY_STATUS and not last:
-                time.sleep(self._retry_delay(response, attempt))
-                continue
-            response.raise_for_status()
-            return response
-        raise RuntimeError("ulaşılamaz")  # pragma: no cover
-
-    @staticmethod
-    def _retry_delay(response: httpx.Response, attempt: int) -> float:
-        try:
-            return min(float(response.headers["retry-after"]), 10.0)
-        except (KeyError, ValueError):
-            return 1.5 * attempt
-
     def _chat(self, system: str, user: str) -> str:
         is_gpt_oss = self.model.startswith("openai/gpt-oss")
         payload = {
@@ -256,7 +254,9 @@ class NvidiaGenerator:
         if self.model.startswith("nvidia/nemotron-3.5-lightning"):
             payload["chat_template_kwargs"] = {"enable_thinking": False}
 
-        response = self._post_with_retry(payload)
+        response = post_with_retry(
+            self.client, self.URL, {"Authorization": f"Bearer {self.api_key}", "Accept": "application/json"}, payload
+        )
         choice = response.json()["choices"][0]
         if choice.get("finish_reason") == "length":
             raise ValueError("NVIDIA yaniti token sinirinda kesildi")
@@ -271,6 +271,69 @@ class NvidiaGenerator:
 
     def verify(self, question: str, answer: str, evidence: str) -> bool:
         data = extract_json(self._chat(VERIFY_PROMPT, _verify_message(question, answer, evidence)))
+        if not isinstance(data, dict) or not isinstance(data.get("supported"), bool):
+            raise ValueError("Doğrulayıcı yanıtı geçersiz")
+        return data["supported"]
+
+
+def _gemini_schema(node):
+    """JSON Schema -> Gemini'nin OpenAPI alt kümesi: tip adları büyük harf, additionalProperties yok."""
+    if isinstance(node, dict):
+        return {
+            k: (v.upper() if k == "type" and isinstance(v, str) else _gemini_schema(v))
+            for k, v in node.items()
+            if k != "additionalProperties"
+        }
+    if isinstance(node, list):
+        return [_gemini_schema(x) for x in node]
+    return node
+
+
+_VERIFY_SCHEMA = {"type": "object", "properties": {"supported": {"type": "boolean"}}, "required": ["supported"]}
+
+
+class GeminiGenerator:
+    """Google Gemini (generateContent). Anahtar başlıkta gider (x-goog-api-key), URL'de değil: hata
+    mesajlarına ve günlüklere sızmaz."""
+
+    BASE = "https://generativelanguage.googleapis.com/v1beta/models"
+
+    def __init__(self, settings: Settings, client: httpx.Client | None = None):
+        self.model = settings.gemini_model
+        self.api_key = settings.gemini_api_key
+        self.temperature = settings.nvidia_temperature
+        self.client = client or httpx.Client(timeout=httpx.Timeout(settings.gemini_timeout_seconds, connect=5.0))
+
+    def _chat(self, system: str, user: str, schema: dict) -> str:
+        payload = {
+            "systemInstruction": {"parts": [{"text": system}]},
+            "contents": [{"role": "user", "parts": [{"text": user}]}],
+            "generationConfig": {
+                "temperature": self.temperature,
+                "maxOutputTokens": 1024,
+                "responseMimeType": "application/json",
+                "responseSchema": _gemini_schema(schema),
+            },
+        }
+        response = post_with_retry(
+            self.client, f"{self.BASE}/{self.model}:generateContent", {"x-goog-api-key": self.api_key}, payload
+        )
+        candidate = (response.json().get("candidates") or [{}])[0]
+        if candidate.get("finishReason") not in (None, "STOP"):
+            raise ValueError(f"Gemini yanıtı tamamlanmadı: {candidate.get('finishReason')}")
+        parts = (candidate.get("content") or {}).get("parts") or []
+        text = "".join(p.get("text", "") for p in parts)
+        if not text.strip():
+            raise ValueError("Gemini metin yanıtı dönmedi")
+        return text
+
+    def generate(self, question: str, hits: list[Hit]) -> Generation:
+        user = f"Bölümler:\n{format_passages(hits)}\nSoru: {question}"
+        text = self._chat(SYSTEM_PROMPT, user, RESPONSE_SCHEMA)
+        return parse_generation(extract_json(text), len(hits))
+
+    def verify(self, question: str, answer: str, evidence: str) -> bool:
+        data = extract_json(self._chat(VERIFY_PROMPT, _verify_message(question, answer, evidence), _VERIFY_SCHEMA))
         if not isinstance(data, dict) or not isinstance(data.get("supported"), bool):
             raise ValueError("Doğrulayıcı yanıtı geçersiz")
         return data["supported"]

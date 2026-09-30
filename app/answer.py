@@ -8,7 +8,7 @@ from datetime import date
 from app.config import Settings
 from app.grounding import check_numbers, says_no_info, verify_evidence
 from app.index import Hit
-from app.llm import AnthropicGenerator, Generation, Generator, NvidiaGenerator
+from app.llm import AnthropicGenerator, GeminiGenerator, Generation, Generator, NvidiaGenerator
 from app.retrieval import KnowledgeBase, Retrieval
 from app.textproc import tokenize
 from app.versioning import ConflictReport, wants_history
@@ -53,6 +53,8 @@ class AnswerService:
             self.generator = generator
         elif settings.llm_provider == "nvidia" and settings.use_llm:
             self.generator = NvidiaGenerator(settings)
+        elif settings.llm_provider == "gemini" and settings.use_llm:
+            self.generator = GeminiGenerator(settings)
         elif settings.llm_provider == "anthropic" and settings.use_llm:
             self.generator = AnthropicGenerator(settings)
         else:
