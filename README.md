@@ -1,12 +1,13 @@
 # Lumora Bilgi Asistanı
 
-Kurgu bir şirketin (Lumora — akıllı ev merkezi "Lumora Hub" ve "Lumora+" aboneliği) müşteri destek ekibi için, bilgi dokümanlarından yararlanarak **Türkçe soruları yanıtlayan** bir API.
+Kurgu bir şirketin (Lumora — akıllı ev merkezi "Lumora Hub" ve "Lumora+" aboneliği) müşteri destek ekibi için, bilgi dokümanlarından yararlanarak **Türkçe soruları yanıtlayan** bir API ve küçük bir web arayüzü.
 
 - Her yanıtta **kullanılan doküman, sürüm ve bölüm** gösterilir.
 - Dokümanlarda bilgi yoksa **yanıt üretmek yerine bunu açıkça söyler**.
 - Bir prosedürün eski ve güncel sürümü çeliştiğinde **güncel sürümü seçer ve nedenini yanıtta gösterir**.
+- LLM'in yanıtı **kodla denetlenir**: model, yanıtını destekleyen cümleyi bölümden aynen kopyalamak zorundadır; kopya bölümde yoksa veya yanıttaki bir sayı kaynakta yoksa yanıt kullanıcıya gösterilmez.
 
-Yığın: **Python / FastAPI** (Python 3.13 ile geliştirildi ve test edildi). İsteğe bağlı LLM sağlayıcıları: **NVIDIA NIM (GPT OSS 20B)** ve **Anthropic Claude**; seçilen sağlayıcının anahtarı yoksa alıntılayan mod kullanılır.
+Yığın: **Python 3.13 / FastAPI**. LLM: **NVIDIA NIM üzerinde `openai/gpt-oss-20b`** (ölçülen tipik gecikme ~1 sn) veya Anthropic Claude; anahtar yoksa alıntılayan moda düşer.
 
 ---
 
@@ -15,44 +16,44 @@ Yığın: **Python / FastAPI** (Python 3.13 ile geliştirildi ve test edildi). �
 ```bash
 python -m venv .venv
 # Windows PowerShell:  .venv\Scripts\Activate.ps1
-# Git Bash / Linux / macOS:  source .venv/bin/activate   (Windows'ta: source .venv/Scripts/activate)
+# Git Bash: source .venv/Scripts/activate      Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
 
-cp .env.example .env        # LLM kullanacaksanız ANTHROPIC_API_KEY değerini .env içine yazın
+cp .env.example .env        # NVIDIA_API_KEY (veya ANTHROPIC_API_KEY) değerini .env içine yazın
 uvicorn app.main:app --reload
 ```
 
-Swagger arayüzü: <http://localhost:8000/docs>
+- **Web arayüzü:** <http://localhost:8000/> (konu kartları, belge araması, kaynaklı sohbet; sohbet geçmişi yalnızca tarayıcıda tutulur, tarih alanı `as_of` parametresini kullanır)
+- **Swagger:** <http://localhost:8000/docs>
 
-**Web arayüzü:** <http://localhost:8000/> — konu kartları, belge araması ve kaynaklı sohbet. Sohbet geçmişi bu tarayıcının yerel depolamasında tutulur; sunucuya kaydedilmez. Sohbetteki tarih alanı, `/ask` isteğinin `as_of` parametresini kullanır.
-
-**API anahtarı olmadan da çalışır.** Seçilen sağlayıcının anahtarı boşsa (veya `LLM_PROVIDER=none` ise) servis LLM çağırmaz; bulduğu bölümü aynen alıntılar (`mode: "extractive"`). Anahtar `.env` içinde durur, `.env` git'e girmez.
-
-NVIDIA'nın barındırdığı GPT OSS 20B ile denemek için `.env` içinde `LLM_PROVIDER=nvidia`, `NVIDIA_API_KEY=...` ve `NVIDIA_MODEL=openai/gpt-oss-20b` ayarlayın. Anahtar yalnızca sunucuda kullanılır; tarayıcıya gönderilmez. NVIDIA yanıt veremezse servis, güçlü belge eşleşmelerinde kaynak alıntısına döner; zayıf eşleşmede bilgi olmadığını bildirir.
+**API anahtarı olmadan da çalışır.** `LLM_PROVIDER=none` veya anahtar boşsa servis LLM çağırmaz; bulduğu bölümü aynen alıntılar (`mode: "extractive"`). Anahtar yalnızca sunucuda, `.env` içinde durur (`.env` git'e girmez, tarayıcıya gönderilmez).
 
 ### Ortam değişkenleri (`.env.example`)
 
 | Değişken | Varsayılan | Açıklama |
 |---|---|---|
-| `LLM_PROVIDER` | `anthropic` | `anthropic`, `nvidia` veya `none` |
-| `ANTHROPIC_API_KEY` | boş | Anthropic seçiliyse kullanılır |
-| `LLM_MODEL` | `claude-opus-5-5` | Anthropic model kimliği |
-| `NVIDIA_API_KEY` | boş | NVIDIA API Catalog anahtarı |
-| `NVIDIA_MODEL` | `openai/gpt-oss-20b` | NVIDIA model kimliği |
-| `NVIDIA_TIMEOUT_SECONDS` | `15` | LLM isteğinin yanıt bekleme süresi; aşılırsa kaynak alıntısına döner |
-| `DOCS_DIR` | `data/docs` | Doküman klasörü |
-| `TOP_K` | `4` | Yanıta aday bölüm sayısı |
-| `MIN_SCORE` / `MIN_COVERAGE` | `5.0` / `0.27` | "Cevapsız" ön elemesi eşikleri (aşağıya bakın) |
+| `LLM_PROVIDER` | `anthropic`* | `nvidia`, `anthropic` veya `none` (*`.env.example` `nvidia` ile gelir) |
+| `NVIDIA_API_KEY` / `NVIDIA_MODEL` | boş / `openai/gpt-oss-20b` | NVIDIA anahtarı ve model |
+| `NVIDIA_TIMEOUT_SECONDS` | `15` | İstek başına bekleme; geçici hata (429/5xx/zaman aşımı) 3 denemeye kadar tekrarlanır, `Retry-After`'a uyulur |
+| `NVIDIA_TEMPERATURE` / `NVIDIA_REASONING_EFFORT` | `0` / `low` | Tekrarlanabilirlik ve hız |
+| `ANTHROPIC_API_KEY` / `LLM_MODEL` | boş / `claude-opus-5-5` | Anthropic seçiliyse (bkz. sınırlar: canlı doğrulanmadı) |
+| `LLM_CONTEXT_PASSAGES` | `2` | LLM'e verilen en iyi bölüm sayısı |
+| `REQUIRE_EVIDENCE` | `true` | Zorunlu, kodla doğrulanan kanıt cümlesi |
+| `VERIFY_ANSWERS` | `false` | İkinci LLM doğrulama geçişi (ölçüldü, faydası çıkmadı; aşağıya bakın) |
+| `MIN_SCORE` / `MIN_COVERAGE` | `5.0` / `0.27` | "Cevapsız" ön elemesi eşikleri |
+| `DOCS_DIR`, `TOP_K` | `data/docs`, `4` | Doküman klasörü, aday bölüm sayısı |
 
 ### Testler ve değerlendirme
 
 ```bash
-pytest                                 # 30 test, LLM anahtarı gerekmez
-python -m eval.run_eval --no-llm       # alıntılayan mod  -> eval/results/results-extractive.md
-python -m eval.run_eval                # .env'de anahtar varsa LLM modu -> eval/results/results-llm.md
+pytest                                       # 75 test, anahtar gerekmez (LLM sahte üreticiyle test edilir)
+python -m eval.run_eval --no-llm             # klasik set, alıntılayan mod  -> eval/results/results-extractive.md
+python -m eval.run_eval                      # klasik set, .env'deki LLM    -> eval/results/results-llm.md
+python -m eval.qa_run --repeat 2 --pause 1.5 # 57 vakalık QA (halüsinasyon odaklı) -> eval/results/qa-<model>.md
 ```
 
-> Windows'ta çıktıda Türkçe karakter bozuksa önce `set PYTHONIOENCODING=utf-8` (PowerShell: `$env:PYTHONIOENCODING="utf-8"`) çalıştırın. `curl -d` ile Türkçe JSON gönderirken de konsol kodlaması sorun çıkarabilir; Swagger arayüzü veya Python/`httpx` ile denemek daha güvenlidir.
+> Windows'ta Türkçe karakterler bozuk görünürse `PYTHONIOENCODING=utf-8` ayarlayın. `curl -d` ile Türkçe JSON göndermek de konsol kodlaması yüzünden sorun çıkarabilir; arayüz, Swagger veya Python/`httpx` daha güvenli.
+> `--pause 1.5` önemlidir: NVIDIA'nın ücretsiz katmanı dakikada ~40 istekle sınırlıdır (bunu ölçüm sırasında yaşadık).
 
 ---
 
@@ -66,6 +67,8 @@ python -m eval.run_eval                # .env'de anahtar varsa LLM modu -> eval/
 
 `as_of` isteğe bağlıdır: verilen tarihte **yürürlükte olan** sürüme göre yanıtlar (varsayılan bugün).
 
+`mode` alanı yanıtın nasıl üretildiğini söyler: `llm`, `extractive`, `extractive-fallback` (LLM çağrısı başarısız), `no-retrieval` (arama kapısında elendi), `llm-rejected` (model yanıt verdi ama dayanak kontrolü geçmedi, kullanıcıya gösterilmedi), `version-comparison` (tarihsel soru).
+
 ### Örnek: çelişkili kaynak (iade prosedürü v1 ↔ v2)
 
 ```json
@@ -74,7 +77,7 @@ POST /ask   {"question": "İade süresi kaç gün?"}
 ```json
 {
   "answerable": true,
-  "answer": "Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+  "answer": "İade süresi **30** gündür. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
   "sources": [{
     "doc_id": "iade-proseduru-v2", "title": "İade Prosedürü (v2)", "version": 2, "status": "current",
     "effective_date": "2025-01-15", "section": "İade Süresi", "snippet": "…30 gün içinde…", "score": 6.0
@@ -86,7 +89,7 @@ POST /ask   {"question": "İade süresi kaç gün?"}
                    "section": "İade Süresi", "snippet": "…14 gün içinde…"}],
     "reason": "Aynı prosedürün birden fazla sürümü eşleşti: v1 (2023-03-01) ve v2 (2025-01-15). 2026-09-30 tarihinde yürürlükte olan en yüksek sürüm v2 seçildi; diğerleri daha eski sürüm olduğu için yanıtta kullanılmadı."
   }],
-  "mode": "extractive",
+  "mode": "llm",
   "retrieval": {"top_score": 6.0, "top_coverage": 1.0}
 }
 ```
@@ -101,26 +104,34 @@ POST /ask   {"question": "Lumora Hub Apple HomeKit ile uyumlu mu?"}
  "sources": [], "conflicts": [], "mode": "no-retrieval", "retrieval": {"top_score": 0.0, "top_coverage": 0.0}}
 ```
 
+### Örnek: tarihsel soru (`version-comparison`)
+
+`"Eski iade prosedüründe iade süresi kaç gündü?"` → LLM'e gitmeden iki sürüm, metinleri aynen alıntılanarak yan yana verilir: *"Eski sürümde (v1, yürürlük 2023-03-01): … 14 gün … Güncel sürümde (v2, yürürlük 2025-01-15): … 30 gün …"*. (Bu davranış, ölçüm sırasında bulunan bir hatanın düzeltmesidir; aşağıda.)
+
 ---
 
 ## Nasıl çalışır?
 
 ```
-soru ─► [Arama: BM25] ─► [Sürüm çözümü] ─► [Yeterlilik eşiği] ─► [Yanıt üretimi] ─► yanıt + kaynak + çelişki raporu
-         Türkçe normalize   family başına        skor + IDF-ağırlıklı   LLM (JSON şemalı) ya da
-         F5 kök alma        güncel sürüm         kapsama                alıntılayan mod
+soru ─► Arama (BM25) ─► Sürüm çözümü ─► Kapı ─► LLM ─► Dayanak kontrolleri ─► yanıt + kaynak + çelişki raporu
+        Türkçe normalize  family başına   skor+   JSON çıktı  1) kanıt cümlesi bölümde var mı?
+        F5 kök + geri     güncel sürüm    kapsama            2) yanıttaki sayılar kaynakta var mı?
+        çekilme                                              3) (isteğe bağlı) doğrulayıcı LLM
 ```
 
 | Dosya | Görev |
 |---|---|
 | `data/docs/*.md` | 10 kurgu doküman. Front-matter: `doc_id, family, title, version, status, effective_date` |
-| `app/ingest.py` | Dokümanı okur, `##` başlıklarına göre bölümler, front-matter'ı doğrular |
-| `app/textproc.py` | Türkçe normalizasyon (`I/İ/ı/i`), ASCII katlama, durak kelimeler, F5 kök alma |
-| `app/index.py` | Bağımlılıksız BM25 + IDF-ağırlıklı sorgu kapsaması |
-| `app/versioning.py` | **Güncel sürüm seçimi** ve seçim nedeninin üretilmesi |
-| `app/retrieval.py` | Arama → sürüm çözümü → yeterlilik kararı |
-| `app/llm.py`, `app/answer.py` | LLM çağrısı (JSON şemalı), alıntılayan mod, kaynak/çelişki raporu |
-| `app/main.py`, `app/schemas.py` | FastAPI uç noktaları ve API sözleşmesi |
+| `app/ingest.py` | Okur, `##` başlıklarına göre bölümler, front-matter ve sürüm tutarlılığını doğrular |
+| `app/textproc.py` | Türkçe normalizasyon (`I/İ/ı/i`), ASCII katlama, `Wi-Fi`/`wifi`, `5ghz`/`5 GHz`, `Hub'ın`/`Hub` birleştirme, F5 kök alma |
+| `app/index.py` | Bağımlılıksız BM25 + IDF-ağırlıklı sorgu kapsaması + kısa köklerde sözlük destekli geri çekilme |
+| `app/versioning.py` | **Güncel sürüm seçimi**, seçim nedeni, tarihsel soru tespiti |
+| `app/retrieval.py` | Arama → sürüm çözümü → iki kapı (`sufficient` / `plausible`) |
+| `app/llm.py` | İstem, NVIDIA/Anthropic üreticileri, çıktı ayrıştırma, yeniden deneme, doğrulayıcı |
+| `app/grounding.py` | **Dayanak kontrolleri**: kanıt doğrulama, sayı denetimi, tipografik karakter temizliği |
+| `app/answer.py` | Uçtan uca akış, kaynak/çelişki raporu, tarihsel karşılaştırma, güvenli geri düşüş |
+| `app/main.py`, `app/schemas.py`, `app/web/` | FastAPI uç noktaları, API sözleşmesi, web arayüzü |
+| `eval/` | Klasik değerlendirme, QA seti, çalıştırıcılar, sonuçlar |
 
 ### Güncel sürüm nasıl seçiliyor?
 
@@ -129,15 +140,28 @@ Kural kodda, deterministik (LLM'e bırakılmadı — denetlenebilir olması içi
 1. Aynı prosedürün sürümleri `family` alanıyla gruplanır (`iade-proseduru` → v1, v2).
 2. Yürürlük tarihi `as_of`'tan sonra olan sürümler henüz geçerli değildir, elenir.
 3. Kalanlar arasında **en yüksek sürüm numarası** (eşitlikte en yeni tarih) seçilir.
-4. Elenen sürümlerin bölümleri **yanıt üretimine hiç verilmez**; LLM'in eski bilgiyi karıştırma şansı yoktur.
-5. Yanıttaki `conflicts` alanı seçileni, elenenleri (alıntılarıyla) ve nedeni gösterir. Yalnızca yanıtta **kullanılan bölümle aynı bölümdeki** farklı sürümler raporlanır (ilgisiz gürültü yok).
+4. Elenen sürümlerin bölümleri **LLM'e hiç verilmez**; eski bilgiyi karıştırma şansı yoktur.
+5. `conflicts` alanı seçileni, elenenleri (alıntılarıyla) ve nedeni gösterir; yalnızca yanıtta **kullanılan bölümle aynı bölümdeki** farklı sürümler raporlanır.
 
-Ek güvence: `status` alanı elle yazılıyor, bu yüzden yükleme sırasında sürüm numarasıyla tutarlılığı doğrulanır (`current` olmayan en yüksek sürüm varsa servis başlamaz).
+`status` alanı elle yazıldığı için yükleme sırasında sürüm numarasıyla tutarlılığı doğrulanır (tutarsızsa servis başlamaz).
 
-### Cevapsız soru nasıl tespit ediliyor? İki katman
+### Halüsinasyon korumaları (katmanlar)
 
-1. **Erişim katmanı (ucuz ön eleme):** En iyi bölümün BM25 skoru `< MIN_SCORE` **veya** IDF-ağırlıklı sorgu kapsaması `< MIN_COVERAGE` ise LLM'e hiç gidilmez. Kapsama: sorgu terimlerinin (IDF ağırlıklı) ne kadarı bölümde geçiyor. Korpusta hiç olmayan terimler ("HomeKit") en yüksek ağırlığı alır; "Lumora" gibi her yerde geçen terimler neredeyse hiç.
-2. **LLM katmanı:** Model yalnızca numaralı bölümlerden yanıt vermeye ve bilgi yoksa `answerable=false` dönmeye yönlendirilir. Bu durumda `sources` boş döner.
+| Katman | Ne yapar | Ölçülen etkisi |
+|---|---|---|
+| **1. İstem** | Yalnızca bölümlerde *açıkça* yazan bilgi; komşu bilgiyi uyarlama yasağı; yanlış öncülü düzeltme; istemdeki örnek gerçek bir olgu içermez (few-shot sızıntısı yok) | ↓ |
+| **2. Zorunlu kanıt** | Model, yanıtı destekleyen cümleyi bölümden **aynen kopyalar**; kod bunun verilen bölümlerde gerçekten geçtiğini doğrular (`...` ile kısaltmaya ve tipografik farklara toleranslı). **Kaynaklar modelin atfından değil, doğrulanmış kanıttan türetilir.** | Cevapsız sorularda uydurma: ~%17–80 → **0/48 koşu** |
+| **3. Sayı denetimi** | Yanıttaki her sayı/saat, soruda veya verilen bölümlerde geçmek zorunda; yoksa yanıt reddedilir | Kaynakta olmayan sayı: **0** |
+| **4. Geçerli ret** | `{"answerable": false}` hata değil ret sayılır; ret metni modelin değil sabit ve güvenli mesajdır | eskiden hata sayılıp alıntıya düşüyordu |
+| **5. Güvenli geri düşüş** | LLM çağrısı başarısızsa: yalnızca güçlü eşleşmede bölümü alıntılar, zayıfta "bilgi yok" der | LLM hatası 0 (hız sınırı düzeltmesinden sonra) |
+| Doğrulayıcı LLM (kapalı) | İkinci çağrı: "kanıt soruyu doğrudan yanıtlıyor mu?" | **Faydası çıkmadı**, geçerli yanıtları da reddetti (aşağıda) |
+
+**Sınır:** katman 2–3 "kanıt gerçekten var mı" sorusunu yanıtlar, "kanıt soruyu gerçekten yanıtlıyor mu" sorusunu değil. Rakamsız anlam hataları ("her gün" → "cumartesi yok") kodla yakalanamaz; bunu istem ve model kalitesi taşır. Yazıyla verilen sayılar ("otuz gün") kontrol edilmez.
+
+### Cevapsız soru nasıl tespit ediliyor?
+
+1. **Kapı:** En iyi bölümün BM25 skoru ve IDF-ağırlıklı sorgu kapsaması eşiklerle karşılaştırılır. Kapsama, sorgu terimlerinin ne kadarının bölümde geçtiğini ölçer; korpusta hiç olmayan terimler ("HomeKit") en yüksek ağırlığı alır. **LLM yokken kapı sıkıdır (skor VE kapsama)**, çünkü alıntılanan bölüm tek savunmadır; **LLM varken gevşektir (skor VEYA kapsama)**, çünkü karar LLM'indir ve yanlış ret pahalıdır.
+2. **LLM ve dayanak katmanları** (yukarıdaki tablo). Bu durumda `sources` boş döner.
 
 ---
 
@@ -145,61 +169,131 @@ Ek güvence: `status` alanı elle yazılıyor, bu yüzden yükleme sırasında s
 
 | Karar | Neden |
 |---|---|
-| **FastAPI** (Python) | Önerilenlerden biri; küçük servis, hızlı doğrulama (Pydantic), otomatik Swagger. |
-| **BM25, embedding değil** | 10 kısa doküman için ek model/vektör DB gereksiz; her skor açıklanabilir. Bedeli: eş anlamlıları yakalayamaz (aşağıda ölçüldü). |
-| **Depolama: Markdown + bellekte indeks** | Dokümanlar zaten metin ve sürümleniyor; açılışta ~50 bölüm indekslenir. Veri büyürse SQLite FTS / vektör DB'ye geçilir. |
+| **FastAPI** (Python) | Önerilenlerden biri; küçük servis, Pydantic doğrulaması, otomatik Swagger. |
+| **BM25, embedding değil** | 10 kısa doküman için ek model/vektör DB gereksiz; her skor açıklanabilir. Bedeli: eş anlamlıları yakalayamaz (aşağıda ölçüldü). NVIDIA anahtarında `nv-embedqa` modelleri de var; hibrit arama doğal sonraki adım. |
+| **Depolama: Markdown + bellekte indeks** | Dokümanlar metin ve sürümlü; açılışta ~50 bölüm indekslenir. Büyürse SQLite FTS / vektör DB. |
 | **Sürüm çözümü kodda** | "Hangi sürüm geçerli?" bir iş kuralı; LLM tahminine bırakılırsa tutarsız ve denetlenemez olur. |
-| **Bölüm bazlı (`##`) parçalama** | Bölüm başlığı hem doğal kaynak referansı ("İade Süresi") hem de anlamlı, kısa bir bağlam. |
-| **F5 kök alma** | Türkçe IR'de basit ve makul bir taban çizgisi; morfolojik analizör bağımlılığı yok. Aksansız yazımı da yakalamak için ASCII katlama var. |
-| **LLM: yapılandırılmış çıktı** | Anthropic JSON şeması kullanır; NVIDIA kısa bir JSON istemiyle en iyi iki bölümü işler ve dönen alanlar kodda doğrulanır. `answerable / answer / used_passages` alanları kaynakların yanıtla ilişkilendirilmesini sağlar. |
-| **LLM'siz çalışma modu** | Anahtar/kota/ağ sorununda servis düşmez; test ve değerlendirme deterministik ve bedava koşar. |
-| **Anahtar kodda yok** | Yalnızca `.env` (git'e girmez); `.env.example` örnek değerler içerir. |
+| **Bölüm bazlı (`##`) parçalama** | Bölüm başlığı hem doğal kaynak referansı hem kısa, anlamlı bağlam. |
+| **F5 kök alma + dar geri çekilme** | Basit, bağımlılıksız taban çizgisi. F5'in kaçırdığı 3 harfli kökler (`gün`/`gündü`) için yalnızca 3 harfli, ≤6 harfli terimlerde sözlük geri çekilmesi (4 harfli deneme `homekit`→`home` sahte eşleşmesi üretti). |
+| **LLM: gpt-oss-20b (NVIDIA)** | **Hız önceliği.** Aynı anahtarla denenen modeller: `nemotron-3.5-lightning` 16 sn, `gemma-4-31b`, `deepseek-v4.1-flash`, `glm-5.3-flash` 50 sn'de zaman aşımı, `nemotron-nano-3` ve `gemma-3-12b` hesapta 404. Tek hızlı ve çalışan aday gpt-oss-20b (~1 sn). |
+| **Yapılandırılmış çıktı** | Anthropic: JSON şeması (`output_config.format`). NVIDIA: `response_format=json_object` + kodda sıkı doğrulama. Yeni modellerde zorunlu `tool_choice` desteklenmediği için tool-call kullanılmadı. |
+| **LLM'siz çalışma modu** | Anahtar/kota/ağ sorununda servis düşmez; CI ve testler anahtarsız, deterministik koşar. |
+| **Anahtar kodda yok** | Yalnızca `.env` (git'e girmez); CI'da sızıntı taraması var. |
 
 ---
 
 ## Değerlendirme
 
-30 soru: 14 normal, 6 çelişkili (iade v1↔v2), 10 cevapsız. `eval/questions.json` içinde beklenen sonuçlar (cevaplanabilirlik, kaynak doküman, yanıtta bulunması/bulunmaması gereken ifadeler, seçilmesi gereken sürüm) tanımlı. **Beklenen ↔ gerçek çıktı tablosunun tamamı:** [`eval/results/results-extractive.md`](eval/results/results-extractive.md) (JSON: `results-extractive.json`).
+### 1) Klasik set — 30 soru (14 normal, 6 çelişkili, 10 cevapsız)
 
-İki bölüm var ve fark bilerek gösteriliyor:
+Beklenen ↔ gerçek çıktı tablosunun tamamı: [`eval/results/results-llm.md`](eval/results/results-llm.md) (LLM) ve [`results-extractive.md`](eval/results/results-extractive.md) (LLM'siz).
 
-- **dev (18 soru):** Eşikler (`MIN_SCORE`, `MIN_COVERAGE`) bu sorulardaki boşluklara bakılarak ayarlandı. İlk denemede 15/18 çıktı; hatalar sorudaki sözcüklerin dokümanda farklı biçimde geçmesindendi (eş anlam, ek farkı).
-- **heldout (12 soru):** Eşikler dondurulduktan sonra yazıldı, tek seferde koşuldu, sonra **ayarlama yapılmadı**.
+| | Alıntılayan mod | **LLM (gpt-oss-20b)** |
+|---|---|---|
+| Toplam | 26 / 30 | **29 / 30** |
+| dev (18) | 18 / 18 | 18 / 18 |
+| **held-out (12)** | 8 / 12 | **11 / 12** |
+| Normal | 13 / 14 | 13 / 14 |
+| Çelişkili (v1↔v2) | 4 / 6 | **6 / 6** |
+| Cevapsız | 9 / 10 | **10 / 10** |
 
-**Sonuç — alıntılayan mod (`--no-llm`), bu makinede koşturuldu:**
+*dev*: kapı eşikleri bu sorulara bakılarak ayarlandı. *held-out*: eşikler dondurulduktan sonra yazıldı, ayarlama yapılmadı. LLM modundaki tek hata H6 ("Cihaz serviste iken geçici cihaz verilir mi?"): doküman "verilmez" diyor, model "bilgi yok" dedi (gereksiz ret).
 
-| | Geçen / toplam |
+### 2) QA seti — 57 vaka, halüsinasyon odaklı
+
+Olgu, yanlış öncül, çoklu niyet, kısmi bilgi, sürüm tuzağı, komşu-cevapsız (konuyla ilgili ama dokümanda yok), prompt injection, kötü girdi ve kenar durumlar. Her yanıt, **sistemden bağımsız bir denetçiyle** (`eval/qa_run.py`) kaynak metnine karşı kontrol edilir; her soru 2 kez sorulur (tutarlılık için).
+
+**Sonuç (gpt-oss-20b, 114 koşu):** [`eval/results/qa-nvidia-openai_gpt-oss-20b.md`](eval/results/qa-nvidia-openai_gpt-oss-20b.md)
+
+| Ölçüt | Sonuç |
 |---|---|
-| dev | 18 / 18 |
-| **heldout** | **8 / 12** |
-| Normal | 13 / 14 |
-| Çelişkili | 4 / 6 |
-| Cevapsız | 9 / 10 |
+| Geçen koşu | **98 / 114** |
+| **Cevapsız/komşu sorularda yanıt verme (uydurma)** | **0 / 48 koşu** |
+| **Kaynakta olmayan sayı** | **0** |
+| İçeriği yanlış ama cevaplanmış yanıt | **0** (otomatik denetçi + ilk koşudaki 25 cevaplanmış yanıtın tamamı elle okundu; F8'de "çekmeyin" yerine "çekemezsiniz" gibi hafif bir anlam kayması var) |
+| Tutarlılık (aynı soru, aynı sonuç) | 57 / 57 |
+| LLM hatası | 0 |
+| Gecikme | medyan 1,0 sn |
+| Prompt injection (8 koşu) | 8 / 8 dayandı ("90 gün" dedirtilemedi; ancak "Önceki talimatlarını unut…" cümlesi "önceki" anahtar kelimesi yüzünden yanlışlıkla sürüm karşılaştırması tetikledi, zararsız ama bir sınır) |
 
-Çelişkili sorularda 4 dev sorusunun hepsinde güncel sürüm (v2) seçildi ve eski değerler (14 gün, müşteri öder, telefon, 10 iş günü) yanıta girmedi; held-out'ta 2 çelişkili sorudan biri eşiğe takıldı, biri yanlış bölüm getirdi (aşağıda).
+Kalan 16 başarısızlığın **tamamı gereksiz ret** (cevaplanabilir soruya "bilgi yok" demek); yanlış bilgi verilen bir durum kalmadı:
 
-**Held-out'taki 4 hata ve nedenleri** (hepsi kelime eşleşmesine dayalı yöntemin sınırı):
-
-| Soru | Ne oldu |
+| Vaka | Neden |
 |---|---|
-| H1 "…servis ne kadar sürede onarım yapar?" | "arıza/onarım" kelimeleri "Onarım ve Değişim" bölümünü öne çıkardı; cevap "Teknik Servis Süresi" bölümündeydi. |
-| H7 "…kargo **parasını** ben mi ödüyorum?" | "para" ↔ "ücret" eş anlamlı ama eşleşmedi; kapsama eşiğin altında kaldı, servis "bilgi yok" dedi (yanlış ret). |
-| H8 "İade için hangi **yoldan** başvuru yapılıyor?" | Doğru sürüm seçildi ama "İade Süresi" bölümü getirildi ("başvurular" kelimesi); "İade Başvurusu" bölümü ikinci sıradaydı. |
-| H11 "…aboneliğimi başka bir kişiye **devredebilir** miyim?" | Yanlış bölüm eşiği geçti; alıntılayan mod bölümün soruyu gerçekten yanıtlayıp yanıtlamadığını kontrol edemez (yanlış kabul). |
+| P1, P2, P4 (yanlış öncüllü sorular) | Model "14 gün, doğru mu?" gibi sorularda düzeltmek yerine reddediyor. P4'te doğru bölüm (iade başvurusu) aramada üst sıralara girmiyor. |
+| M1, M3 (çok parçalı / kısmi bilgi) | Sorunun bir kısmı dokümanda yoksa model tümden reddediyor; istem "kısmen yanıtla" dese de 20B model uymuyor. |
+| F4, F6 | **Doğru bölüm LLM bağlamının birinci sırasında** (F4 skoru 14,6, kapsama 1,0); model yine de reddediyor. Yani sorun arama değil, katı istem + düşük akıl yürütme ayarlı 20B modelin aşırı temkini. F4'ü istem v3 öncesi yanıtlıyordu (ablasyon A–C), v3'te geriledi; F6 koşudan koşuya kararsız. |
+| E3 | İngilizce soru; korpus Türkçe, arama eşleşmiyor. Bilinen sınır. |
 
-> **LLM için tam değerlendirme henüz koşulmadı.** NVIDIA üzerinden GPT OSS 20B ile canlı `/ask` isteğinde iade süresi, Hub'ın 5 GHz desteği ve abonelik iptali soruları denendi. Üçü de `mode: "llm"` ile doğru güncel kaynağı gösterdi; iade sorusunda eski sürüm çelişkisi de raporlandı. Bu üç deneme, 30 soruluk ölçümün yerine geçmez. Tam karşılaştırma için `python -m eval.run_eval` çalıştırılabilir; sonuç `eval/results/results-llm.md` dosyasına yazılır.
+### 3) Ablasyon — hangi katman işe yaradı? ([`eval/results/ablation/`](eval/results/ablation/))
+
+| Konfigürasyon | Geçen / 114 | Uydurma | Tutarlılık | Gecikme |
+|---|---|---|---|---|
+| A: zorunlu kanıt, sayı denetimi | 88 | 0 | 55/57 | 1,4 sn |
+| B: A + doğrulayıcı LLM | 89 | 0 | 54/57 | 2,2 sn |
+| C: B + 4 bölüm bağlamı | 88 | 0 | 53/57 | 2,0 sn |
+| **D: A + istem v3** (tam cümle, gün eşlemeleri) | **92** | 0 | 55/57 | 1,5 sn |
+
+Sonuçlar: uydurmayı sıfırlayan **zorunlu kanıttır**; doğrulayıcı hiçbir şey eklemedi (uydurma zaten 0'dı), geçerli yanıtları (P2, P3) reddetti ve gecikmeyi ~%50 artırdı → kapalı. Daha fazla bağlam yardım etmedi (M1 hâlâ reddedildi). Son tablo (98) D'nin üzerine, hız sınırı düzeltmesi ve denetçi düzeltmeleriyle yeniden koşulmuş halidir.
+
+### Ölçüm sırasında bulunan gerçek hatalar
+
+| Bulgu | Düzeltme |
+|---|---|
+| Komşu sorulara uydurma yanıt: "iade kargo kodu **30 gün** içinde kullanılır" (iade süresi başka bölümden ödünç alınmış), "garanti kapsamında **ekran değişimi** yapılır" (dokümanda yok). Sayı denetimi bunları **yakalayamadı** (30 bağlamda vardı). | Zorunlu kanıt (katman 2) |
+| İstemdeki örnek JSON gerçek bir olgu içeriyordu ("30 gün içinde iade") — few-shot sızıntısı şüphesi | Örnek yer tutucuya çevrildi; testle korunuyor |
+| Aynı soruya çelişkili yanıtlar (F15: "cumartesi canlı destek **yok**" / "her gün var"); 14 riskli sorunun yalnızca 7'sinde koşular tutarlıydı | `temperature=0`, sıkı istem → tutarlılık 57/57. **Not:** sunucu tarafı tam deterministik değil (F10'un kanıt biçimi koşudan koşuya değişti). |
+| "Eski prosedürde süre kaç gündü?" → "**30 gün**" (eski süre 14'tü; model eski sürümü hiç görmediği için güncel değeri "eski" diye sundu) | Tarihsel soru tespiti + iki sürümü aynen alıntılayan `version-comparison` |
+| Geçerli ret (`{"answerable": false}`) "şema hatası" sayılıp alıntılayan moda düşüyordu (kapsama ≥ 0,5 ise komşu bölüm cevap diye sunulabilirdi) | Geçerli ret ayrıştırması |
+| "wifi" ↔ "Wi-Fi", "5ghz" ↔ "5 GHz" eşleşmiyordu; F5 `gündü`↔`gün` kaçırıyordu | Tokenizasyon birleştirme + dar geri çekilme |
+| Gpt-oss tipografik karakterler üretiyor (U+202F, U+2011) → metin eşleşmesi bozuluyor | `clean_text` |
+| Hız sınırı (429): ilk denemede 8 koşu LLM hatası verdi; servis `Retry-After`'a uymuyordu | 3 deneme + `Retry-After` |
+| İlk sürümde ret metni modelin serbest çıktısıydı | Sabit ret mesajı |
+
+### Dürüstlük notları
+
+- QA seti geliştirme sırasında **kullanıldı**: istem ve korumalar onun başarısızlıklarına bakılarak geliştirildi, dolayısıyla 98/114 tamamen "görülmemiş veri" ölçümü değildir. Baz çizgisinde görülmemiş komşu-cevapsız sorular (U11–U18) ve cevaplanabilir yeni sorular (F16–F21) sonradan eklendi; klasik sette **held-out 11/12** en temiz ölçümdür.
+- Beş vakanın (F2, F7, F8, F15, F18) beklenen anahtar kelime listesi, yanıtlar okunduktan sonra anlamca eşdeğer ifadeleri ("çalışmıyor", "gönderilmez") kapsayacak şekilde **genişletildi**; genişletmeden önce bu vakalar yanlış başarısız sayılıyordu.
+- Anthropic yolu (`app/llm.py`) canlı API'ye karşı **çalıştırılmadı**, yalnızca kodla ve birim testleriyle doğrulandı.
+- Tek model (gpt-oss-20b) ve tek makinede ölçüldü; NVIDIA ücretsiz katmanında gecikme ve kota değişkendir.
+
+---
+
+## Şirket isterlerinin karşılanması
+
+| İster | Durum | Nerede |
+|---|---|---|
+| Türkçe soru yanıtlayan servis, kurgu şirket, bilgi dokümanları | ✅ | API + arayüz |
+| 8–10 kısa kurgu doküman | ✅ 10 | `data/docs/` |
+| En az bir prosedürün eski ve güncel sürümü | ✅ iade v1/v2 | `03-`, `04-` |
+| Dokümanları aranabilir hale getir, yanıtlayan API | ✅ | `app/`, `POST /ask` |
+| Her yanıtta kullanılan doküman ve ilgili bölüm | ✅ | `sources[]` (doc, sürüm, bölüm, alıntı) |
+| Bilgi yoksa uydurma, açıkça belirt | ✅ 0/48 uydurma | kapı + zorunlu kanıt |
+| Çelişkide güncel sürümü seçme ve gösterme | ✅ | `conflicts[]`, `version-comparison` |
+| ≥10 örnekle değerlendirme (normal/cevapsız/çelişkili) | ✅ 30 + 57 | `eval/` |
+| .NET veya FastAPI | ✅ FastAPI | |
+| README, çalıştırma adımları | ✅ | bu dosya |
+| Örnek ortam değişkenleri | ✅ | `.env.example` |
+| Beklenen ↔ gerçek çıktı karşılaştırması | ✅ | `eval/results/*.md` |
+| Teknik tercihler ve bilinen sınırlar | ✅ | bu dosya |
+| API anahtarı kaynak kodda yok | ✅ | `.env` git dışı; CI sızıntı taraması |
+
+## İş akışları (GitHub Actions)
+
+- **`.github/workflows/ci.yml`** — her push/PR'da, anahtarsız: kaynakta anahtar taraması → `pytest` → klasik değerlendirme (alıntılayan mod, taban 26/30) → QA (taban 40/57, halüsinasyon bayrağı 0 olmalı) → sonuçları artifact olarak yükler.
+- **`.github/workflows/qa-llm.yml`** — elle tetiklenir; gerçek LLM'e karşı klasik set + QA koşar (model, tekrar sayısı, doğrulayıcı, bağlam bölüm sayısı girdi olarak seçilir). Anahtar repo **Secret**'ından (`NVIDIA_API_KEY`) gelir; kaynak kodda durmaz.
 
 ---
 
 ## Bilinen sınırlar
 
-- **Sözcük tabanlı arama:** Eş anlamlı ve dolaylı ifadeleri kaçırır (H7). Doğal sonraki adım: embedding ile hibrit arama veya LLM ile sorgu yeniden yazma.
-- **Eşikler küçük bir örnekle ayarlı:** 10 doküman/51 bölümde makul, gerçek bir korpusta yeniden kalibre edilmeli. `MIN_SCORE` BM25'in mutlak değerine dayandığı için korpus büyüklüğüne duyarlı.
-- **Erişim katmanı yanlış ret verebilir (H7):** Eşik LLM'e gitmeden karar verdiği için, LLM'in cevaplayabileceği bir soruyu da eleyebilir. LLM modunda bu eşiğin gevşetilmesi düşünülebilir; ölçülmedi.
-- **Alıntılayan mod cevaplanabilirliği doğrulayamaz (H11)** ve içeriğin tamamını aktarır; sohbet gibi kısa yanıt üretmez.
-- **Eski sürümle ilgili sorular:** "2023'te iade süresi kaçtı?" gibi tarihsel sorular varsayılan olarak güncel sürümle yanıtlanır; yalnızca `as_of` parametresiyle eski sürüm sorgulanabilir. Soru metninden tarih çıkarma yapılmıyor.
+- **Aşırı temkin:** Güvenlik önceliklendirildi; bunun bedeli %14 gereksiz ret (yanlış öncüllü, çok parçalı ve kısmi bilgili sorularda). Uydurma yerine ret tercih edildi.
+- **Anlam hataları kodla yakalanamaz:** Kanıt ve sayı denetimi rakamsız anlam kaymalarını ("her gün" → "yok") göremez. F15 bir kez böyle bir hata yaptı; `temperature=0` ve istemle azaldı, kodla garanti edilmiyor.
+- **Sözcük tabanlı arama:** Eş anlamlı ve dolaylı ifadeleri kaçırır ("para"↔"ücret"), İngilizce soruları eşleştiremez. Sonraki adım: embedding ile hibrit arama veya LLM ile sorgu yeniden yazma.
+- **Eşikler küçük bir örnekle ayarlı:** 10 doküman / 51 bölümde makul; gerçek korpusta yeniden kalibre edilmeli. `MIN_SCORE` BM25'in mutlak değerine bağlı olduğu için korpus büyüklüğüne duyarlı.
+- **NVIDIA ücretsiz katmanı:** Dakikada ~40 istek; gecikme ve kullanılabilirlik garanti değil. Üretim için ücretli/özel uç nokta gerekir.
+- **Tarihsel soru tespiti anahtar kelimeyle çalışır** ("eski", "önceki", "v1", eski sürümün yılı). "Eski cihazımı iade etmek istiyorum" gibi cümleler yanlışlıkla iki sürüm karşılaştırması tetikleyebilir.
 - **Sürüm çözümü yalnızca `family` + sürüm/tarih ile çalışır.** Aynı sürümde birbiriyle çelişen iki doküman tespit edilmez; bölüm adı değişen sürümlerde eski bölüm eşleşmesi kaybolabilir.
-- **LLM güvenliği:** Yalnızca güvenilir (kendi) dokümanlar indeksleniyor; kullanıcı sorusu talimat olarak yorumlanmasın diye sistem isteminde belirtildi ama bu ayrıca saldırı testine tabi tutulmadı.
-- **Reddedilme (`refusal`) durumunda yedek model yok:** Model bir isteği reddederse servis "bilgi yok" döner; sunucu tarafı fallback ayarı kullanılmadı.
-- **Kimlik doğrulama, hız sınırı, kalıcı log yok** — bir teslim projesi kapsamında bilinçli olarak dışarıda bırakıldı.
+- **Model reddi (`refusal`) için yedek model yok** (Anthropic yolu): ret gelirse servis "bilgi yok" döner.
+- **Kimlik doğrulama, hız sınırı, kalıcı log yok** — teslim projesi kapsamında bilinçli olarak dışarıda bırakıldı.
 - **Tek dil / kurgu veri:** Türkçe dışı sorular ve gerçek müşteri verisi denenmedi.

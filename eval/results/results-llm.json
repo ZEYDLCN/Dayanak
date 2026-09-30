@@ -14,8 +14,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Cihazın arkasındaki reset düğmesine 10 saniye boyunca basılı tutun. LED kırmızı renkte yanıp söndüğünde cihaz fabrika ayarlarına dönmüştür. Bu işlem cihazdaki tüm eşleşmeleri siler.",
-      "mode": "extractive",
+      "answer": "Cihazın arkasındaki reset düğmesine 10 saniye boyunca basılı tutun. LED kırmızı renkte yanıp söndüğünde cihaz fabrika ayarlarına dönmüştür.",
+      "mode": "llm",
       "sources": [
         "kurulum-kilavuzu#Fabrika Ayarlarına Dönme"
       ],
@@ -43,8 +43,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Giriş ekranında \"Şifremi Unuttum\" seçeneğine dokunun. E-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı 30 dakika boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir.",
-      "mode": "extractive",
+      "answer": "Şifre sıfırlama bağlantısı **30 dakika** süreyle geçerlidir.",
+      "mode": "llm",
       "sources": [
         "hesap-ve-sifre#Şifre Sıfırlama"
       ],
@@ -72,8 +72,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Tüm Lumora Hub ve aksesuar ürünleri, teslim tarihinden itibaren 24 ay garantilidir.",
-      "mode": "extractive",
+      "answer": "Ürünlerde garanti süresi **24 ay**'dır.",
+      "mode": "llm",
       "sources": [
         "garanti-ve-servis#Garanti Süresi"
       ],
@@ -101,8 +101,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "750 TL ve üzeri siparişlerde kargo ücretsizdir. 750 TL altındaki siparişlerde kargo ücreti 49,90 TL'dir.",
-      "mode": "extractive",
+      "answer": "**750 TL**",
+      "mode": "llm",
       "sources": [
         "kargo-ve-teslimat#Kargo Ücreti"
       ],
@@ -130,8 +130,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Abonelik, Lumora Home uygulamasında Ayarlar > Abonelik bölümünden iptal edilir. İptal edilen abonelik, ödenmiş dönemin sonuna kadar kullanılmaya devam eder. Kalan döneme ait kısmi ücret iadesi yapılmaz.",
-      "mode": "extractive",
+      "answer": "Lumora+ aboneliğinizi iptal etmek için Lumora Home uygulamasında Ayarlar > Abonelik bölümüne gidip iptal seçeneğini kullanabilirsiniz.",
+      "mode": "llm",
       "sources": [
         "abonelik-ve-faturalama#Abonelik İptali"
       ],
@@ -159,8 +159,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Bulut kamera kayıtları Lumora+ abonelerinde 30 gün, ücretsiz kullanıcılarda 7 gün saklanır. Süre dolan kayıtlar otomatik olarak silinir.",
-      "mode": "extractive",
+      "answer": "Ücretsiz kullanıcılarda kamera kayıtları **7 gün** saklanır.",
+      "mode": "llm",
       "sources": [
         "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
       ],
@@ -188,8 +188,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Mavi yanıp sönen LED cihazın kurulum modunda olduğunu gösterir. Sabit yeşil LED normal çalışmayı belirtir. Sürekli kırmızı LED internet bağlantısının olmadığını gösterir. Turuncu LED cihazın güncelleme yaptığını belirtir.",
-      "mode": "extractive",
+      "answer": "Turuncu LED, cihazın güncelleme yaptığını gösterir.",
+      "mode": "llm",
       "sources": [
         "sorun-giderme#LED Renklerinin Anlamı"
       ],
@@ -217,8 +217,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Uygulama içi canlı destek her gün 09:00-21:00 saatleri arasında hizmet verir.",
-      "mode": "extractive",
+      "answer": "Canlı destek her gün 09:00-21:00 saatleri arasında hizmet verir.",
+      "mode": "llm",
       "sources": [
         "destek-kanallari-sla#Canlı Destek"
       ],
@@ -250,8 +250,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir. Bu süreden sonra yapılan başvurular kabul edilmez. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
-      "mode": "extractive",
+      "answer": "İade süresi **30** gündür. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "llm",
       "sources": [
         "iade-proseduru-v2#İade Süresi"
       ],
@@ -285,8 +285,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "İade kargo ücretini Lumora karşılar. Başvuru onaylandığında e-postayla ücretsiz kargo kodu gönderilir; ürün bu kodla anlaşmalı kargo şubesine teslim edilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
-      "mode": "extractive",
+      "answer": "İade kargo ücretini **Lumora** karşılar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "llm",
       "sources": [
         "iade-proseduru-v2#İade Kargo Ücreti"
       ],
@@ -320,8 +320,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "İade talebi Lumora Home uygulaması veya lumora.example/iade adresindeki web formu üzerinden oluşturulur. Talep sırasında sipariş numarası ve iade nedeni girilmelidir. Telefonla iade başvurusu artık alınmamaktadır. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
-      "mode": "extractive",
+      "answer": "İade başvurusu Lumora Home uygulaması veya lumora.example/iade adresindeki web formu üzerinden yapılır; telefonla iade başvurusu artık alınmamaktadır. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "llm",
       "sources": [
         "iade-proseduru-v2#İade Başvurusu"
       ],
@@ -355,8 +355,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Ürün depoya ulaşıp kontrol edildikten sonra ödeme, 5 iş günü içinde ödemenin yapıldığı karta iade edilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
-      "mode": "extractive",
+      "answer": "İade ödemesi **5 iş günü** içinde kartınıza yatar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "llm",
       "sources": [
         "iade-proseduru-v2#Geri Ödeme"
       ],
@@ -512,10 +512,10 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Arıza tespit edilirse öncelik onarımdadır. Onarımın mümkün olmadığı durumlarda aynı model yeni veya yenilenmiş bir cihazla değiştirilir.",
-      "mode": "extractive",
+      "answer": "Onarım için servise ulaşan ürünler en geç **10 iş günü** içinde onarılır veya değiştirilir.",
+      "mode": "llm",
       "sources": [
-        "garanti-ve-servis#Onarım ve Değişim"
+        "garanti-ve-servis#Teknik Servis Süresi"
       ],
       "conflict_selected": [],
       "retrieval": {
@@ -523,10 +523,8 @@
         "top_coverage": 0.45
       }
     },
-    "passed": false,
-    "problems": [
-      "yanıtta yok: '10 iş günü'"
-    ]
+    "passed": true,
+    "problems": []
   },
   {
     "id": "H2",
@@ -543,8 +541,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Art arda 5 hatalı şifre denemesinden sonra hesap 15 dakika süreyle kilitlenir. Kilit süresi dolunca tekrar giriş yapabilirsiniz.",
-      "mode": "extractive",
+      "answer": "Hesabınız 5 hatalı şifre denemesinden sonra 15 dakika süreyle kilitlenir.",
+      "mode": "llm",
       "sources": [
         "hesap-ve-sifre#Hesap Kilidi"
       ],
@@ -572,8 +570,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Kargo firması adrese 3 kez teslimat dener. Teslim edilemeyen gönderi 7 gün boyunca kargo şubesinde bekletilir, ardından depoya geri döner.",
-      "mode": "extractive",
+      "answer": "Kargo firması adrese 3 kez teslimat dener; teslim edilemeyen gönderi 7 gün boyunca kargo şubesinde bekletilir, ardından depoya geri döner.",
+      "mode": "llm",
       "sources": [
         "kargo-ve-teslimat#Teslim Edilemeyen Gönderiler"
       ],
@@ -601,8 +599,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Bir Lumora Hub'a en fazla 50 akıllı cihaz eklenebilir. Daha fazla cihaz için ikinci bir Hub kurulmalıdır.",
-      "mode": "extractive",
+      "answer": "Bir Lumora Hub'a en fazla **50** akıllı cihaz bağlayabilirsiniz.",
+      "mode": "llm",
       "sources": [
         "kurulum-kilavuzu#Cihaz Sınırı"
       ],
@@ -630,8 +628,8 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Yeni kullanıcılar için 14 günlük ücretsiz deneme sunulur. Deneme süresi bitmeden iptal edilirse ücret alınmaz.",
-      "mode": "extractive",
+      "answer": "Deneme süresi bitmeden iptal edilirse ücret alınmaz.",
+      "mode": "llm",
       "sources": [
         "abonelik-ve-faturalama#Ücretsiz Deneme"
       ],
@@ -658,20 +656,20 @@
       ]
     },
     "actual": {
-      "answerable": true,
-      "answer": "Onarım için servise ulaşan ürünler en geç 10 iş günü içinde onarılır veya değiştirilir. Servis süresince geçici cihaz verilmez.",
-      "mode": "extractive",
-      "sources": [
-        "garanti-ve-servis#Teknik Servis Süresi"
-      ],
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "llm",
+      "sources": [],
       "conflict_selected": [],
       "retrieval": {
         "top_score": 10.49,
         "top_coverage": 0.65
       }
     },
-    "passed": true,
-    "problems": []
+    "passed": false,
+    "problems": [
+      "answerable=False, beklenen True"
+    ]
   },
   {
     "id": "H7",
@@ -691,20 +689,22 @@
       "conflict_selected": "iade-proseduru-v2"
     },
     "actual": {
-      "answerable": false,
-      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
-      "mode": "no-retrieval",
-      "sources": [],
-      "conflict_selected": [],
+      "answerable": true,
+      "answer": "Hayır, iade kargo ücretini Lumora karşılar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "llm",
+      "sources": [
+        "iade-proseduru-v2#İade Kargo Ücreti"
+      ],
+      "conflict_selected": [
+        "iade-proseduru-v2"
+      ],
       "retrieval": {
         "top_score": 5.77,
         "top_coverage": 0.17
       }
     },
-    "passed": false,
-    "problems": [
-      "answerable=False, beklenen True"
-    ]
+    "passed": true,
+    "problems": []
   },
   {
     "id": "H8",
@@ -725,10 +725,10 @@
     },
     "actual": {
       "answerable": true,
-      "answer": "Müşteriler, ürünü teslim aldıkları tarihten itibaren 30 gün içinde iade talebinde bulunabilir. Bu süreden sonra yapılan başvurular kabul edilmez. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
-      "mode": "extractive",
+      "answer": "İade talebi Lumora Home uygulaması veya lumora.example/iade adresindeki web formu üzerinden oluşturulur. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+      "mode": "llm",
       "sources": [
-        "iade-proseduru-v2#İade Süresi"
+        "iade-proseduru-v2#İade Başvurusu"
       ],
       "conflict_selected": [
         "iade-proseduru-v2"
@@ -738,10 +738,8 @@
         "top_coverage": 0.53
       }
     },
-    "passed": false,
-    "problems": [
-      "yanıtta yok: 'web formu'"
-    ]
+    "passed": true,
+    "problems": []
   },
   {
     "id": "H9",
@@ -774,7 +772,7 @@
     "actual": {
       "answerable": false,
       "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
-      "mode": "no-retrieval",
+      "mode": "llm",
       "sources": [],
       "conflict_selected": [],
       "retrieval": {
@@ -793,24 +791,18 @@
       "answerable": false
     },
     "actual": {
-      "answerable": true,
-      "answer": "Kişiye özel gravürlü ürünler iade edilemez. Lumora+ abonelik ücretlerinin iadesi için Abonelik ve Faturalama dokümanına bakınız. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
-      "mode": "extractive",
-      "sources": [
-        "iade-proseduru-v2#İade Kapsamı Dışındaki Ürünler"
-      ],
-      "conflict_selected": [
-        "iade-proseduru-v2"
-      ],
+      "answerable": false,
+      "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+      "mode": "llm",
+      "sources": [],
+      "conflict_selected": [],
       "retrieval": {
         "top_score": 6.55,
         "top_coverage": 0.29
       }
     },
-    "passed": false,
-    "problems": [
-      "answerable=True, beklenen False"
-    ]
+    "passed": true,
+    "problems": []
   },
   {
     "id": "H12",

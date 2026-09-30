@@ -32,7 +32,7 @@ def check(case: dict, answer) -> list[str]:
             problems.append("cevapsız soruda kaynak gösterildi")
         return problems
 
-    text = normalize(answer.answer)
+    text = normalize(answer.answer).replace("*", "")  # **kalın** işaretini yok say
     cited = {s.doc_id for s in answer.sources}
     if not cited & set(exp["doc_ids"]):
         problems.append(f"kaynak {sorted(cited)}, beklenen {exp['doc_ids']}")

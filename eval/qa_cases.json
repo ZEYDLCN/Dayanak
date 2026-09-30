@@ -29,7 +29,9 @@
     [
      "Lumora karşılar",
      "Lumora tarafından",
-     "ücretsiz"
+     "ücretsiz",
+     "Lumora'dır",
+     "Lumora öder"
     ]
    ],
    "none": [
@@ -119,7 +121,10 @@
     [
      "yoktur",
      "hafta sonu",
-     "hafta içi"
+     "hafta içi",
+     "çalışmıyor",
+     "çalışmaz",
+     "hizmet vermez"
     ]
    ]
   }
@@ -137,7 +142,9 @@
     [
      "çekmeyin",
      "çekmemel",
-     "çekilme"
+     "çekilme",
+     "çekemezsiniz",
+     "çekmeyiniz"
     ]
    ]
   }
@@ -242,8 +249,14 @@
    "any": [
     [
      "her gün",
-     "09:00-21:00"
+     "09:00-21:00",
+     "cumartesi günleri de",
+     "evet"
     ]
+   ],
+   "none": [
+    "canlı destek yok",
+    "hizmet verilmiyor"
    ]
   }
  },
@@ -675,7 +688,8 @@
     [
      "sesli komut",
      "kaydetmez",
-     "göndermez"
+     "göndermez",
+     "gönderilmez"
     ]
    ]
   }

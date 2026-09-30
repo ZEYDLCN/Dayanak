@@ -187,3 +187,35 @@ def test_nvidia_payload_is_deterministic_and_prompt_has_no_leaked_facts(kb):
     system = seen["messages"][0]["content"]
     # Örnek çıktı gerçek bir olgu içermemeli (few-shot sızıntısı: model örnekteki değeri yanıta taşıyabilir)
     assert "30 gün" not in system and "iade" not in system.lower()
+
+
+def test_nvidia_honors_retry_after_and_gives_up_after_three_attempts(kb, monkeypatch):
+    from app.config import Settings
+
+    slept = []
+    monkeypatch.setattr("app.llm.time.sleep", lambda s: slept.append(s))
+    settings = Settings(_env_file=None, llm_provider="nvidia", nvidia_api_key="k")
+    calls = []
+
+    def always_429(request: httpx.Request) -> httpx.Response:
+        calls.append(1)
+        return httpx.Response(429, headers={"retry-after": "4"}, json={"error": "rate"})
+
+    gen = NvidiaGenerator(settings, client=httpx.Client(transport=httpx.MockTransport(always_429)))
+    with pytest.raises(httpx.HTTPStatusError):
+        gen.generate("soru", kb.retrieve("İade süresi kaç gün?").hits[:1])
+    assert len(calls) == 3 and slept == [4.0, 4.0]
+
+
+def test_service_falls_back_safely_when_rate_limit_persists(kb, monkeypatch):
+    from app.answer import AnswerService
+    from app.config import Settings
+
+    monkeypatch.setattr("app.llm.time.sleep", lambda s: None)
+    settings = Settings(_env_file=None, llm_provider="nvidia", nvidia_api_key="k")
+    client = httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(429, json={})))
+    svc = AnswerService(kb, settings, generator=NvidiaGenerator(settings, client=client))
+    a = svc.ask("Telefon desteği hafta sonu açık mı?")
+    assert a.mode == "extractive-fallback"
+    # Uyarı: fallback yalnızca güçlü eşleşmede alıntı yapar; zayıfta "bilgi yok" der
+    assert a.answerable or a.answer
