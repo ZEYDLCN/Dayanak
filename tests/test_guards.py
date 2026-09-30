@@ -219,3 +219,17 @@ def test_service_falls_back_safely_when_rate_limit_persists(kb, monkeypatch):
     assert a.mode == "extractive-fallback"
     # Uyarı: fallback yalnızca güçlü eşleşmede alıntı yapar; zayıfta "bilgi yok" der
     assert a.answerable or a.answer
+
+
+def test_fallback_answer_is_labeled_as_nearest_section_not_as_an_answer(kb, settings):
+    """LLM hakem olmadan alıntı yapıldığında kullanıcı bunun kesin cevap olmadığını görmeli."""
+    from app.answer import FALLBACK_PREFIX
+
+    class Boom:
+        def generate(self, question, hits):
+            raise RuntimeError("503")
+
+    a = AnswerService(kb, settings, generator=Boom()).ask("Hub 5 GHz Wi-Fi ağına bağlanır mı?")
+    assert a.mode == "extractive-fallback" and a.answerable
+    assert a.answer.startswith(FALLBACK_PREFIX) and "2,4 GHz" in a.answer
+    assert "sorunuzu yanıtlamayabilir" in a.answer

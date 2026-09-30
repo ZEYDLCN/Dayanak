@@ -52,8 +52,9 @@ def grounding_flags(question: str, a) -> tuple[list[str], list[str]]:
             fails.append(f"KAYNAKTA OLMAYAN SAYI: {sorted(real)}")
         if echoed:
             review.append(f"sorudaki sayı yanıtta tekrarlandı ama kaynakta yok: {sorted(echoed)}")
-        if _NOINFO.search(normalize(body)):
-            fails.append("answerable=true ama yanıt 'bilgi yok' diyor (çelişki)")
+        sentences = [s for s in re.split(r"(?<=[.!?])\s+", normalize(body)) if s.strip()]
+        if sentences and all(_NOINFO.search(s) for s in sentences):  # kısmi yanıt ("...Bluetooth için bilgi yok") meşru
+            fails.append("answerable=true ama yanıtın tamamı 'bilgi yok' diyor (çelişki)")
         if not a.sources:
             fails.append("answerable=true ama kaynak yok")
         stale = [s.doc_id for s in a.sources if s.status != "current"]
@@ -209,5 +210,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

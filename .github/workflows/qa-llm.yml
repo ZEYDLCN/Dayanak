@@ -1,12 +1,15 @@
 name: QA (gerçek LLM)
 
 # Elle tetiklenir (Actions > QA (gerçek LLM) > Run workflow). Gerçek modele istek atar, kota harcar.
-# Anahtar kodda değil, repo ayarlarındaki Secret'ta durur: Settings > Secrets and variables > Actions > NVIDIA_API_KEY
+# Anahtar kodda değil, repo ayarlarındaki Secret'ta durur: Settings > Secrets and variables > Actions > NVIDIA_API_KEY / GEMINI_API_KEY
 on:
   workflow_dispatch:
     inputs:
+      provider:
+        description: "LLM sağlayıcı (nvidia | gemini)"
+        default: "nvidia"
       model:
-        description: "NVIDIA model kimliği"
+        description: "Model kimliği (nvidia: openai/gpt-oss-20b, gemini: gemini-3.1-flash-lite)"
         default: "openai/gpt-oss-20b"
       repeat:
         description: "Her soruyu kaç kez sor (tutarlılık ölçümü)"
@@ -24,9 +27,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
-      LLM_PROVIDER: nvidia
+      LLM_PROVIDER: ${{ inputs.provider }}
       NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
       NVIDIA_MODEL: ${{ inputs.model }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ inputs.model }}
       VERIFY_ANSWERS: ${{ inputs.verify }}
       LLM_CONTEXT_PASSAGES: ${{ inputs.context_passages }}
     steps:
@@ -38,7 +43,9 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Anahtar tanımlı mı?
-        run: test -n "$NVIDIA_API_KEY" || (echo "::error::NVIDIA_API_KEY secret tanımlı değil"; exit 1)
+        run: |
+          if [ "$LLM_PROVIDER" = "gemini" ]; then k="$GEMINI_API_KEY"; else k="$NVIDIA_API_KEY"; fi
+          test -n "$k" || (echo "::error::Seçili sağlayıcının anahtarı (NVIDIA_API_KEY / GEMINI_API_KEY secret) tanımlı değil"; exit 1)
 
       - name: Klasik değerlendirme seti (30 soru)
         run: python -m eval.run_eval

@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 NO_INFO = "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin."
 _SENTENCE = re.compile(r"(?<=[.!?])\s+")
 _MAX_QUOTE_CHARS = 400
+FALLBACK_PREFIX = "(Yapay zekâ yanıt servisine şu an ulaşılamıyor; en yakın belge bölümü aynen aşağıdadır, sorunuzu yanıtlamayabilir:) "
 ABSTAINED = "llm-abstained"  # model kendisi "cevap yok" dedi (guvenlik korumasi devreye girmedi)
 
 
@@ -96,6 +97,8 @@ class AnswerService:
             used_hits, text = self._extractive(question, r.hits)
             if not used_hits:
                 return Answer(question, False, NO_INFO, [], [], mode, diag)
+            if mode == "extractive-fallback":  # LLM hakem olmadan alıntı: cevap değil "en yakın bölüm" olduğunu söyle
+                text = FALLBACK_PREFIX + text
         else:
             if reject == ABSTAINED:
                 return Answer(question, False, NO_INFO, [], [], mode, diag)

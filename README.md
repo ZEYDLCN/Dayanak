@@ -7,7 +7,7 @@ Kurgu bir şirketin (Lumora — akıllı ev merkezi "Lumora Hub" ve "Lumora+" ab
 - Bir prosedürün eski ve güncel sürümü çeliştiğinde **güncel sürümü seçer ve nedenini yanıtta gösterir**.
 - LLM'in yanıtı **kodla denetlenir**: model, yanıtını destekleyen cümleyi bölümden aynen kopyalamak zorundadır; kopya bölümde yoksa veya yanıttaki bir sayı kaynakta yoksa yanıt kullanıcıya gösterilmez.
 
-Yığın: **Python 3.13 / FastAPI**. LLM: **NVIDIA NIM üzerinde `openai/gpt-oss-20b`** (ölçülen gecikme: medyan ~1,3 sn, yükte 3–7 sn; aşağıya bakın) veya Anthropic Claude; anahtar yoksa alıntılayan moda düşer.
+Yığın: **Python 3.13 / FastAPI**. LLM sağlayıcıları: **NVIDIA `openai/gpt-oss-20b`** (varsayılan, hızlı: LLM çağrısı medyan ~1,3 sn), **Google Gemini `gemini-3.1-flash-lite`** (daha az gereksiz ret, ~3 kat yavaş; karşılaştırma aşağıda) ve Anthropic Claude (canlı doğrulanmadı). Anahtar yoksa alıntılayan moda düşer.
 
 ---
 
@@ -32,10 +32,12 @@ uvicorn app.main:app --reload
 
 | Değişken | Varsayılan | Açıklama |
 |---|---|---|
-| `LLM_PROVIDER` | `anthropic`* | `nvidia`, `anthropic` veya `none` (*`.env.example` `nvidia` ile gelir) |
+| `LLM_PROVIDER` | `anthropic`* | `nvidia`, `gemini`, `anthropic` veya `none` (*`.env.example` `nvidia` ile gelir) |
 | `NVIDIA_API_KEY` / `NVIDIA_MODEL` | boş / `openai/gpt-oss-20b` | NVIDIA anahtarı ve model |
 | `NVIDIA_TIMEOUT_SECONDS` | `15` | İstek başına bekleme; geçici hata (429/5xx/zaman aşımı) 3 denemeye kadar tekrarlanır, `Retry-After`'a uyulur |
 | `NVIDIA_TEMPERATURE` / `NVIDIA_REASONING_EFFORT` | `0` / `low` | Tekrarlanabilirlik ve hız |
+| `GEMINI_API_KEY` / `GEMINI_MODEL` | boş / `gemini-3.1-flash-lite` | Google AI Studio anahtarı (ücretsiz). Anahtar HTTP başlığında gider, URL'de değil (günlüğe/hata mesajına sızmaz) |
+| `GEMINI_TIMEOUT_SECONDS` | `20` | Geçici hata (429/503) 3 denemeye kadar tekrarlanır |
 | `ANTHROPIC_API_KEY` / `LLM_MODEL` | boş / `claude-opus-5-5` | Anthropic seçiliyse (bkz. sınırlar: canlı doğrulanmadı) |
 | `LLM_CONTEXT_PASSAGES` | `2` | LLM'e verilen en iyi bölüm sayısı |
 | `REQUIRE_EVIDENCE` | `true` | Zorunlu, kodla doğrulanan kanıt cümlesi |
@@ -153,7 +155,7 @@ Kural kodda, deterministik (LLM'e bırakılmadı — denetlenebilir olması içi
 | **2. Zorunlu kanıt** | Model, yanıtı destekleyen cümleyi bölümden **aynen kopyalar**; kod bunun verilen bölümlerde gerçekten geçtiğini doğrular (`...` ile kısaltmaya ve tipografik farklara toleranslı). **Kaynaklar modelin atfından değil, doğrulanmış kanıttan türetilir.** | Cevapsız sorularda uydurma: ~%17–80 → **0/48 koşu** |
 | **3. Sayı denetimi** | Yanıttaki her sayı/saat, soruda veya verilen bölümlerde geçmek zorunda; yoksa yanıt reddedilir | Kaynakta olmayan sayı: **0** |
 | **4. Geçerli ret** | `{"answerable": false}` hata değil ret sayılır; ret metni modelin değil sabit ve güvenli mesajdır | eskiden hata sayılıp alıntıya düşüyordu |
-| **5. Güvenli geri düşüş** | LLM çağrısı başarısızsa: yalnızca güçlü eşleşmede bölümü alıntılar, zayıfta "bilgi yok" der | LLM hatası 0 (hız sınırı düzeltmesinden sonra) |
+| **5. Güvenli geri düşüş** | LLM çağrısı başarısızsa: yalnızca güçlü eşleşmede bölümü alıntılar ve başına "yapay zekâ servisine ulaşılamıyor; en yakın bölüm aynen aşağıdadır, sorunuzu yanıtlamayabilir" uyarısı koyar; zayıfta "bilgi yok" der (Gemini testinde geçici bir hata, ilgisiz bir bölümün cevap gibi sunulmasına yol açmıştı; uyarı bu yüzden eklendi) | LLM hatası 0 (hız sınırı düzeltmesinden sonra) |
 | Doğrulayıcı LLM (kapalı) | İkinci çağrı: "kanıt soruyu doğrudan yanıtlıyor mu?" | **Faydası çıkmadı**, geçerli yanıtları da reddetti (aşağıda) |
 
 **Sınır:** katman 2–3 "kanıt gerçekten var mı" sorusunu yanıtlar, "kanıt soruyu gerçekten yanıtlıyor mu" sorusunu değil. Rakamsız anlam hataları ("her gün" → "cumartesi yok") kodla yakalanamaz; bunu istem ve model kalitesi taşır. Yazıyla verilen sayılar ("otuz gün") kontrol edilmez.
@@ -236,6 +238,28 @@ Kalan 16 başarısızlığın **tamamı gereksiz ret** (cevaplanabilir soruya "b
 
 Sonuçlar: uydurmayı sıfırlayan **zorunlu kanıttır**; doğrulayıcı hiçbir şey eklemedi (uydurma zaten 0'dı), geçerli yanıtları (P2, P3) reddetti ve gecikmeyi ~%50 artırdı → kapalı. Daha fazla bağlam yardım etmedi (M1 hâlâ reddedildi). Son tablo (98) D'nin üzerine, hız sınırı düzeltmesi ve denetçi düzeltmeleriyle yeniden koşulmuş halidir.
 
+### 4) Sağlayıcı karşılaştırması: gpt-oss-20b ↔ Gemini 3.1-flash-lite
+
+Aynı 57 vaka × 2 koşu, aynı istem ve korumalar. Sonuçlar: [`qa-nvidia-openai_gpt-oss-20b.md`](eval/results/qa-nvidia-openai_gpt-oss-20b.md), [`qa-gemini-3.1-flash-lite.md`](eval/results/qa-gemini-3.1-flash-lite.md).
+
+| | gpt-oss-20b (varsayılan) | Gemini 3.1-flash-lite |
+|---|---|---|
+| Geçen koşu | 98 / 114 | 103 / 114 (*) |
+| **Gereksiz ret** (cevaplanabilir soruya "bilgi yok") | 16 | **6** |
+| Kaynakta olmayan sayı | 0 | 0 |
+| Cevapsız soruya yanıt verme | 0 | 1 (**) |
+| **LLM çağrısı gecikmesi** (medyan / p90 / en kötü) | **1,3 / 3,2 / 9,2 sn** | 4,3 / 9,3 / 21,6 sn |
+| Tutarlılık | 57/57 | 56/57 |
+
+(*) Denetçideki iki kusur yüzünden 3 vaka yanlış başarısız sayılmıştı: kısmi yanıt ("5 GHz desteklenmez, Bluetooth için bilgi yok") "çelişki" sanılmış, "tutanağı" çekimi anahtar kelimeyle eşleşmemişti. Denetçi düzeltilip bu vakalar yeniden koşuldu (**6/6**); düzeltilmiş tahmin ≈ 108/114. Ham çıktı yukarıdaki dosyada, düzeltme öncesi haliyle duruyor.
+(**) U17: Gemini'de geçici bir hata alıp geri düşüş moduna geçen tek koşu, ilgisiz bir bölümü cevap gibi sundu. Yeniden koşuda Gemini doğru biçimde reddetti. Geri düşüş çıktısı bu olaydan sonra uyarı öneki ile etiketlendi.
+
+**Gemini'nin gerçek kazancı:** yanlış öncüllü sorular (P1, P2), kısmi bilgili soru (M3) ve F4/F6 gibi gereksiz retler. Kalan 6 retten 4'ü arama/dil kaynaklı (P4: doğru bölüm bağlama girmiyor; E3: İngilizce), yani model değiştirmekle düzelmez.
+
+**Kademe fikri (önce gpt-oss, ret ederse Gemini) çevrimdışı simüle edildi ve elendi:** 105/114, ama koşuların %40'ı Gemini'ye yükseldi (cevapsız sorular da ret ile bittiği için hepsi yavaş yola giriyor); medyan gecikme 3,6 sn, yani Gemini'yi tek başına kullanmaktan belirgin fark yok.
+
+**Öneri:** hız birinci öncelikse `gpt-oss-20b` (varsayılan); gereksiz retin azaltılması hızdan önemliyse `LLM_PROVIDER=gemini`. İki sağlayıcıda da uydurma korumaları aynıdır (zorunlu kanıt + sayı denetimi) ve ikisinde de kaynakta olmayan sayı 0'dır.
+
 ### Ölçüm sırasında bulunan gerçek hatalar
 
 | Bulgu | Düzeltme |
@@ -254,7 +278,7 @@ Sonuçlar: uydurmayı sıfırlayan **zorunlu kanıttır**; doğrulayıcı hiçbi
 
 - QA seti geliştirme sırasında **kullanıldı**: istem ve korumalar onun başarısızlıklarına bakılarak geliştirildi, dolayısıyla 98/114 tamamen "görülmemiş veri" ölçümü değildir. Baz çizgisinde görülmemiş komşu-cevapsız sorular (U11–U18) ve cevaplanabilir yeni sorular (F16–F21) sonradan eklendi; klasik sette **held-out 11/12** en temiz ölçümdür.
 - Beş vakanın (F2, F7, F8, F15, F18) beklenen anahtar kelime listesi, yanıtlar okunduktan sonra anlamca eşdeğer ifadeleri ("çalışmıyor", "gönderilmez") kapsayacak şekilde **genişletildi**; genişletmeden önce bu vakalar yanlış başarısız sayılıyordu.
-- Anthropic yolu (`app/llm.py`) canlı API'ye karşı **çalıştırılmadı**, yalnızca kodla ve birim testleriyle doğrulandı.
+- Anthropic yolu canlı API'ye karşı **çalıştırılmadı**, yalnızca kodla ve birim testleriyle doğrulandı. NVIDIA ve Gemini yolları canlı ölçüldü.
 - Tek model (gpt-oss-20b) ve tek makinede ölçüldü; NVIDIA ücretsiz katmanında gecikme ve kota değişkendir.
 
 ---
@@ -291,7 +315,7 @@ Sonuçlar: uydurmayı sıfırlayan **zorunlu kanıttır**; doğrulayıcı hiçbi
 - **Anlam hataları kodla yakalanamaz:** Kanıt ve sayı denetimi rakamsız anlam kaymalarını ("her gün" → "yok") göremez. F15 bir kez böyle bir hata yaptı; `temperature=0` ve istemle azaldı, kodla garanti edilmiyor.
 - **Sözcük tabanlı arama:** Eş anlamlı ve dolaylı ifadeleri kaçırır ("para"↔"ücret"), İngilizce soruları eşleştiremez. Sonraki adım: embedding ile hibrit arama veya LLM ile sorgu yeniden yazma.
 - **Eşikler küçük bir örnekle ayarlı:** 10 doküman / 51 bölümde makul; gerçek korpusta yeniden kalibre edilmeli. `MIN_SCORE` BM25'in mutlak değerine bağlı olduğu için korpus büyüklüğüne duyarlı.
-- **NVIDIA ücretsiz katmanı:** Dakikada ~40 istek; gecikme ve kullanılabilirlik garanti değil. Üretim için ücretli/özel uç nokta gerekir.
+- **Ücretsiz katmanlar:** NVIDIA dakikada ~40 istekle sınırlı; Gemini'de bazı modeller "yoğun talep" (503) veriyor, `2.5-*` modelleri yeni kullanıcılara kapalı ve gecikme değişken. Gemini ücretsiz katmanında girdiler Google tarafından ürün geliştirmede kullanılabilir; gerçek müşteri verisiyle kullanılmamalı. Üretim için ücretli/özel uç nokta gerekir.
 - **Tarihsel soru tespiti anahtar kelimeyle çalışır** ("eski", "önceki", "v1", eski sürümün yılı). "Eski cihazımı iade etmek istiyorum" gibi cümleler yanlışlıkla iki sürüm karşılaştırması tetikleyebilir.
 - **Sürüm çözümü yalnızca `family` + sürüm/tarih ile çalışır.** Aynı sürümde birbiriyle çelişen iki doküman tespit edilmez; bölüm adı değişen sürümlerde eski bölüm eşleşmesi kaybolabilir.
 - **Model reddi (`refusal`) için yedek model yok** (Anthropic yolu): ret gelirse servis "bilgi yok" döner.
