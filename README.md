@@ -6,7 +6,7 @@ Kurgu bir şirketin (Lumora — akıllı ev merkezi "Lumora Hub" ve "Lumora+" ab
 - Dokümanlarda bilgi yoksa **yanıt üretmek yerine bunu açıkça söyler**.
 - Bir prosedürün eski ve güncel sürümü çeliştiğinde **güncel sürümü seçer ve nedenini yanıtta gösterir**.
 
-Yığın: **Python / FastAPI** (Python 3.13 ile geliştirildi ve test edildi). LLM: **Anthropic Claude** (isteğe bağlı; anahtar yoksa alıntılayan moda düşer).
+Yığın: **Python / FastAPI** (Python 3.13 ile geliştirildi ve test edildi). İsteğe bağlı LLM sağlayıcıları: **NVIDIA NIM (GPT OSS 20B)** ve **Anthropic Claude**; seçilen sağlayıcının anahtarı yoksa alıntılayan mod kullanılır.
 
 ---
 
@@ -24,15 +24,22 @@ uvicorn app.main:app --reload
 
 Swagger arayüzü: <http://localhost:8000/docs>
 
-**API anahtarı olmadan da çalışır.** `ANTHROPIC_API_KEY` boşsa (veya `LLM_PROVIDER=none` ise) servis LLM çağırmaz; bulduğu bölümü aynen alıntılar (`mode: "extractive"`). Anahtar `.env` içinde durur, `.env` git'e girmez.
+**Web arayüzü:** <http://localhost:8000/> — konu kartları, belge araması ve kaynaklı sohbet. Sohbet geçmişi bu tarayıcının yerel depolamasında tutulur; sunucuya kaydedilmez. Sohbetteki tarih alanı, `/ask` isteğinin `as_of` parametresini kullanır.
+
+**API anahtarı olmadan da çalışır.** Seçilen sağlayıcının anahtarı boşsa (veya `LLM_PROVIDER=none` ise) servis LLM çağırmaz; bulduğu bölümü aynen alıntılar (`mode: "extractive"`). Anahtar `.env` içinde durur, `.env` git'e girmez.
+
+NVIDIA'nın barındırdığı GPT OSS 20B ile denemek için `.env` içinde `LLM_PROVIDER=nvidia`, `NVIDIA_API_KEY=...` ve `NVIDIA_MODEL=openai/gpt-oss-20b` ayarlayın. Anahtar yalnızca sunucuda kullanılır; tarayıcıya gönderilmez. NVIDIA yanıt veremezse servis, güçlü belge eşleşmelerinde kaynak alıntısına döner; zayıf eşleşmede bilgi olmadığını bildirir.
 
 ### Ortam değişkenleri (`.env.example`)
 
 | Değişken | Varsayılan | Açıklama |
 |---|---|---|
-| `LLM_PROVIDER` | `anthropic` | `anthropic` veya `none` |
-| `ANTHROPIC_API_KEY` | boş | Boşsa LLM devre dışı kalır |
-| `LLM_MODEL` | `claude-opus-5-5` | İstenen model (maliyet için daha küçük bir model seçilebilir) |
+| `LLM_PROVIDER` | `anthropic` | `anthropic`, `nvidia` veya `none` |
+| `ANTHROPIC_API_KEY` | boş | Anthropic seçiliyse kullanılır |
+| `LLM_MODEL` | `claude-opus-5-5` | Anthropic model kimliği |
+| `NVIDIA_API_KEY` | boş | NVIDIA API Catalog anahtarı |
+| `NVIDIA_MODEL` | `openai/gpt-oss-20b` | NVIDIA model kimliği |
+| `NVIDIA_TIMEOUT_SECONDS` | `15` | LLM isteğinin yanıt bekleme süresi; aşılırsa kaynak alıntısına döner |
 | `DOCS_DIR` | `data/docs` | Doküman klasörü |
 | `TOP_K` | `4` | Yanıta aday bölüm sayısı |
 | `MIN_SCORE` / `MIN_COVERAGE` | `5.0` / `0.27` | "Cevapsız" ön elemesi eşikleri (aşağıya bakın) |
@@ -40,7 +47,7 @@ Swagger arayüzü: <http://localhost:8000/docs>
 ### Testler ve değerlendirme
 
 ```bash
-pytest                                 # 25 test, LLM anahtarı gerekmez
+pytest                                 # 30 test, LLM anahtarı gerekmez
 python -m eval.run_eval --no-llm       # alıntılayan mod  -> eval/results/results-extractive.md
 python -m eval.run_eval                # .env'de anahtar varsa LLM modu -> eval/results/results-llm.md
 ```
@@ -144,7 +151,7 @@ Ek güvence: `status` alanı elle yazılıyor, bu yüzden yükleme sırasında s
 | **Sürüm çözümü kodda** | "Hangi sürüm geçerli?" bir iş kuralı; LLM tahminine bırakılırsa tutarsız ve denetlenemez olur. |
 | **Bölüm bazlı (`##`) parçalama** | Bölüm başlığı hem doğal kaynak referansı ("İade Süresi") hem de anlamlı, kısa bir bağlam. |
 | **F5 kök alma** | Türkçe IR'de basit ve makul bir taban çizgisi; morfolojik analizör bağımlılığı yok. Aksansız yazımı da yakalamak için ASCII katlama var. |
-| **LLM: yapılandırılmış çıktı** (`output_config.format`, JSON şeması) | `answerable / answer / used_passages` alanları parse edilebilir; kaynak listesi modelin gerçekten dayandığı bölümlerden gelir. Yeni modellerde zorunlu `tool_choice` desteklenmediği için tool-call yerine bu yol seçildi. |
+| **LLM: yapılandırılmış çıktı** | Anthropic JSON şeması kullanır; NVIDIA kısa bir JSON istemiyle en iyi iki bölümü işler ve dönen alanlar kodda doğrulanır. `answerable / answer / used_passages` alanları kaynakların yanıtla ilişkilendirilmesini sağlar. |
 | **LLM'siz çalışma modu** | Anahtar/kota/ağ sorununda servis düşmez; test ve değerlendirme deterministik ve bedava koşar. |
 | **Anahtar kodda yok** | Yalnızca `.env` (git'e girmez); `.env.example` örnek değerler içerir. |
 
@@ -180,7 +187,7 @@ Ek güvence: `status` alanı elle yazılıyor, bu yüzden yükleme sırasında s
 | H8 "İade için hangi **yoldan** başvuru yapılıyor?" | Doğru sürüm seçildi ama "İade Süresi" bölümü getirildi ("başvurular" kelimesi); "İade Başvurusu" bölümü ikinci sıradaydı. |
 | H11 "…aboneliğimi başka bir kişiye **devredebilir** miyim?" | Yanlış bölüm eşiği geçti; alıntılayan mod bölümün soruyu gerçekten yanıtlayıp yanıtlamadığını kontrol edemez (yanlış kabul). |
 
-> **LLM modu bu teslimde ölçülmedi.** Geliştirme sırasında geçerli bir API anahtarı kullanılmadı; `app/llm.py` canlı API'ye karşı **çalıştırılmadı**, yalnızca sahte (fake) üreticiyle test edildi (`tests/test_answer.py`). LLM'in H1/H8/H11 gibi durumları iyileştirmesi beklenir (aday bölümlerin hepsini okur ve cevaplanabilirliğe kendisi karar verir), ama bu bir varsayımdır. Ölçmek için `.env`'e anahtar koyup `python -m eval.run_eval` çalıştırmak yeterli; sonuç `eval/results/results-llm.md` dosyasına yazılır.
+> **LLM için tam değerlendirme henüz koşulmadı.** NVIDIA üzerinden GPT OSS 20B ile canlı `/ask` isteğinde iade süresi, Hub'ın 5 GHz desteği ve abonelik iptali soruları denendi. Üçü de `mode: "llm"` ile doğru güncel kaynağı gösterdi; iade sorusunda eski sürüm çelişkisi de raporlandı. Bu üç deneme, 30 soruluk ölçümün yerine geçmez. Tam karşılaştırma için `python -m eval.run_eval` çalıştırılabilir; sonuç `eval/results/results-llm.md` dosyasına yazılır.
 
 ---
 

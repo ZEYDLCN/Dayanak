@@ -1,7 +1,10 @@
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.answer import Answer, AnswerService
 from app.config import get_settings
@@ -9,6 +12,7 @@ from app.retrieval import KnowledgeBase
 from app.schemas import AskRequest, AskResponse, ConflictOut, DocumentOut, SourceOut
 
 logging.basicConfig(level=logging.INFO)
+WEB_DIR = Path(__file__).resolve().parent / "web"
 
 
 def create_app(service: AnswerService | None = None) -> FastAPI:
@@ -24,6 +28,11 @@ def create_app(service: AnswerService | None = None) -> FastAPI:
         yield
 
     app = FastAPI(title="Lumora Bilgi Asistanı", version="1.0.0", lifespan=lifespan)
+    app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
+
+    @app.get("/", include_in_schema=False)
+    def home():
+        return FileResponse(WEB_DIR / "index.html")
 
     @app.get("/health")
     def health(request: Request):

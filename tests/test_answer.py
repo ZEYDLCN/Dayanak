@@ -44,6 +44,13 @@ def test_llm_failure_falls_back_to_extractive(kb, settings):
     assert a.sources[0].doc_id == "kurulum-kilavuzu"
 
 
+def test_llm_failure_does_not_quote_unrelated_bluetooth_section(kb, settings):
+    svc = AnswerService(kb, settings, generator=FakeGen(error=RuntimeError("boom")))
+    a = svc.ask("Lumora Hub Bluetooth 5.0 destekliyor mu?")
+    assert a.mode == "extractive-fallback"
+    assert not a.answerable and a.answer == NO_INFO and a.sources == []
+
+
 def test_extractive_quotes_current_version(service):
     a = service.ask("İade süresi kaç gün?")
     assert "30 gün" in a.answer and "14 gün" not in a.answer
@@ -59,3 +66,10 @@ def test_conflict_not_reported_when_unrelated_section_used(service):
 def test_as_of_selects_version_in_force(service):
     a = service.ask("İade süresi kaç gün?", as_of=date(2024, 6, 1))
     assert "14 gün" in a.answer and a.sources[0].doc_id == "iade-proseduru-v1"
+
+
+def test_orange_led_question_retrieves_do_not_unplug_instruction(kb):
+    result = kb.retrieve("Turuncu LED yanarken Hub’ın fişini çekebilir miyim?")
+    assert result.sufficient
+    assert result.hits[0].chunk.section == "Güncelleme Sırasında Yapılmaması Gerekenler"
+    assert "fişini çekmeyin" in result.hits[0].chunk.text

@@ -9,9 +9,12 @@ ROOT = Path(__file__).resolve().parent.parent
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore")
 
-    llm_provider: str = "anthropic"  # "anthropic" | "none"
+    llm_provider: str = "anthropic"  # "anthropic" | "nvidia" | "none"
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
+    nvidia_api_key: str = ""
+    nvidia_model: str = "openai/gpt-oss-20b"
+    nvidia_timeout_seconds: float = 15.0
 
     docs_dir: Path = ROOT / "data" / "docs"
 
@@ -22,7 +25,10 @@ class Settings(BaseSettings):
 
     @property
     def use_llm(self) -> bool:
-        return self.llm_provider == "anthropic" and bool(self.anthropic_api_key)
+        return (
+            (self.llm_provider == "anthropic" and bool(self.anthropic_api_key))
+            or (self.llm_provider == "nvidia" and bool(self.nvidia_api_key))
+        )
 
 
 @lru_cache

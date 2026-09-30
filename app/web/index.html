@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <meta name="description" content="Lumora bilgi merkezi: ürün, sipariş ve abonelik sorularınıza kaynaklı yanıtlar." />
+    <title>Lumora — Bilgi Asistanı</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Ana menü">
+        <a class="brand" href="#/" aria-label="Lumora ana sayfa">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span>lumora<span class="brand-dot">.</span></span>
+        </a>
+
+        <div class="sidebar-group-label">ÇALIŞMA ALANI</div>
+        <nav class="side-nav" aria-label="Sayfalar">
+          <button class="nav-item is-active" data-nav="home" type="button"><span data-icon="grid"></span><span>Genel bakış</span></button>
+          <button class="nav-item" data-nav="topics" type="button"><span data-icon="layers"></span><span>Konular</span></button>
+          <button class="nav-item" data-nav="chat" type="button"><span data-icon="message"></span><span>Asistan</span></button>
+        </nav>
+
+        <div class="sidebar-history-head">
+          <span class="sidebar-group-label">SON SOHBETLER</span>
+          <button id="sidebar-new-chat" class="small-round" type="button" aria-label="Yeni sohbet"><span data-icon="plus"></span></button>
+        </div>
+        <div id="sidebar-history" class="sidebar-history"></div>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-promo">
+            <span class="promo-asterisk" aria-hidden="true">✳</span>
+            <strong>Bir soruyla<br />başlayalım.</strong>
+            <span>Aradığın bilgiye kaynaklarıyla ulaş.</span>
+            <button id="promo-ask" type="button">Asistana sor <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="sidebar-status"><span class="status-dot"></span><span id="sidebar-status-text">Bilgi merkezi hazır</span></div>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="topbar-path"><span>Çalışma alanı</span><span class="path-divider">/</span><strong id="breadcrumb-current">Genel bakış</strong></div>
+          <div class="topbar-right"><span class="today-date" id="today-date"></span><span class="topbar-avatar" aria-label="Lumora">L</span></div>
+        </header>
+
+        <div id="home-view" class="view page-content">
+          <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+              <div class="eyebrow"><span class="eyebrow-line"></span> LUMORA BİLGİ MERKEZİ</div>
+              <h1 id="hero-title">Her sorunun<br /><em>bir dayanağı var.</em></h1>
+              <p>Ürün, sipariş ve abonelik hakkında merak ettiklerini sor. Yanıtları güncel belgelerdeki kaynaklarıyla birlikte gör.</p>
+              <button id="hero-ask" class="primary-button" type="button">Soru sormaya başla <span data-icon="arrow-up-right"></span></button>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+              <div class="art-card art-card-back"><span class="art-dot"></span><span class="art-line short"></span><span class="art-line"></span></div>
+              <div class="art-card art-card-front"><span class="art-sparkle">✳</span><span class="art-line"></span><span class="art-line medium"></span><span class="art-line short"></span><span class="art-check">✓</span></div>
+              <div class="art-star star-one">✳</div><div class="art-star star-two">✦</div>
+            </div>
+          </section>
+
+          <section class="stats-row" aria-label="Bilgi merkezi özeti">
+            <div class="stat-card"><span class="stat-icon peach"><span data-icon="file"></span></span><div><strong id="stat-documents">—</strong><span>Bilgi belgesi</span></div><span class="stat-arrow">↗</span></div>
+            <div class="stat-card"><span class="stat-icon lilac"><span data-icon="layers"></span></span><div><strong id="stat-sections">—</strong><span>Bilgi bölümü</span></div><span class="stat-arrow">↗</span></div>
+            <div class="stat-card"><span class="stat-icon cream"><span data-icon="sparkles"></span></span><div><strong id="stat-mode">—</strong><span>Yanıt modu</span></div><span class="stat-arrow">↗</span></div>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="topics-panel" aria-labelledby="topics-title">
+              <div class="section-heading"><div><span class="section-kicker">KEŞFET</span><h2 id="topics-title">Konuşma konuları<span class="orange-dot">.</span></h2></div><button id="see-all-topics" class="text-link" type="button">Tümünü gör <span aria-hidden="true">↗</span></button></div>
+              <div class="search-field"><span data-icon="search"></span><input id="topic-search" type="search" placeholder="Konularda ara..." aria-label="Konularda ara" /><kbd>/</kbd></div>
+              <div class="filter-tabs" role="tablist" aria-label="Konu durumu">
+                <button type="button" class="filter-tab is-active" data-filter="current" role="tab" aria-selected="true">Güncel</button>
+                <button type="button" class="filter-tab" data-filter="all" role="tab" aria-selected="false">Tümü</button>
+                <button type="button" class="filter-tab" data-filter="superseded" role="tab" aria-selected="false">Arşiv</button>
+              </div>
+              <div id="topic-grid" class="topic-grid"><div class="loading-card">Konular yükleniyor…</div></div>
+            </section>
+
+            <aside class="dashboard-right">
+              <section class="assistant-card" aria-labelledby="assistant-card-title">
+                <div class="assistant-card-top"><span class="bot-face" aria-hidden="true"><span data-icon="sparkles"></span></span><span class="online-badge"><span></span> HAZIR</span></div>
+                <span class="section-kicker">SANA NASIL YARDIMCI OLABİLİRİM?</span>
+                <h2 id="assistant-card-title">Merhaba!<br />Bir sorun mu var?</h2>
+                <p>Belgeler arasında senin için arama yapıp en doğru bilgiyi kaynağıyla gösterebilirim.</p>
+                <div class="assistant-demo"><div class="demo-user">İade süresi kaç gün?</div><div class="demo-answer"><span class="demo-sparkle">✳</span> Güncel iade süresi 30 gün. <span>Kaynak: İade Prosedürü · v2</span></div></div>
+                <button id="assistant-card-button" class="dark-button" type="button">Sohbete başla <span data-icon="arrow-right"></span></button>
+              </section>
+
+              <section class="recent-card" aria-labelledby="recent-title"><div class="recent-head"><div><span class="section-kicker">KALDIĞIN YERDEN</span><h3 id="recent-title">Son sohbetler</h3></div><span data-icon="clock"></span></div><div id="recent-list" class="recent-list"></div></section>
+            </aside>
+          </div>
+        </div>
+
+        <div id="topics-view" class="view page-content" hidden>
+          <div class="page-intro"><span class="section-kicker">BİLGİ KÜTÜPHANESİ</span><h1>Tüm konular<span class="orange-dot">.</span></h1><p>Bir başlık seçerek ilgili konuda soru sorabilirsin.</p></div>
+          <div class="library-toolbar"><div class="search-field"><span data-icon="search"></span><input id="library-search" type="search" placeholder="Belge veya bölüm ara..." aria-label="Belge veya bölüm ara" /></div><div id="library-count" class="count-pill"></div></div>
+          <div id="library-grid" class="library-grid"></div>
+        </div>
+
+        <div id="chat-view" class="view chat-view" hidden>
+          <div class="chat-column">
+            <div class="chat-header"><div class="chat-header-left"><button id="chat-back" class="icon-button" type="button" aria-label="Geri dön"><span data-icon="arrow-left"></span></button><span class="chat-avatar"><span data-icon="sparkles"></span></span><div><h1>Lumora Asistanı <span class="model-pill">BİLGİ ASİSTANI</span></h1><p>Belgelerine dayalı yanıtlar</p></div></div><button id="chat-new" class="icon-button" type="button" aria-label="Yeni sohbet"><span data-icon="plus"></span></button></div>
+            <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+            <form id="chat-form" class="composer"><div class="composer-main"><label class="sr-only" for="chat-input">Sorunu yaz</label><textarea id="chat-input" rows="1" minlength="3" maxlength="500" placeholder="Sorunu buraya yaz..." required></textarea><button id="send-button" type="submit" class="send-button" aria-label="Mesaj gönder"><span data-icon="arrow-up"></span></button></div><div class="composer-bottom"><label class="date-control"><span data-icon="calendar"></span><span>Şu tarihte geçerli bilgi:</span><input id="as-of-date" type="date" aria-label="Bilginin geçerli olduğu tarih" /></label><span class="composer-note">Yanıtlar belge kaynaklarıyla desteklenir.</span></div></form>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobil menü"><button type="button" data-nav="home" class="is-active"><span data-icon="grid"></span><span>Ana sayfa</span></button><button type="button" data-nav="topics"><span data-icon="layers"></span><span>Konular</span></button><button type="button" data-nav="chat"><span data-icon="message"></span><span>Asistan</span></button></nav>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

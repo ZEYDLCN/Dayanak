@@ -7,7 +7,7 @@ from datetime import date
 
 from app.config import Settings
 from app.index import Hit
-from app.llm import AnthropicGenerator, Generator
+from app.llm import AnthropicGenerator, Generator, NvidiaGenerator
 from app.retrieval import KnowledgeBase
 from app.textproc import tokenize
 from app.versioning import ConflictReport
@@ -45,7 +45,14 @@ class Answer:
 class AnswerService:
     def __init__(self, kb: KnowledgeBase, settings: Settings, generator: Generator | None = None):
         self.kb = kb
-        self.generator = generator or (AnthropicGenerator(settings) if settings.use_llm else None)
+        if generator is not None:
+            self.generator = generator
+        elif settings.llm_provider == "nvidia" and settings.use_llm:
+            self.generator = NvidiaGenerator(settings)
+        elif settings.llm_provider == "anthropic" and settings.use_llm:
+            self.generator = AnthropicGenerator(settings)
+        else:
+            self.generator = None
 
     def ask(self, question: str, as_of: date | None = None) -> Answer:
         r = self.kb.retrieve(question, as_of)
@@ -64,6 +71,9 @@ class AnswerService:
                 mode = "extractive-fallback"
 
         if gen is None:
+            # LLM hatasinda zayif eslesmis bir bolumu kesin cevap gibi gostermeyelim.
+            if mode == "extractive-fallback" and r.top_coverage < 0.5:
+                return Answer(question, False, NO_INFO, [], [], mode, diag)
             used_hits, text = self._extractive(question, r.hits)
             answerable = bool(used_hits)
         else:

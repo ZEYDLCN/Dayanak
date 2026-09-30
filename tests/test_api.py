@@ -13,6 +13,16 @@ def test_health(service):
     assert body["status"] == "ok" and body["documents"] == 10
 
 
+def test_web_interface_is_served(service):
+    with client(service) as c:
+        page = c.get("/")
+        css = c.get("/static/styles.css")
+        script = c.get("/static/app.js")
+    assert page.status_code == 200 and "Lumora Asistanı" in page.text
+    assert css.status_code == 200 and "text/css" in css.headers["content-type"]
+    assert script.status_code == 200 and "javascript" in script.headers["content-type"]
+
+
 def test_documents_lists_versions(service):
     with client(service) as c:
         docs = {d["doc_id"]: d for d in c.get("/documents").json()}
