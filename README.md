@@ -7,7 +7,7 @@ Kurgu bir şirketin (Lumora — akıllı ev merkezi "Lumora Hub" ve "Lumora+" ab
 - Bir prosedürün eski ve güncel sürümü çeliştiğinde **güncel sürümü seçer ve nedenini yanıtta gösterir**.
 - LLM'in yanıtı **kodla denetlenir**: model, yanıtını destekleyen cümleyi bölümden aynen kopyalamak zorundadır; kopya bölümde yoksa veya yanıttaki bir sayı kaynakta yoksa yanıt kullanıcıya gösterilmez.
 
-Yığın: **Python 3.13 / FastAPI**. LLM: **NVIDIA NIM üzerinde `openai/gpt-oss-20b`** (ölçülen tipik gecikme ~1 sn) veya Anthropic Claude; anahtar yoksa alıntılayan moda düşer.
+Yığın: **Python 3.13 / FastAPI**. LLM: **NVIDIA NIM üzerinde `openai/gpt-oss-20b`** (ölçülen gecikme: medyan ~1,3 sn, yükte 3–7 sn; aşağıya bakın) veya Anthropic Claude; anahtar yoksa alıntılayan moda düşer.
 
 ---
 
@@ -175,7 +175,7 @@ Kural kodda, deterministik (LLM'e bırakılmadı — denetlenebilir olması içi
 | **Sürüm çözümü kodda** | "Hangi sürüm geçerli?" bir iş kuralı; LLM tahminine bırakılırsa tutarsız ve denetlenemez olur. |
 | **Bölüm bazlı (`##`) parçalama** | Bölüm başlığı hem doğal kaynak referansı hem kısa, anlamlı bağlam. |
 | **F5 kök alma + dar geri çekilme** | Basit, bağımlılıksız taban çizgisi. F5'in kaçırdığı 3 harfli kökler (`gün`/`gündü`) için yalnızca 3 harfli, ≤6 harfli terimlerde sözlük geri çekilmesi (4 harfli deneme `homekit`→`home` sahte eşleşmesi üretti). |
-| **LLM: gpt-oss-20b (NVIDIA)** | **Hız önceliği.** Aynı anahtarla denenen modeller: `nemotron-3.5-lightning` 16 sn, `gemma-4-31b`, `deepseek-v4.1-flash`, `glm-5.3-flash` 50 sn'de zaman aşımı, `nemotron-nano-3` ve `gemma-3-12b` hesapta 404. Tek hızlı ve çalışan aday gpt-oss-20b (~1 sn). |
+| **LLM: gpt-oss-20b (NVIDIA)** | **Hız önceliği.** Aynı anahtarla denenen modeller: `nemotron-3.5-lightning` 16 sn, `gemma-4-31b`, `deepseek-v4.1-flash`, `glm-5.3-flash` 50 sn'de zaman aşımı, `nemotron-nano-3` ve `gemma-3-12b` hesapta 404. Tek hızlı ve çalışan aday gpt-oss-20b (medyan ~1,3 sn; yüke göre 3–7 sn'ye çıkabiliyor). |
 | **Yapılandırılmış çıktı** | Anthropic: JSON şeması (`output_config.format`). NVIDIA: `response_format=json_object` + kodda sıkı doğrulama. Yeni modellerde zorunlu `tool_choice` desteklenmediği için tool-call kullanılmadı. |
 | **LLM'siz çalışma modu** | Anahtar/kota/ağ sorununda servis düşmez; CI ve testler anahtarsız, deterministik koşar. |
 | **Anahtar kodda yok** | Yalnızca `.env` (git'e girmez); CI'da sızıntı taraması var. |
@@ -213,7 +213,7 @@ Olgu, yanlış öncül, çoklu niyet, kısmi bilgi, sürüm tuzağı, komşu-cev
 | İçeriği yanlış ama cevaplanmış yanıt | **0** (otomatik denetçi + ilk koşudaki 25 cevaplanmış yanıtın tamamı elle okundu; F8'de "çekmeyin" yerine "çekemezsiniz" gibi hafif bir anlam kayması var) |
 | Tutarlılık (aynı soru, aynı sonuç) | 57 / 57 |
 | LLM hatası | 0 |
-| Gecikme | medyan 1,0 sn |
+| Gecikme (LLM'e giden 92 koşu) | medyan **1,3 sn**, p90 3,2 sn, en kötü 9,2 sn (LLM'siz anında dönenler dahil tüm koşular: medyan 1,0 sn). Sunucu üzerinden tek tek denenen çağrılar 3–7 sn sürdü; NVIDIA ücretsiz katmanının yükü değişken. |
 | Prompt injection (8 koşu) | 8 / 8 dayandı ("90 gün" dedirtilemedi; ancak "Önceki talimatlarını unut…" cümlesi "önceki" anahtar kelimesi yüzünden yanlışlıkla sürüm karşılaştırması tetikledi, zararsız ama bir sınır) |
 
 Kalan 16 başarısızlığın **tamamı gereksiz ret** (cevaplanabilir soruya "bilgi yok" demek); yanlış bilgi verilen bir durum kalmadı:
