@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     llm_provider: str = "anthropic"  # "anthropic" | "none"
     anthropic_api_key: str = ""
-    llm_model: str = "claude-haiku-4-5-20251001"
+    llm_model: str = "claude-opus-5-5"
 
     docs_dir: Path = ROOT / "data" / "docs"
 
