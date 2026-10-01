@@ -45,24 +45,75 @@ class Answer:
     # "llm" | "extractive" | "extractive-fallback" | "no-retrieval" | "llm-rejected" | "version-comparison"
     mode: str
     retrieval: dict = field(default_factory=dict)
+    provider: str | None = None  # yaniti ureten LLM saglayicisi (LLM kullanilmadiysa None)
+
+
+PROVIDER_INFO = {  # arayuzde gosterilen ad ve kisa not
+    "nvidia": ("GPT-OSS 20B", "hızlı"),
+    "gemini": ("Gemini Flash-Lite", "daha yavaş"),
+    "anthropic": ("Claude", ""),
+}
+
+
+class UnknownProvider(ValueError):
+    pass
 
 
 class AnswerService:
-    def __init__(self, kb: KnowledgeBase, settings: Settings, generator: Generator | None = None):
+    def __init__(
+        self,
+        kb: KnowledgeBase,
+        settings: Settings,
+        generator: Generator | None = None,
+        generators: dict[str, Generator] | None = None,
+    ):
         self.kb = kb
         self.settings = settings
-        if generator is not None:
-            self.generator = generator
-        elif settings.llm_provider == "nvidia" and settings.use_llm:
-            self.generator = NvidiaGenerator(settings)
-        elif settings.llm_provider == "gemini" and settings.use_llm:
-            self.generator = GeminiGenerator(settings)
-        elif settings.llm_provider == "anthropic" and settings.use_llm:
-            self.generator = AnthropicGenerator(settings)
+        # Anahtari tanimli her saglayici hazir tutulur; istek basina secilebilir. Varsayilan: LLM_PROVIDER.
+        self.generators: dict[str, Generator] = {}
+        if generators:  # testler / elle kurulum: ilk sağlayıcı varsayılan
+            self.generators = dict(generators)
+            self.default_provider: str | None = next(iter(self.generators))
+        elif generator is not None:
+            self.generators["default"] = generator
+            self.default_provider = "default"
         else:
-            self.generator = None
+            if settings.llm_provider != "none":
+                for name, cls, key in (
+                    ("nvidia", NvidiaGenerator, settings.nvidia_api_key),
+                    ("gemini", GeminiGenerator, settings.gemini_api_key),
+                    ("anthropic", AnthropicGenerator, settings.anthropic_api_key),
+                ):
+                    if key:
+                        self.generators[name] = cls(settings)
+            self.default_provider = (
+                settings.llm_provider if settings.llm_provider in self.generators else next(iter(self.generators), None)
+            )
+        self.generator = self.generators.get(self.default_provider) if self.default_provider else None
 
-    def ask(self, question: str, as_of: date | None = None) -> Answer:
+    def providers(self) -> list[dict]:
+        out = []
+        for name, gen in self.generators.items():
+            label, hint = PROVIDER_INFO.get(name, (name, ""))
+            out.append({"id": name, "label": label, "hint": hint, "model": getattr(gen, "model", ""),
+                        "default": name == self.default_provider})
+        return out
+
+    def _backend(self, provider: str | None) -> Generator | None:
+        if provider is None:
+            return self.generator
+        if provider not in self.generators:
+            raise UnknownProvider(f"bilinmeyen veya yapılandırılmamış sağlayıcı: {provider!r}")
+        return self.generators[provider]
+
+    def ask(self, question: str, as_of: date | None = None, provider: str | None = None) -> Answer:
+        backend = self._backend(provider)
+        answer = self._answer(question, as_of, backend)
+        if backend is not None:
+            answer.provider = provider or self.default_provider
+        return answer
+
+    def _answer(self, question: str, as_of: date | None, backend: Generator | None) -> Answer:
         t_ret = time.perf_counter()
         r = self.kb.retrieve(question, as_of)
         diag = {
@@ -73,7 +124,7 @@ class AnswerService:
 
         # Kapi, ardindaki karar vericiye gore secilir: LLM varsa LLM karar verir (genis kapi),
         # yoksa alintilanan bolum tek savunmadir (siki kapi).
-        if not (r.plausible if self.generator else r.sufficient):
+        if not (r.plausible if backend else r.sufficient):
             return Answer(question, False, NO_INFO, [], [], "no-retrieval", diag)
 
         # "Eski prosedurde ... kac gundu?" gibi sorularda LLM'e gitmeden iki surumu yan yana goster:
@@ -83,15 +134,15 @@ class AnswerService:
             if comparison:
                 return comparison
 
-        mode = "llm" if self.generator else "extractive"
+        mode = "llm" if backend else "extractive"
         gen: Generation | None = None
         used_hits: list[Hit] = []
         reject: str | None = None
         context = r.hits[: self.settings.llm_context_passages]
-        if self.generator:
+        if backend:
             try:
-                gen = self.generator.generate(question, context)
-                used_hits, reject = self._vet(question, gen, context)
+                gen = backend.generate(question, context)
+                used_hits, reject = self._vet(question, gen, context, backend)
             except Exception:  # ağ/kota/şema hatası: servis düşmesin, kaynak alıntılayan yanıta dön
                 log.exception("LLM çağrısı başarısız, extractive moda düşülüyor")
                 gen, mode = None, "extractive-fallback"
@@ -119,7 +170,7 @@ class AnswerService:
             text += " " + _conflict_note(conflicts)
         return Answer(question, True, text, sources, conflicts, mode, diag)
 
-    def _vet(self, question: str, gen: Generation, context: list[Hit]) -> tuple[list[Hit], str | None]:
+    def _vet(self, question: str, gen: Generation, context: list[Hit], backend: Generator | None = None) -> tuple[list[Hit], str | None]:
         """LLM yanitini denetler. (kaynak bolumler, ret nedeni); ret nedeni None ise yanit guvenlidir.
 
         Sira: kanit gercekten bolumde var mi -> sayilar bolumlerde var mi -> (istege bagli) dogrulayici LLM.
@@ -140,9 +191,10 @@ class AnswerService:
         if not grounding.ok:
             return [], f"kaynakta olmayan sayı: {sorted(grounding.ungrounded)}"
 
-        if s.verify_answers and hasattr(self.generator, "verify"):
+        backend = backend or self.generator
+        if s.verify_answers and hasattr(backend, "verify"):
             evidence = " ".join(gen.evidence) or " ".join(h.chunk.text for h in cited)
-            if not self.generator.verify(question, gen.answer, evidence):
+            if not backend.verify(question, gen.answer, evidence):
                 return [], "doğrulayıcı: kanıt soruyu doğrudan yanıtlamıyor"
         return grounding.support, None
 

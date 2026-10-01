@@ -2,14 +2,14 @@ import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.answer import Answer, AnswerService
+from app.answer import Answer, AnswerService, UnknownProvider
 from app.config import get_settings
 from app.retrieval import KnowledgeBase
-from app.schemas import AskRequest, AskResponse, ConflictOut, DocumentOut, SourceOut
+from app.schemas import AskRequest, AskResponse, ConflictOut, DocumentOut, ProviderOut, SourceOut
 
 logging.basicConfig(level=logging.INFO)
 WEB_DIR = Path(__file__).resolve().parent / "web"
@@ -54,11 +54,18 @@ def create_app(service: AnswerService | None = None) -> FastAPI:
             DocumentOut(**{**m.__dict__, "sections": sections.get(m.doc_id, [])}) for m in kb.metas
         ]
 
+    @app.get("/providers", response_model=list[ProviderOut])
+    def providers(request: Request):
+        return request.app.state.service.providers()
+
     # Senkron endpoint: FastAPI bunu thread pool'da calistirir, LLM cagrisi event loop'u bloklamaz.
     @app.post("/ask", response_model=AskResponse)
     def ask(body: AskRequest, request: Request):
         svc: AnswerService = request.app.state.service
-        return _to_response(svc.ask(body.question.strip(), body.as_of))
+        try:
+            return _to_response(svc.ask(body.question.strip(), body.as_of, body.provider))
+        except UnknownProvider as e:
+            raise HTTPException(status_code=400, detail=str(e))
 
     return app
 
@@ -82,6 +89,7 @@ def _to_response(a: Answer) -> AskResponse:
         ],
         mode=a.mode,
         retrieval=a.retrieval,
+        provider=a.provider,
     )
 
 

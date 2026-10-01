@@ -11,6 +11,11 @@ class AskRequest(BaseModel):
         default=None,
         description="Hangi tarihte geçerli sürüme göre yanıtlansın (varsayılan: bugün).",
     )
+    provider: str | None = Field(
+        default=None,
+        max_length=32,
+        description="Yanıtı üretecek LLM sağlayıcısı (GET /providers). Boşsa varsayılan kullanılır.",
+    )
 
 
 class SourceOut(BaseModel):
@@ -49,6 +54,15 @@ class AskResponse(BaseModel):
     conflicts: list[ConflictOut]
     mode: str = Field(description="llm | extractive | extractive-fallback | no-retrieval")
     retrieval: dict
+    provider: str | None = Field(default=None, description="Yanıtı üreten LLM sağlayıcısı (LLM yoksa null)")
+
+
+class ProviderOut(BaseModel):
+    id: str
+    label: str
+    hint: str
+    model: str
+    default: bool
 
 
 class DocumentOut(BaseModel):
