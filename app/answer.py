@@ -2,6 +2,7 @@
 
 import logging
 import re
+import time
 from dataclasses import dataclass, field, replace
 from datetime import date
 
@@ -62,8 +63,13 @@ class AnswerService:
             self.generator = None
 
     def ask(self, question: str, as_of: date | None = None) -> Answer:
+        t_ret = time.perf_counter()
         r = self.kb.retrieve(question, as_of)
-        diag = {"top_score": round(r.top_score, 2), "top_coverage": round(r.top_coverage, 2)}
+        diag = {
+            "top_score": round(r.top_score, 2),
+            "top_coverage": round(r.top_coverage, 2),
+            "retrieval_ms": round((time.perf_counter() - t_ret) * 1000, 1),  # arama gecikmesi (gomme dahil)
+        }
 
         # Kapi, ardindaki karar vericiye gore secilir: LLM varsa LLM karar verir (genis kapi),
         # yoksa alintilanan bolum tek savunmadir (siki kapi).

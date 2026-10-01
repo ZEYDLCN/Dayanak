@@ -29,6 +29,14 @@ class Settings(BaseSettings):
 
     top_k: int = 4
     llm_context_passages: int = 2  # LLM'e verilen en iyi bölüm sayısı (top_k'nin alt kümesi)
+
+    # Arama: "bm25" (yalnizca sozcuk) veya "hybrid" (BM25 + yerel gomme, RRF). Gomme yuklenemezse BM25'e dusulur.
+    retriever: str = "bm25"
+    embedding_model: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    cache_dir: Path = ROOT / ".cache"  # gomme onbellegi ve indirilen modeller (git disi)
+    rrf_k: int = 60
+    # LLM varken "LLM'e git" kapisina anlamsal benzerlik de eklenir (0 = kapali). Model basina kalibre edilir.
+    min_semantic: float = 0.0
     # Cevapsiz karari icin esikler (bkz. README "Cevapsiz tespiti")
     min_score: float = 5.0
     min_coverage: float = 0.27

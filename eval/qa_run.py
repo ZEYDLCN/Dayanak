@@ -97,6 +97,7 @@ def main() -> None:
     ap.add_argument("--fail-under", type=int, default=0, help="geçen koşu sayısı bunun altındaysa çıkış kodu 1")
     ap.add_argument("--max-hallucinations", type=int, default=-1, help="kaynakta olmayan sayı içeren koşu sayısı bunu aşarsa çıkış kodu 1")
     ap.add_argument("--tag", default="", help="çıktı dosya adına eklenir (deney adı)")
+    ap.add_argument("--cases", default="qa_cases.json", help="eval/ altındaki vaka dosyası (ör. hybrid_cases.json)")
     args = ap.parse_args()
 
     settings = get_settings()
@@ -107,7 +108,7 @@ def main() -> None:
 
     if args.tag:
         provider += f"-{args.tag}"
-    cases = json.loads((HERE / "qa_cases.json").read_text(encoding="utf-8"))
+    cases = json.loads((HERE / args.cases).read_text(encoding="utf-8"))
     if args.only:
         wanted = set(args.only.split(","))
         cases = [c for c in cases if c["id"] in wanted]

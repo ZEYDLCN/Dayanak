@@ -1,0 +1,4 @@
+# Istege bagli hibrit (vektor) arama icin. Varsayilan BM25 modunda GEREKMEZ.
+-r requirements.txt
+numpy>=1.26
+fastembed>=0.4

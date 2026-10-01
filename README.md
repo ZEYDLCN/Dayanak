@@ -40,6 +40,7 @@ uvicorn app.main:app --reload
 | `GEMINI_TIMEOUT_SECONDS` | `20` | Geçici hata (429/503) 3 denemeye kadar tekrarlanır |
 | `ANTHROPIC_API_KEY` / `LLM_MODEL` | boş / `claude-opus-5-5` | Anthropic seçiliyse (bkz. sınırlar: canlı doğrulanmadı) |
 | `LLM_CONTEXT_PASSAGES` | `2` | LLM'e verilen en iyi bölüm sayısı |
+| `RETRIEVER` / `EMBEDDING_MODEL` | `bm25` / `…MiniLM-L12-v2` | `hybrid` isteğe bağlı vektör aramayı açar (varsayılan **kapalı**, bkz. Değerlendirme > 5; `requirements-hybrid.txt` gerekir) |
 | `REQUIRE_EVIDENCE` | `true` | Zorunlu, kodla doğrulanan kanıt cümlesi |
 | `VERIFY_ANSWERS` | `false` | İkinci LLM doğrulama geçişi (ölçüldü, faydası çıkmadı; aşağıya bakın) |
 | `MIN_SCORE` / `MIN_COVERAGE` | `5.0` / `0.27` | "Cevapsız" ön elemesi eşikleri |
@@ -48,11 +49,15 @@ uvicorn app.main:app --reload
 ### Testler ve değerlendirme
 
 ```bash
-pytest                                       # 75 test, anahtar gerekmez (LLM sahte üreticiyle test edilir)
+pytest                                       # birim ve API testleri; anahtar gerekmez
 python -m eval.run_eval --no-llm             # klasik set, alıntılayan mod  -> eval/results/results-extractive.md
 python -m eval.run_eval                      # klasik set, .env'deki LLM    -> eval/results/results-llm.md
 python -m eval.qa_run --repeat 2 --pause 1.5 # 57 vakalık QA (halüsinasyon odaklı) -> eval/results/qa-<model>.md
+python -m eval.interview_70_run --no-llm  # 70 vakalık API denetimi, anahtar gerektirmez
+python -m eval.interview_70_run --pause 1.5 # 70 vakalık API denetimi, .env'deki LLM
 ```
+
+Görüşmeye hazırlık için [70 vakalık denetim ve bulgular](eval/INTERVIEW_AUDIT.md), [satır satır NVIDIA sonuçları](eval/results/interview-70-nvidia-openai_gpt-oss-20b.md), [LLM'siz sonuçlar](eval/results/interview-70-extractive.md) ve [20 dakikalık anlatım](INTERVIEW_GUIDE.md) bulunur.
 
 > Windows'ta Türkçe karakterler bozuk görünürse `PYTHONIOENCODING=utf-8` ayarlayın. `curl -d` ile Türkçe JSON göndermek de konsol kodlaması yüzünden sorun çıkarabilir; arayüz, Swagger veya Python/`httpx` daha güvenli.
 > `--pause 1.5` önemlidir: NVIDIA'nın ücretsiz katmanı dakikada ~40 istekle sınırlıdır (bunu ölçüm sırasında yaşadık).
@@ -172,7 +177,7 @@ Kural kodda, deterministik (LLM'e bırakılmadı — denetlenebilir olması içi
 | Karar | Neden |
 |---|---|
 | **FastAPI** (Python) | Önerilenlerden biri; küçük servis, Pydantic doğrulaması, otomatik Swagger. |
-| **BM25, embedding değil** | 10 kısa doküman için ek model/vektör DB gereksiz; her skor açıklanabilir. Bedeli: eş anlamlıları yakalayamaz (aşağıda ölçüldü). NVIDIA anahtarında `nv-embedqa` modelleri de var; hibrit arama doğal sonraki adım. |
+| **BM25 (varsayılan); vektör arama ölçüldü ve seçilmedi** | 10 kısa doküman için sözcük araması yeterli ve her skor açıklanabilir. Hibrit (BM25 + yerel gömme) 5 modelle denendi: doğruluk kazancı gürültü içinde kaldı, uydurma riski arttı, gecikme eklendi ([ayrıntı](#5-hibrit-vektör-arama-denemesi)). İsteğe bağlı olarak `RETRIEVER=hybrid` ile açılabilir. |
 | **Depolama: Markdown + bellekte indeks** | Dokümanlar metin ve sürümlü; açılışta ~50 bölüm indekslenir. Büyürse SQLite FTS / vektör DB. |
 | **Sürüm çözümü kodda** | "Hangi sürüm geçerli?" bir iş kuralı; LLM tahminine bırakılırsa tutarsız ve denetlenemez olur. |
 | **Bölüm bazlı (`##`) parçalama** | Bölüm başlığı hem doğal kaynak referansı hem kısa, anlamlı bağlam. |
@@ -185,6 +190,8 @@ Kural kodda, deterministik (LLM'e bırakılmadı — denetlenebilir olması içi
 ---
 
 ## Değerlendirme
+
+**Güncel uçtan uca denetim:** 70 soru/tarih kombinasyonu gerçek `/ask` API'sinden çalıştırıldı: NVIDIA ile **58/70**, LLM'siz alıntı modunda **54/70**. NVIDIA turunda yedi gereksiz ret ve beş ağ zaman aşımı vardı; tüm vaka, beklenen–gerçek karşılaştırması ve sınırlamalar [denetim raporunda](eval/INTERVIEW_AUDIT.md). Aşağıdaki 30 ve 57 vakalık sonuçlar önceki çalıştırmalardır; model ve ağ koşulları arasında doğrudan aynı test gibi karşılaştırılmamalıdır.
 
 ### 1) Klasik set — 30 soru (14 normal, 6 çelişkili, 10 cevapsız)
 
@@ -260,6 +267,56 @@ Aynı 57 vaka × 2 koşu, aynı istem ve korumalar. Sonuçlar: [`qa-nvidia-opena
 
 **Öneri:** hız birinci öncelikse `gpt-oss-20b` (varsayılan); gereksiz retin azaltılması hızdan önemliyse `LLM_PROVIDER=gemini`. İki sağlayıcıda da uydurma korumaları aynıdır (zorunlu kanıt + sayı denetimi) ve ikisinde de kaynakta olmayan sayı 0'dır.
 
+### 5) Hibrit (vektör) arama denemesi
+
+**Soru:** BM25'e yerel bir gömme modeli eklemek (hibrit, RRF ile birleştirme) doğruluğu artırır mı, hız bedeli değer mi?
+**Yöntem:** Model değiştirilebilir bir hibrit katman entegre edildi (`app/embeddings.py`, `app/hybrid.py`, `RETRIEVER=hybrid`). Beş yapılandırma (BM25 + 4 çok dilli yerel model) önce yalnızca aramada, sonra gerçek LLM'li uçtan uca ölçüldü. Karar kuralı **sonuçlar görülmeden önce** konuldu: (1) uydurma > 0 olan elenir, (2) doğruluk, (3) hız: arama p90'ı BM25'e göre +25 ms'yi aşmamalı ve kazanç gürültüyü aşmalı.
+
+**A) Yalnızca arama** (67 etiketli soru, 5 tekrar; doğru bölümün ilk k'ya girme oranı, sürüm çözümünden sonra) — [`retrieval-bench.md`](eval/results/hybrid/retrieval-bench.md)
+
+| Yöntem | hit@1 | hit@2 | hit@4 | MRR | arama p50 / p90 (ms) | başlangıç (soğuk / sıcak, sn) |
+|---|---|---|---|---|---|---|
+| **BM25** | 0,866 | 0,910 | 0,925 | 0,893 | 0,1 / 0,2 | 0 / 0 |
+| hibrit + MiniLM-L12 (0,22 GB) | 0,821 | 0,910 | 0,940 | 0,874 | 7,0 / 9,5 | 3,0 / 1,7 |
+| hibrit + potion-multilingual (0,5 GB) | 0,836 | 0,925 | 0,925 | 0,881 | 0,6 / 0,8 | 2,6 / 3,3 |
+| hibrit + mpnet-base (1 GB) | 0,866 | 0,910 | 0,925 | 0,893 | 21,8 / 25,3 | 7,1 / 5,9 |
+| hibrit + e5-large (2,2 GB) | 0,896 | 0,940 | 0,955 | 0,923 | 70,2 / 80,3 | 14,5 / 8,0 |
+
+Yalnızca aramada en iyi e5-large bile hit@2'de BM25'e +0,03 (67 sorudan ~2) kazandırıyor. Dört zor eş anlamlı soru ("paketin içinden neler çıkıyor" ↔ "Kutu İçeriği", "parolamı yanlış girince" ↔ "hatalı şifre denemesi", "para çekilemezse" ↔ "Ödeme Hataları", İngilizce soru) **hiçbir modelde** ilk 2'ye girmedi.
+
+**B) Uçtan uca (gpt-oss-20b, gerçek LLM; kayıtlar [`eval/results/hybrid/`](eval/results/hybrid/))**
+
+20 yeni (ayarlamada kullanılmamış) eş anlamlı/dolaylı/İngilizce/komşu-cevapsız vaka × 3 tekrar:
+
+| Yapılandırma | geçen / 60 | uydurma | arama p50 / p90 (ms) |
+|---|---|---|---|
+| BM25 | 37 | 0 | 0,7 / 1,0 |
+| **BM25 (kontrol: aynı ayar, ikinci çalıştırma)** | **39** | 0 | 0,8 / 1,2 |
+| MiniLM | 44 | 0 | 24 / 29 |
+| potion | 44 | 0 | 2,7 / 3,5 |
+| mpnet | 38 | 0 | 43 / 76 |
+| e5-large | 40 | 0 | 191 / 237 |
+
+Aynı BM25 iki çalıştırmada 37 ve 39 verdi: **gürültü ±2**, çünkü LLM'in sunucu tarafı tam deterministik değil. Tekrarlar neredeyse aynı çıktığı için gerçek örneklem 60 değil **20 vaka**; farklar yalnızca 4–5 "sınır" vakadan geliyor (H06, H11, H12, H13), ve BM25'in kendisi bunlarda 0↔3 arası oynuyor.
+
+Bu yüzden iki finalist (potion, MiniLM) ve BM25 **57 vakalık QA setinde** (injection, çoklu niyet, sürüm tuzakları dahil) × 2 tekrar yeniden denendi:
+
+| Yapılandırma | geçen / 114 | **uydurma** | arama p50 / p90 (ms) |
+|---|---|---|---|
+| **BM25** | **99** | **0** | 1,1 / 1,9 |
+| hibrit + potion | 94 | **2** | 3,2 / 4,5 |
+| hibrit + MiniLM | 91 | **2** | 28,5 / 38,9 |
+
+**Karar: BM25 varsayılan kalır; hibrit isteğe bağlıdır ve kapalıdır.** Gerekçe:
+1. İki sette de hibrit tutarlı biçimde BM25'i geçmedi (20 vakada +5/+7, 57 vakada −5/−8; toplamda fark gürültü içinde).
+2. **Hibrit uydurma üretti, BM25 üretmedi.** Soru: *"Servis süresince gidiş dönüş kargo ücretini kim öder?"* (dokümanda yok). Vektör arama "kargo ücreti" kavramına yakın olduğu için **iade** bölümünü bağlama soktu; LLM iade kuralını ("Lumora karşılar") garanti servisine uyguladı. Kanıt cümlesi belgede gerçekten var, yani zorunlu kanıt doğrulamasından geçti. BM25 o bölümü getirmediği için doğru biçimde "bilgi yok" dedi. Anlamsal arama, projenin en çok korumaya çalıştığı hata türünü (komşu bilgiyi uyarlama) artırıyor.
+3. Doğruluğun darboğazı arama değil, LLM'in aşırı temkini: aynı 5 vaka (H03, H04, H06, H14, H15) tüm yapılandırmalarda başarısız; H06'da doğru bölüm bağlamda olduğu halde model reddediyor.
+4. Anlamsal "LLM'e git" kapısı (`MIN_SEMANTIC`) kalibre edildi, ancak ayırma gücü zayıf (AUC 0,67–0,74); anlamlı bir eşik bulunamadı, kapalı.
+
+**Ölçüm notu:** İlk geçişte bilgisayar uyku moduna girip ağ kopunca MiniLM ve potion koşuları bozuldu (bir çağrı 10.805 sn sürdü, 42 çağrı bağlantı hatası verdi). Bu koşular geçersiz sayıldı ve temiz ağda yeniden koşuldu; tabloda yalnızca geçerli koşular var.
+
+**İsteğe bağlı kullanım** (yukarıdaki risk bilinerek): `pip install -r requirements-hybrid.txt`, `.env` içinde `RETRIEVER=hybrid` ve `EMBEDDING_MODEL=minishlab/potion-multilingual-128M`. Gömme yüklenemezse sistem uyarı verip BM25'e düşer; ağ veya API gerekmez (ONNX, CPU). Bölüm gömmeleri `.cache/` altında önbelleğe alınır.
+
 ### Ölçüm sırasında bulunan gerçek hatalar
 
 | Bulgu | Düzeltme |
@@ -332,7 +389,7 @@ Yazı tipleri OFL lisanslıdır; `promo/fonts/` içine `Manrope[wght].ttf` ve `D
 
 - **Aşırı temkin:** Güvenlik önceliklendirildi; bunun bedeli %14 gereksiz ret (yanlış öncüllü, çok parçalı ve kısmi bilgili sorularda). Uydurma yerine ret tercih edildi.
 - **Anlam hataları kodla yakalanamaz:** Kanıt ve sayı denetimi rakamsız anlam kaymalarını ("her gün" → "yok") göremez. F15 bir kez böyle bir hata yaptı; `temperature=0` ve istemle azaldı, kodla garanti edilmiyor.
-- **Sözcük tabanlı arama:** Eş anlamlı ve dolaylı ifadeleri kaçırır ("para"↔"ücret"), İngilizce soruları eşleştiremez. Sonraki adım: embedding ile hibrit arama veya LLM ile sorgu yeniden yazma.
+- **Sözcük tabanlı arama:** Eş anlamlı ve dolaylı ifadeleri kaçırır ("para"↔"ücret", "paketin içinden"↔"Kutu İçeriği"), İngilizce soruları eşleştiremez. Beş yerel gömme modeliyle hibrit arama denendi ve **seçilmedi** (kazanç gürültü içinde, uydurma riski arttı; bkz. Değerlendirme > 5). Gerçek çözüm muhtemelen sorgu yeniden yazımı veya bölümlere eş anlamlı başlık/etiket eklemektir; denenmedi.
 - **Eşikler küçük bir örnekle ayarlı:** 10 doküman / 51 bölümde makul; gerçek korpusta yeniden kalibre edilmeli. `MIN_SCORE` BM25'in mutlak değerine bağlı olduğu için korpus büyüklüğüne duyarlı.
 - **Ücretsiz katmanlar:** NVIDIA dakikada ~40 istekle sınırlı; Gemini'de bazı modeller "yoğun talep" (503) veriyor, `2.5-*` modelleri yeni kullanıcılara kapalı ve gecikme değişken. Gemini ücretsiz katmanında girdiler Google tarafından ürün geliştirmede kullanılabilir; gerçek müşteri verisiyle kullanılmamalı. Üretim için ücretli/özel uç nokta gerekir.
 - **Tarihsel soru tespiti anahtar kelimeyle çalışır** ("eski", "önceki", "v1", eski sürümün yılı). "Eski cihazımı iade etmek istiyorum" gibi cümleler yanlışlıkla iki sürüm karşılaştırması tetikleyebilir.

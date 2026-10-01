@@ -1,0 +1,1329 @@
+[
+  {
+    "id": "H01",
+    "cat": "es-anlamli",
+    "q": "Ürünü geri yollamak için elimde kaç gün var?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "iade-proseduru-v2"
+      ],
+      "all": [
+        "30 gün"
+      ],
+      "none": [
+        "14 gün"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "**30** gün (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Süresi"
+        ],
+        "retrieval": {
+          "top_score": 4.72,
+          "top_coverage": 0.29,
+          "retrieval_ms": 33.8
+        },
+        "seconds": 1.6,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**30** gün (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Süresi"
+        ],
+        "retrieval": {
+          "top_score": 4.72,
+          "top_coverage": 0.29,
+          "retrieval_ms": 34.7
+        },
+        "seconds": 5.85,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**30** gün (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Süresi"
+        ],
+        "retrieval": {
+          "top_score": 4.72,
+          "top_coverage": 0.29,
+          "retrieval_ms": 64.3
+        },
+        "seconds": 3.56,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H02",
+    "cat": "es-anlamli",
+    "q": "Geri gönderim masrafını ben mi karşılıyorum?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "iade-proseduru-v2"
+      ],
+      "any": [
+        [
+          "Lumora karşılar",
+          "Lumora tarafından",
+          "ücretsiz",
+          "karşılanır"
+        ]
+      ],
+      "none": [
+        "müşteriye aittir"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Geri gönderim masrafını Lumora karşılar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Kargo Ücreti"
+        ],
+        "retrieval": {
+          "top_score": 5.03,
+          "top_coverage": 0.43,
+          "retrieval_ms": 26.7
+        },
+        "seconds": 6.47,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Geri gönderim masrafını **Lumora** karşılar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Kargo Ücreti"
+        ],
+        "retrieval": {
+          "top_score": 5.03,
+          "top_coverage": 0.43,
+          "retrieval_ms": 31.0
+        },
+        "seconds": 3.04,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Hayır, geri gönderim masrafını Lumora karşılar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Kargo Ücreti"
+        ],
+        "retrieval": {
+          "top_score": 5.03,
+          "top_coverage": 0.43,
+          "retrieval_ms": 26.4
+        },
+        "seconds": 6.04,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H03",
+    "cat": "es-anlamli",
+    "q": "Üyeliğimi yenilerken kartımdan para çekilemezse ne olur?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "abonelik-ve-faturalama"
+      ],
+      "any": [
+        [
+          "askıya"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 3.83,
+          "top_coverage": 0.17,
+          "retrieval_ms": 24.7
+        },
+        "seconds": 0.02,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 3.83,
+          "top_coverage": 0.17,
+          "retrieval_ms": 30.5
+        },
+        "seconds": 0.03,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 3.83,
+          "top_coverage": 0.17,
+          "retrieval_ms": 25.6
+        },
+        "seconds": 0.03,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H04",
+    "cat": "es-anlamli",
+    "q": "Paketin içinden neler çıkıyor?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "kurulum-kilavuzu"
+      ],
+      "any": [
+        [
+          "adaptör",
+          "güç kablosu"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 5.2,
+          "top_coverage": 0.24,
+          "retrieval_ms": 24.3
+        },
+        "seconds": 1.55,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 5.2,
+          "top_coverage": 0.24,
+          "retrieval_ms": 23.3
+        },
+        "seconds": 0.72,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 5.2,
+          "top_coverage": 0.24,
+          "retrieval_ms": 25.3
+        },
+        "seconds": 1.95,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H05",
+    "cat": "dolayli",
+    "q": "Cihazın ışığı sürekli kırmızı yanıyor, bu ne demek?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "sorun-giderme"
+      ],
+      "any": [
+        [
+          "internet"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Sürekli kırmızı LED ışığı, cihazın internet bağlantısının olmadığını gösterir.",
+        "mode": "llm",
+        "sources": [
+          "sorun-giderme#LED Renklerinin Anlamı"
+        ],
+        "retrieval": {
+          "top_score": 7.15,
+          "top_coverage": 0.36,
+          "retrieval_ms": 34.5
+        },
+        "seconds": 1.74,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Sürekli kırmızı LED, cihazın internet bağlantısının olmadığını gösterir.",
+        "mode": "llm",
+        "sources": [
+          "sorun-giderme#LED Renklerinin Anlamı"
+        ],
+        "retrieval": {
+          "top_score": 7.15,
+          "top_coverage": 0.36,
+          "retrieval_ms": 25.0
+        },
+        "seconds": 2.67,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Sürekli kırmızı LED, cihazın internet bağlantısının olmadığını gösterir.",
+        "mode": "llm",
+        "sources": [
+          "sorun-giderme#LED Renklerinin Anlamı"
+        ],
+        "retrieval": {
+          "top_score": 7.15,
+          "top_coverage": 0.36,
+          "retrieval_ms": 26.5
+        },
+        "seconds": 1.08,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H06",
+    "cat": "dolayli",
+    "q": "Hub'ım yere düşüp kırıldı, garanti bunu karşılar mı?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "garanti-ve-servis"
+      ],
+      "any": [
+        [
+          "dışında",
+          "dışı",
+          "karşılanmaz",
+          "kapsamında değil"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 6.01,
+          "top_coverage": 0.15,
+          "retrieval_ms": 72.3
+        },
+        "seconds": 1.15,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 6.01,
+          "top_coverage": 0.15,
+          "retrieval_ms": 24.5
+        },
+        "seconds": 0.65,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 6.01,
+          "top_coverage": 0.15,
+          "retrieval_ms": 36.0
+        },
+        "seconds": 1.15,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H07",
+    "cat": "es-anlamli",
+    "q": "Sipariş verdikten sonra paket kaç günde kapıma gelir?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "kargo-ve-teslimat"
+      ],
+      "any": [
+        [
+          "iş günü"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "**1-3** iş günü",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Teslimat Süreleri"
+        ],
+        "retrieval": {
+          "top_score": 5.32,
+          "top_coverage": 0.25,
+          "retrieval_ms": 23.2
+        },
+        "seconds": 1.4,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**1-3** iş günü",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Teslimat Süreleri"
+        ],
+        "retrieval": {
+          "top_score": 5.32,
+          "top_coverage": 0.25,
+          "retrieval_ms": 21.7
+        },
+        "seconds": 3.19,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**1-3** iş günü",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Teslimat Süreleri"
+        ],
+        "retrieval": {
+          "top_score": 5.32,
+          "top_coverage": 0.25,
+          "retrieval_ms": 34.8
+        },
+        "seconds": 3.36,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H08",
+    "cat": "es-anlamli",
+    "q": "Güvenlik kamerasının kayıtlarını ücretsiz pakette kaç gün görebilirim?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "gizlilik-ve-veri-silme"
+      ],
+      "all": [
+        "7 gün"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Ücretsiz pakette güvenlik kamerası kayıtlarını **7 gün** görebilirsiniz.",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
+        ],
+        "retrieval": {
+          "top_score": 13.04,
+          "top_coverage": 0.45,
+          "retrieval_ms": 26.9
+        },
+        "seconds": 3.92,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Ücretsiz pakette güvenlik kamerası kayıtlarını **7 gün** görebilirsiniz.",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
+        ],
+        "retrieval": {
+          "top_score": 13.04,
+          "top_coverage": 0.45,
+          "retrieval_ms": 27.3
+        },
+        "seconds": 2.96,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**7** gün",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
+        ],
+        "retrieval": {
+          "top_score": 13.04,
+          "top_coverage": 0.45,
+          "retrieval_ms": 21.6
+        },
+        "seconds": 4.4,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H09",
+    "cat": "dolayli",
+    "q": "Evdeki asistan beni sürekli dinleyip buluta mı gönderiyor?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "gizlilik-ve-veri-silme"
+      ],
+      "any": [
+        [
+          "sesli komut",
+          "kaydetmez",
+          "göndermez",
+          "gönderilmez"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Hayır, evdeki asistan sizi sürekli dinlemez ve mikrofon verisini buluta göndermez.",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Ses Verisi"
+        ],
+        "retrieval": {
+          "top_score": 5.08,
+          "top_coverage": 0.17,
+          "retrieval_ms": 37.7
+        },
+        "seconds": 2.5,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Hayır, evdeki asistan sizi sürekli dinlemez ve mikrofon verisini buluta göndermez.",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Ses Verisi"
+        ],
+        "retrieval": {
+          "top_score": 5.08,
+          "top_coverage": 0.17,
+          "retrieval_ms": 24.0
+        },
+        "seconds": 5.5,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Hayır, evdeki asistan mikrofon verisini kaydetmez veya buluta göndermez, yalnızca sesli komut özelliği kullanıldığında işlem yapılır.",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Ses Verisi"
+        ],
+        "retrieval": {
+          "top_score": 5.08,
+          "top_coverage": 0.17,
+          "retrieval_ms": 39.6
+        },
+        "seconds": 6.56,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H10",
+    "cat": "es-anlamli",
+    "q": "Tek bir merkeze en fazla kaç tane akıllı eşya bağlanır?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "kurulum-kilavuzu"
+      ],
+      "all": [
+        "50"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Bir Lumora Hub'a en fazla **50** akıllı cihaz bağlanabilir.",
+        "mode": "llm",
+        "sources": [
+          "kurulum-kilavuzu#Cihaz Sınırı"
+        ],
+        "retrieval": {
+          "top_score": 9.35,
+          "top_coverage": 0.25,
+          "retrieval_ms": 65.9
+        },
+        "seconds": 1.53,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Bir Lumora Hub'a en fazla **50** akıllı cihaz bağlanabilir.",
+        "mode": "llm",
+        "sources": [
+          "kurulum-kilavuzu#Cihaz Sınırı"
+        ],
+        "retrieval": {
+          "top_score": 9.35,
+          "top_coverage": 0.25,
+          "retrieval_ms": 26.3
+        },
+        "seconds": 2.48,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Bir Lumora Hub'a en fazla **50** akıllı cihaz bağlanabilir.",
+        "mode": "llm",
+        "sources": [
+          "kurulum-kilavuzu#Cihaz Sınırı"
+        ],
+        "retrieval": {
+          "top_score": 9.35,
+          "top_coverage": 0.25,
+          "retrieval_ms": 27.7
+        },
+        "seconds": 1.16,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H11",
+    "cat": "dolayli",
+    "q": "Şirketim için kurumsal fatura kesilebilir mi?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "abonelik-ve-faturalama"
+      ],
+      "all": [
+        "7 gün"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Evet, şirketiniz için kurumsal fatura talep edilebilir.",
+        "mode": "llm",
+        "sources": [
+          "abonelik-ve-faturalama#Fatura"
+        ],
+        "retrieval": {
+          "top_score": 7.25,
+          "top_coverage": 0.4,
+          "retrieval_ms": 25.2
+        },
+        "seconds": 2.33,
+        "problems": [
+          "yanıtta yok: '7 gün'"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Şirketiniz için kurumsal fatura talep edilebilir.",
+        "mode": "llm",
+        "sources": [
+          "abonelik-ve-faturalama#Fatura"
+        ],
+        "retrieval": {
+          "top_score": 7.25,
+          "top_coverage": 0.4,
+          "retrieval_ms": 21.8
+        },
+        "seconds": 4.1,
+        "problems": [
+          "yanıtta yok: '7 gün'"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Evet, şirketiniz için kurumsal fatura talep edilebilir.",
+        "mode": "llm",
+        "sources": [
+          "abonelik-ve-faturalama#Fatura"
+        ],
+        "retrieval": {
+          "top_score": 7.25,
+          "top_coverage": 0.4,
+          "retrieval_ms": 24.9
+        },
+        "seconds": 6.59,
+        "problems": [
+          "yanıtta yok: '7 gün'"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H12",
+    "cat": "dolayli",
+    "q": "Hafta sonu müşteri hizmetlerini telefonla arayabilir miyim?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "destek-kanallari-sla"
+      ],
+      "any": [
+        [
+          "yoktur",
+          "hafta içi",
+          "hayır"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.93,
+          "top_coverage": 0.51,
+          "retrieval_ms": 56.6
+        },
+        "seconds": 1.49,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Hayır, hafta sonu telefonla müşteri hizmetlerine ulaşamazsınız.",
+        "mode": "llm",
+        "sources": [
+          "destek-kanallari-sla#Telefon Desteği"
+        ],
+        "retrieval": {
+          "top_score": 13.93,
+          "top_coverage": 0.51,
+          "retrieval_ms": 72.3
+        },
+        "seconds": 5.55,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.93,
+          "top_coverage": 0.51,
+          "retrieval_ms": 66.4
+        },
+        "seconds": 0.64,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H13",
+    "cat": "dolayli",
+    "q": "Girişte ikinci bir doğrulama adımı eklemek istiyorum",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "hesap-ve-sifre"
+      ],
+      "any": [
+        [
+          "iki adımlı",
+          "kimlik doğrulayıcı",
+          "Güvenlik"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 5.51,
+          "top_coverage": 0.16,
+          "retrieval_ms": 57.5
+        },
+        "seconds": 3.68,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 5.51,
+          "top_coverage": 0.16,
+          "retrieval_ms": 68.0
+        },
+        "seconds": 1.33,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "İki adımlı doğrulama, uygulamanın Ayarlar > Güvenlik bölümünden açılabilir.",
+        "mode": "llm",
+        "sources": [
+          "hesap-ve-sifre#İki Adımlı Doğrulama"
+        ],
+        "retrieval": {
+          "top_score": 5.51,
+          "top_coverage": 0.16,
+          "retrieval_ms": 80.0
+        },
+        "seconds": 6.28,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H14",
+    "cat": "ingilizce",
+    "q": "How long is the password reset link valid?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "hesap-ve-sifre"
+      ],
+      "any": [
+        [
+          "30 dakika",
+          "30 minutes"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 3.9,
+          "top_coverage": 0.1,
+          "retrieval_ms": 75.6
+        },
+        "seconds": 0.08,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 3.9,
+          "top_coverage": 0.1,
+          "retrieval_ms": 75.1
+        },
+        "seconds": 0.08,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 3.9,
+          "top_coverage": 0.1,
+          "retrieval_ms": 54.6
+        },
+        "seconds": 0.05,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H15",
+    "cat": "es-anlamli",
+    "q": "Parolamı birkaç kez yanlış girince ne kadar süre beklemem gerekir?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "hesap-ve-sifre"
+      ],
+      "all": [
+        "15 dakika"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.49,
+          "top_coverage": 0.16,
+          "retrieval_ms": 83.3
+        },
+        "seconds": 0.08,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.49,
+          "top_coverage": 0.16,
+          "retrieval_ms": 79.9
+        },
+        "seconds": 0.08,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.49,
+          "top_coverage": 0.16,
+          "retrieval_ms": 70.4
+        },
+        "seconds": 0.07,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H16",
+    "cat": "cevapsiz-komsu",
+    "q": "Hub Zigbee protokolünü destekliyor mu?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.25,
+          "top_coverage": 0.27,
+          "retrieval_ms": 70.7
+        },
+        "seconds": 0.07,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.25,
+          "top_coverage": 0.27,
+          "retrieval_ms": 67.4
+        },
+        "seconds": 0.07,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.25,
+          "top_coverage": 0.27,
+          "retrieval_ms": 76.8
+        },
+        "seconds": 0.08,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H17",
+    "cat": "cevapsiz-komsu",
+    "q": "Servis randevusu nasıl alınır?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.11,
+          "top_coverage": 0.31,
+          "retrieval_ms": 54.7
+        },
+        "seconds": 0.97,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.11,
+          "top_coverage": 0.31,
+          "retrieval_ms": 48.7
+        },
+        "seconds": 0.78,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.11,
+          "top_coverage": 0.31,
+          "retrieval_ms": 73.5
+        },
+        "seconds": 1.97,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H18",
+    "cat": "cevapsiz-komsu",
+    "q": "Aboneliğimi başka bir ülkede kullanabilir miyim?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.8,
+          "top_coverage": 0.21,
+          "retrieval_ms": 73.9
+        },
+        "seconds": 0.07,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.8,
+          "top_coverage": 0.21,
+          "retrieval_ms": 88.1
+        },
+        "seconds": 0.09,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 4.8,
+          "top_coverage": 0.21,
+          "retrieval_ms": 73.9
+        },
+        "seconds": 0.07,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H19",
+    "cat": "cevapsiz-komsu",
+    "q": "Hub'ın boyutları ve ağırlığı nedir?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 2.99,
+          "top_coverage": 0.15,
+          "retrieval_ms": 59.5
+        },
+        "seconds": 0.06,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 2.99,
+          "top_coverage": 0.15,
+          "retrieval_ms": 65.3
+        },
+        "seconds": 0.07,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "no-retrieval",
+        "sources": [],
+        "retrieval": {
+          "top_score": 2.99,
+          "top_coverage": 0.15,
+          "retrieval_ms": 63.6
+        },
+        "seconds": 0.06,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "H20",
+    "cat": "cevapsiz-komsu",
+    "q": "Lumora hangi kargo firmasıyla çalışıyor?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 6.66,
+          "top_coverage": 0.51,
+          "retrieval_ms": 67.8
+        },
+        "seconds": 1.01,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 6.66,
+          "top_coverage": 0.51,
+          "retrieval_ms": 46.5
+        },
+        "seconds": 0.92,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 6.66,
+          "top_coverage": 0.51,
+          "retrieval_ms": 53.3
+        },
+        "seconds": 0.83,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  }
+]

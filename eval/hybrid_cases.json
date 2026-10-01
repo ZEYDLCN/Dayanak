@@ -1,0 +1,22 @@
+[
+  {"id": "H01", "cat": "es-anlamli", "q": "Ürünü geri yollamak için elimde kaç gün var?", "expect": {"answerable": true, "docs": ["iade-proseduru-v2"], "all": ["30 gün"], "none": ["14 gün"]}},
+  {"id": "H02", "cat": "es-anlamli", "q": "Geri gönderim masrafını ben mi karşılıyorum?", "expect": {"answerable": true, "docs": ["iade-proseduru-v2"], "any": [["Lumora karşılar", "Lumora tarafından", "ücretsiz", "karşılanır"]], "none": ["müşteriye aittir"]}},
+  {"id": "H03", "cat": "es-anlamli", "q": "Üyeliğimi yenilerken kartımdan para çekilemezse ne olur?", "expect": {"answerable": true, "docs": ["abonelik-ve-faturalama"], "any": [["askıya"]]}},
+  {"id": "H04", "cat": "es-anlamli", "q": "Paketin içinden neler çıkıyor?", "expect": {"answerable": true, "docs": ["kurulum-kilavuzu"], "any": [["adaptör", "güç kablosu"]]}},
+  {"id": "H05", "cat": "dolayli", "q": "Cihazın ışığı sürekli kırmızı yanıyor, bu ne demek?", "expect": {"answerable": true, "docs": ["sorun-giderme"], "any": [["internet"]]}},
+  {"id": "H06", "cat": "dolayli", "q": "Hub'ım yere düşüp kırıldı, garanti bunu karşılar mı?", "expect": {"answerable": true, "docs": ["garanti-ve-servis"], "any": [["dışında", "dışı", "karşılanmaz", "kapsamında değil"]]}},
+  {"id": "H07", "cat": "es-anlamli", "q": "Sipariş verdikten sonra paket kaç günde kapıma gelir?", "expect": {"answerable": true, "docs": ["kargo-ve-teslimat"], "any": [["iş günü"]]}},
+  {"id": "H08", "cat": "es-anlamli", "q": "Güvenlik kamerasının kayıtlarını ücretsiz pakette kaç gün görebilirim?", "expect": {"answerable": true, "docs": ["gizlilik-ve-veri-silme"], "all": ["7 gün"]}},
+  {"id": "H09", "cat": "dolayli", "q": "Evdeki asistan beni sürekli dinleyip buluta mı gönderiyor?", "expect": {"answerable": true, "docs": ["gizlilik-ve-veri-silme"], "any": [["sesli komut", "kaydetmez", "göndermez", "gönderilmez"]]}},
+  {"id": "H10", "cat": "es-anlamli", "q": "Tek bir merkeze en fazla kaç tane akıllı eşya bağlanır?", "expect": {"answerable": true, "docs": ["kurulum-kilavuzu"], "all": ["50"]}},
+  {"id": "H11", "cat": "dolayli", "q": "Şirketim için kurumsal fatura kesilebilir mi?", "expect": {"answerable": true, "docs": ["abonelik-ve-faturalama"], "all": ["7 gün"]}},
+  {"id": "H12", "cat": "dolayli", "q": "Hafta sonu müşteri hizmetlerini telefonla arayabilir miyim?", "expect": {"answerable": true, "docs": ["destek-kanallari-sla"], "any": [["yoktur", "hafta içi", "hayır"]]}},
+  {"id": "H13", "cat": "dolayli", "q": "Girişte ikinci bir doğrulama adımı eklemek istiyorum", "expect": {"answerable": true, "docs": ["hesap-ve-sifre"], "any": [["iki adımlı", "kimlik doğrulayıcı", "Güvenlik"]]}},
+  {"id": "H14", "cat": "ingilizce", "q": "How long is the password reset link valid?", "expect": {"answerable": true, "docs": ["hesap-ve-sifre"], "any": [["30 dakika", "30 minutes"]]}},
+  {"id": "H15", "cat": "es-anlamli", "q": "Parolamı birkaç kez yanlış girince ne kadar süre beklemem gerekir?", "expect": {"answerable": true, "docs": ["hesap-ve-sifre"], "all": ["15 dakika"]}},
+  {"id": "H16", "cat": "cevapsiz-komsu", "q": "Hub Zigbee protokolünü destekliyor mu?", "expect": {"answerable": false}},
+  {"id": "H17", "cat": "cevapsiz-komsu", "q": "Servis randevusu nasıl alınır?", "expect": {"answerable": false}},
+  {"id": "H18", "cat": "cevapsiz-komsu", "q": "Aboneliğimi başka bir ülkede kullanabilir miyim?", "expect": {"answerable": false}},
+  {"id": "H19", "cat": "cevapsiz-komsu", "q": "Hub'ın boyutları ve ağırlığı nedir?", "expect": {"answerable": false}},
+  {"id": "H20", "cat": "cevapsiz-komsu", "q": "Lumora hangi kargo firmasıyla çalışıyor?", "expect": {"answerable": false}}
+]

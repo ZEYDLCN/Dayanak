@@ -14,6 +14,7 @@ class Hit:
     score: float
     coverage: float  # sorgu terimlerinin (IDF agirlikli) ne kadari bu bolumde geciyor, 0..1
     matched: frozenset[str]
+    semantic: float = 0.0  # gomme kosinus benzerligi (yalnizca hibrit aramada dolu)
 
 
 class BM25Index:
