@@ -1,6 +1,7 @@
 """Markdown dokumanlarini (front-matter + '## bolum') okuyup Chunk listesine cevirir."""
 
 import re
+from dataclasses import replace
 from datetime import date
 from pathlib import Path
 
@@ -8,6 +9,7 @@ import yaml
 
 from app.models import Chunk, DocMeta
 
+TAGS_FILE = "etiketler.yaml"
 _FRONT_MATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*\n(.*)\Z", re.DOTALL)
 _REQUIRED = ("doc_id", "family", "title", "version", "status", "effective_date")
 _STATUSES = {"current", "superseded"}
@@ -78,7 +80,26 @@ def load_corpus(docs_dir: Path) -> tuple[list[DocMeta], list[Chunk]]:
     if not metas:
         raise DocumentError(f"{docs_dir} altinda dokuman bulunamadi")
     _validate(metas)
-    return metas, chunks
+    return metas, apply_tags(chunks, docs_dir / TAGS_FILE)
+
+
+def apply_tags(chunks: list[Chunk], path: Path) -> list[Chunk]:
+    """etiketler.yaml (doc_id -> bolum basligi -> eş anlamli sozcukler) varsa bolumlere baglar.
+    Dokuman metnine dokunmaz; etiketler yalnizca aramada kullanilir. Bilinmeyen doc/bolum hata verir."""
+    if not path.exists():
+        return chunks
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    by_key = {(c.doc.doc_id, c.section): i for i, c in enumerate(chunks)}
+    out = list(chunks)
+    for doc_id, sections in data.items():
+        for section, words in (sections or {}).items():
+            if (doc_id, section) not in by_key:
+                raise DocumentError(f"{path.name}: bilinmeyen bolum {doc_id!r} / {section!r}")
+            if not isinstance(words, list) or not all(isinstance(w, str) for w in words):
+                raise DocumentError(f"{path.name}: {doc_id}/{section} bir metin listesi olmali")
+            i = by_key[(doc_id, section)]
+            out[i] = replace(out[i], tags=" ".join(words))
+    return out
 
 
 def _validate(metas: list[DocMeta]) -> None:

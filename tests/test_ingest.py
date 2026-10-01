@@ -40,3 +40,31 @@ def test_unknown_supersedes(tmp_path):
     write(tmp_path, "a", supersedes="yok")
     with pytest.raises(DocumentError, match="supersedes"):
         load_corpus(tmp_path)
+
+
+def test_tags_are_search_only(tmp_path):
+    write(tmp_path, "a")
+    (tmp_path / "etiketler.yaml").write_text("a:\n  Bölüm: [kutudan ne çıkıyor, paket]\n", encoding="utf-8")
+    _, chunks = load_corpus(tmp_path)
+    c = chunks[0]
+    assert c.tags == "kutudan ne çıkıyor paket"
+    assert "kutudan" in c.index_text and "kutudan" not in c.text  # aranır ama metne/kanıta girmez
+
+
+def test_tags_unknown_section_is_error(tmp_path):
+    write(tmp_path, "a")
+    (tmp_path / "etiketler.yaml").write_text("a:\n  Yok: [x]\n", encoding="utf-8")
+    with pytest.raises(DocumentError, match="bilinmeyen bolum"):
+        load_corpus(tmp_path)
+
+
+def test_tags_must_be_list_of_strings(tmp_path):
+    write(tmp_path, "a")
+    (tmp_path / "etiketler.yaml").write_text("a:\n  Bölüm: düz metin\n", encoding="utf-8")
+    with pytest.raises(DocumentError, match="liste"):
+        load_corpus(tmp_path)
+
+
+def test_real_corpus_tags_never_leak_into_text(kb):
+    for c in kb.chunks:
+        assert c.tags not in c.text or not c.tags

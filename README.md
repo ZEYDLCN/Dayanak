@@ -68,9 +68,12 @@ Görüşmeye hazırlık için [70 vakalık denetim ve bulgular](eval/INTERVIEW_A
 
 | Endpoint | Açıklama |
 |---|---|
-| `POST /ask` | `{"question": "...", "as_of": "2024-06-01"?}` → yanıt + kaynaklar + çelişki raporu |
+| `POST /ask` | `{"question": "...", "as_of": "2024-06-01"?, "provider": "gemini"?}` → yanıt + kaynaklar + çelişki raporu |
+| `GET /providers` | Anahtarı tanımlı LLM sağlayıcıları (sohbet ekranındaki model seçicisi bunu kullanır) |
 | `GET /documents` | Yüklü dokümanlar, sürüm/durum bilgisi ve bölümleri |
 | `GET /health` | Doküman sayısı ve mod (`llm` / `extractive`) |
+
+`provider` isteğe bağlıdır: yanıtı üretecek modeli istek başına seçer (`nvidia` = GPT-OSS 20B, `gemini`). Boşsa `LLM_PROVIDER` kullanılır; bilinmeyen değer `400` döner, sessizce başka modele düşülmez. Sohbet ekranında, mesaj kutusunun altındaki **Model** menüsü iki anahtar da tanımlıysa görünür, seçim tarayıcıda hatırlanır ve yanıtın altında hangi modelin ürettiği yazar. Kanıt/sayı denetimleri her modelde aynıdır.
 
 `as_of` isteğe bağlıdır: verilen tarihte **yürürlükte olan** sürüme göre yanıtlar (varsayılan bugün).
 
@@ -332,6 +335,23 @@ Reranker'ın en iyi skoru "bilgi var / yok" kapısı olarak da zayıf: AUC 0,78�
 
 **Karar: entegre edilmedi.** Sıralama kazancı gerçek ama bedeli hız önceliğiyle çelişiyor: ilk-8 senaryosu uçtan uca ~1,3 sn'lik medyana +0,74 sn (≈ +%55) ekliyor, tüm-bölüm senaryosu 4,8 sn. Ayrıca oracle deneyi, kusursuz arama ile bile kaybın büyük kısmının LLM'in gereksiz reddinden geldiğini gösterdi; yani arama sırasını düzeltmek tavanı sınırlı artırır. Reranker, vektör aramadaki gibi "komşu bölümü öne çıkarma" riskini de taşır ve bu risk uçtan uca ölçülmeden açılamaz. Not: bu çalıştırmadaki BM25 tabanı (hit@1 0,821) 5. bölümdeki tabandan (0,866) düşük; arada çalışma ağacındaki sürüm çözümü değişikliği var, bu yüzden yalnızca aynı çalıştırma içi karşılaştırma geçerlidir.
 
+### 7) Doğruluğu artırma denemeleri ve model seçici
+
+**Soru:** Gereksiz ret (cevap dokümanda varken "bilgi yok") nasıl azaltılır, uydurma sıfır kalarak ve hız korunarak?
+
+Teşhis (tüm vakalar aynı sette ölçüldü): doğru bölüm 1. sırada ve LLM'e verilmişken modelin reddettiği vaka sayısı, arama kapısında elenenlerden fazlaydı. Oracle deneyi (doğru bölüm elle başa konunca) başarıyı %66'dan yalnızca %81'e çıkardı; kalan kayıp çoğunlukla LLM'in kendi temkini.
+
+| Deneme | Sonuç | Karar |
+|---|---|---|
+| Ret kuralını gevşeten istem (V1/V3) | Gereksiz ret 10 → 4, ama **uydurma 0 → 4 (V3: 9)** | Elendi (uydurma sıfır olmalı) |
+| "Konu eşleşmeli" kural (V4) | Bilinen uydurma açığını bir sette kapattı, yeni sette 1/27 uydurma | Güvenilir değil, elendi |
+| Eş anlamlı arama etiketleri (`etiketler.yaml`) | Hiç görülmemiş 16 soruda doğru bölüm ilk 4'te %63 → %81–88; ama ilk sürüm iade bölümünü başka işlemlerin sorularına çekip **uydurma üretti** (3/3), genel sözcükler çıkarılınca düzeldi | Mekanizma kodda duruyor (`app/ingest.py`), **etiket dosyası varsayılana alınmadı**: uçtan uca doğrulama tamamlanmadı ([`eval/results/etiket-v1..v3`](eval/results/)) |
+| Reranker, vektör arama | Bkz. bölüm 5 ve 6 | Elendi (hız / uydurma) |
+
+**Bilinen açık:** "Servise gönderdiğim cihazın kargo ücretini kim öder?" gibi sorularda LLM, iade kargo kuralını servise uyarlayabiliyor. Kanıt cümlesi dokümanda gerçekten olduğu için kanıt denetiminden geçer. Dar bir bölgede, rastgele tetiklenir (aynı soru bir koşuda 0/3, diğerinde 3/3). İstem kuralı bunu güvenilir kapatmadı; `VERIFY_ANSWERS=true` (ikinci LLM çağrısı, ~+1 sn) bu açık için ölçülecekti ama tamamlanmadı.
+
+**Karar: model seçici.** Aynı soruda iki model farklı davranıyor ("Hafta sonu telefonla arayabilir miyim?": GPT-OSS gereksiz ret verdi, Gemini doğru yanıtladı). Hız–doğruluk ödünleşimi kullanıcıya bırakıldı: GPT-OSS 20B hızlı (~1,3 sn), Gemini daha yavaş (~3×) ama daha az gereksiz ret verir.
+
 ### Ölçüm sırasında bulunan gerçek hatalar
 
 | Bulgu | Düzeltme |
@@ -348,6 +368,7 @@ Reranker'ın en iyi skoru "bilgi var / yok" kapısı olarak da zayıf: AUC 0,78�
 
 ### Dürüstlük notları
 
+- **"0 uydurma" yalnızca ölçülen setler için doğrudur.** Sonradan yazılan görülmemiş setlerde yukarıdaki dar açık (iade kuralının servise uyarlanması) ortaya çıktı. Ayarlama setindeki %88–97 ile görülmemiş dolaylı sorulardaki %50–80 aralığı arasındaki fark gerçektir; sunumda ikincisi söylenmelidir.
 - QA seti geliştirme sırasında **kullanıldı**: istem ve korumalar onun başarısızlıklarına bakılarak geliştirildi, dolayısıyla 98/114 tamamen "görülmemiş veri" ölçümü değildir. Baz çizgisinde görülmemiş komşu-cevapsız sorular (U11–U18) ve cevaplanabilir yeni sorular (F16–F21) sonradan eklendi; klasik sette **held-out 11/12** en temiz ölçümdür.
 - Beş vakanın (F2, F7, F8, F15, F18) beklenen anahtar kelime listesi, yanıtlar okunduktan sonra anlamca eşdeğer ifadeleri ("çalışmıyor", "gönderilmez") kapsayacak şekilde **genişletildi**; genişletmeden önce bu vakalar yanlış başarısız sayılıyordu.
 - Anthropic yolu canlı API'ye karşı **çalıştırılmadı**, yalnızca kodla ve birim testleriyle doğrulandı. NVIDIA ve Gemini yolları canlı ölçüldü.
@@ -364,7 +385,7 @@ Reranker'ın en iyi skoru "bilgi var / yok" kapısı olarak da zayıf: AUC 0,78�
 | En az bir prosedürün eski ve güncel sürümü | ✅ iade v1/v2 | `03-`, `04-` |
 | Dokümanları aranabilir hale getir, yanıtlayan API | ✅ | `app/`, `POST /ask` |
 | Her yanıtta kullanılan doküman ve ilgili bölüm | ✅ | `sources[]` (doc, sürüm, bölüm, alıntı) |
-| Bilgi yoksa uydurma, açıkça belirt | ✅ 0/48 uydurma | kapı + zorunlu kanıt |
+| Bilgi yoksa uydurma, açıkça belirt | ✅ 0/48 uydurma (QA seti); dar bilinen açık için bkz. Değerlendirme > 7 | kapı + zorunlu kanıt |
 | Çelişkide güncel sürümü seçme ve gösterme | ✅ | `conflicts[]`, `version-comparison` |
 | ≥10 örnekle değerlendirme (normal/cevapsız/çelişkili) | ✅ 30 + 57 | `eval/` |
 | .NET veya FastAPI | ✅ FastAPI | |

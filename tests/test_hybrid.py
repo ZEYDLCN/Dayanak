@@ -58,8 +58,19 @@ def test_semantic_signal_rescues_a_chunk_that_bm25_ranks_low(kb, tmp_path):
     assert top[0].semantic > 0.99
 
 
+class FlatEmbedder(StubEmbedder):
+    """Bilgi taşımayan gömme: tüm metinler ve sorgu aynı vektör (anlamsal sıralama = bölüm sırası)."""
+
+    def embed_documents(self, texts):
+        self.doc_calls += 1
+        return np.stack([_vec("sabit") for _ in texts])
+
+    def embed_query(self, text):
+        return _vec("sabit")
+
+
 def test_lexical_signal_still_wins_when_embedding_is_uninformative(kb, tmp_path):
-    hy = KnowledgeBase(hybrid_settings(tmp_path), embedder=StubEmbedder())  # sorgu vektörü alakasız
+    hy = KnowledgeBase(hybrid_settings(tmp_path), embedder=FlatEmbedder())  # gömme hiçbir şey ayırt etmiyor
     hits = hy.retrieve("Hub 5 GHz Wi-Fi ağına bağlanır mı?").hits
     assert "kurulum-kilavuzu#3" in [h.chunk.chunk_id for h in hits[:2]]
 

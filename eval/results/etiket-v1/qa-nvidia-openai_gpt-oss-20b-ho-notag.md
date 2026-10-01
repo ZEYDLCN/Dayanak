@@ -1,0 +1,33 @@
+# QA sonuçları — `nvidia-openai_gpt-oss-20b-ho-notag`
+
+- Vaka: 22 · koşu: 66 · **geçen koşu: 34/66**
+- Kaynakta olmayan sayı (halüsinasyon bayrağı): **0** koşu
+- LLM hatası → extractive'e düşen koşu: 0
+- Dayanak korumasının reddettiği (uydurma sayı içeren) LLM yanıtı: 0 koşu
+- Tutarlılık (aynı soru → aynı cevaplanabilirlik+kaynak): 20/22 vaka
+- Gecikme: medyan 1.03s · maks 18.89s
+
+| ID | Kategori | Soru | Beklenen | Yanıt (ilk koşu) | Kaynak | Sonuç |
+|----|----------|------|----------|------------------|--------|-------|
+| Q01 | es-anlamli | Hub'ı satın aldım, kutusunu açınca elime neler geçecek? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q02 | es-anlamli | Yeni aldığım cihazı telefona nasıl tanıtırım? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q03 | es-anlamli | Cihazı baştan başlatmak için hangi düğmeye basmalıyım? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q04 | es-anlamli | Uygulamaya kaydolurken e-postama kod geliyor mu? | cevaplanır | E-postanıza gelen doğrulama kodunu girmeniz gerekir. | hesap-ve-sifre›Hesap Oluşturma | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| Q05 | es-anlamli | Beş basamaklı bir şifre koyabilir miyim? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q06 | es-anlamli | Siparişimi iptal edip parasını geri istiyorum, kaç gün içinde yapmalıyım? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q07 | es-anlamli | Ürünü geri yollayınca gönderi bedelini ben mi ödeyeceğim? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q08 | es-anlamli | Ürünü teslim ettikten sonra hesabıma ödeme kaç günde döner? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q09 | es-anlamli | Hub'ım suya düştü, bunu garanti kapsar mı? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q10 | es-anlamli | Ürünüm iki yıl dolmadan bozulursa ne yapılır? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q11 | es-anlamli | Paketim iki gündür yolda, nereden bakabilirim? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True<br>#3 ❌ answerable=False, beklenen True |
+| Q12 | es-anlamli | Aylık plan mı yıllık plan mı, hangisi ne kadar tutuyor? | cevaplanır | Aylık plan **89 TL**, yıllık plan **890 TL** tutuyor. | abonelik-ve-faturalama›Abonelik Planları | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| Q13 | es-anlamli | Üyeliği bırakırsam ödediğim dönem boyunca kullanabilir miyim? | cevaplanır | Evet, üyeliği iptal ettiğinizde ödenmiş dönemin sonuna kadar hizmeti kullanmaya devam edebilirsiniz. | abonelik-ve-faturalama›Abonelik İptali | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| Q14 | es-anlamli | Akşam saat 20:00'de destek ekibine yazı yazarak ulaşabilir miyim? | cevaplanır | Evet, akşam saat 20:00'de canlı destek üzerinden destek ekibine yazı yazarak ulaşabilirsiniz. | destek-kanallari-sla›Canlı Destek | #1 ✅ ⚠ sorudaki sayı yanıtta tekrarlandı ama kaynakta yok: ['20:00']<br>#2 ✅ ⚠ sorudaki sayı yanıtta tekrarlandı ama kaynakta yok: ['20:00']<br>#3 ✅ ⚠ sorudaki sayı yanıtta tekrarlandı ama kaynakta yok: ['20:00'] |
+| Q15 | es-anlamli | Kayıtlı bilgilerimin tamamen silinmesi ne kadar zaman alıyor? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ✅<br>#3 ✅ |
+| Q16 | es-anlamli | Cihaz turuncu yanarken prizden çıkarırsam ne olur? | cevaplanır | Cihaz güncelleme sırasında turuncu LED yanarken fiş çekilmemelidir, aksi takdirde güncelleme bozulabilir. | sorun-giderme›Güncelleme Sırasında Yapılmaması Gerekenler | #1 ✅<br>#2 ❌ answerable=False, beklenen True<br>#3 ✅ |
+| V01 | cevapsiz-komsu | Hub'ın yedek güç kablosunu ayrıca satın alabilir miyim? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| V02 | cevapsiz-komsu | Aboneliğimi yıllıktan aylığa çevirebilir miyim? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| V03 | cevapsiz-komsu | Parolamı e-postaya gelen kodla da değiştirebilir miyim? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| V04 | cevapsiz-komsu | Kameradan kayıt indirme özelliği var mı? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| V05 | cevapsiz-komsu | Garanti kapsamında onarım için kargo ücreti alınıyor mu? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅<br>#3 ✅ |
+| V06 | cevapsiz-komsu | Telefon destek hattı bayramlarda açık mı? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅<br>#3 ✅ |

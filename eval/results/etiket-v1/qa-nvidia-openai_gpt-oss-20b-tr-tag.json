@@ -1,0 +1,932 @@
+[
+  {
+    "id": "T01",
+    "cat": "konu-aktarimi",
+    "q": "Garanti başvurusunu telefonla yapabilir miyim?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 7.55,
+          "top_coverage": 0.43,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 0.92,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 7.55,
+          "top_coverage": 0.43,
+          "retrieval_ms": 0.4
+        },
+        "seconds": 1.57,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 7.55,
+          "top_coverage": 0.43,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 3.39,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T02",
+    "cat": "konu-aktarimi",
+    "q": "Onarım için cihazı gönderirken ücretsiz kargo kodu alır mıyım?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.59,
+          "top_coverage": 0.39,
+          "retrieval_ms": 0.6
+        },
+        "seconds": 1.81,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.59,
+          "top_coverage": 0.39,
+          "retrieval_ms": 1.3
+        },
+        "seconds": 3.57,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.59,
+          "top_coverage": 0.39,
+          "retrieval_ms": 1.2
+        },
+        "seconds": 0.89,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T03",
+    "cat": "konu-aktarimi",
+    "q": "Servise gönderdiğim cihazın para iadesi kaç iş günü sürer?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "**5 iş günü** (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#Geri Ödeme"
+        ],
+        "retrieval": {
+          "top_score": 15.49,
+          "top_coverage": 0.62,
+          "retrieval_ms": 1.2
+        },
+        "seconds": 2.22,
+        "problems": [
+          "answerable=True, beklenen False"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Para iadesi, ürün depoya ulaşıp kontrol edildikten sonra **5 iş günü** içinde yapılır. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#Geri Ödeme"
+        ],
+        "retrieval": {
+          "top_score": 15.49,
+          "top_coverage": 0.62,
+          "retrieval_ms": 0.7
+        },
+        "seconds": 4.41,
+        "problems": [
+          "answerable=True, beklenen False"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**5** iş günü içinde ödeme, 5 iş günü içinde ödemenin yapıldığı karta iade edilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#Geri Ödeme"
+        ],
+        "retrieval": {
+          "top_score": 15.49,
+          "top_coverage": 0.62,
+          "retrieval_ms": 1.6
+        },
+        "seconds": 2.31,
+        "problems": [
+          "answerable=True, beklenen False"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T04",
+    "cat": "konu-aktarimi",
+    "q": "Şifre sıfırlama bağlantısı gelmezse kaç dakika beklemeliyim?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 15.77,
+          "top_coverage": 0.63,
+          "retrieval_ms": 0.9
+        },
+        "seconds": 2.05,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 15.77,
+          "top_coverage": 0.63,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 1.04,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 15.77,
+          "top_coverage": 0.63,
+          "retrieval_ms": 0.5
+        },
+        "seconds": 8.75,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T05",
+    "cat": "konu-aktarimi",
+    "q": "Hesabım kilitliyken canlı destek kilidi açar mı?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 12.23,
+          "top_coverage": 0.51,
+          "retrieval_ms": 0.8
+        },
+        "seconds": 1.49,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 12.23,
+          "top_coverage": 0.51,
+          "retrieval_ms": 0.8
+        },
+        "seconds": 1.75,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 12.23,
+          "top_coverage": 0.51,
+          "retrieval_ms": 0.9
+        },
+        "seconds": 1.91,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T06",
+    "cat": "konu-aktarimi",
+    "q": "Gece güncellemesi başarısız olursa ne olur?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.56,
+          "top_coverage": 0.48,
+          "retrieval_ms": 0.6
+        },
+        "seconds": 0.83,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.56,
+          "top_coverage": 0.48,
+          "retrieval_ms": 0.2
+        },
+        "seconds": 0.89,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.56,
+          "top_coverage": 0.48,
+          "retrieval_ms": 0.6
+        },
+        "seconds": 1.45,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T07",
+    "cat": "konu-aktarimi",
+    "q": "Hub'ı fabrika ayarlarına döndürürsem hesabım da silinir mi?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.83,
+          "top_coverage": 0.39,
+          "retrieval_ms": 0.6
+        },
+        "seconds": 2.87,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.83,
+          "top_coverage": 0.39,
+          "retrieval_ms": 0.9
+        },
+        "seconds": 3.17,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.83,
+          "top_coverage": 0.39,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 1.79,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T08",
+    "cat": "konu-aktarimi",
+    "q": "Teslim edilemeyen gönderi depoya dönerse ücret iadesi nasıl olur?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.39,
+          "top_coverage": 0.72,
+          "retrieval_ms": 1.2
+        },
+        "seconds": 1.28,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 13.39,
+          "top_coverage": 0.72,
+          "retrieval_ms": 1.3
+        },
+        "seconds": 1.43,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Teslim edilemeyen gönderi 7 gün sonra depoya döndükten sonra, ürün depo kontrolünden geçtikten sonra ödeme 5 iş günü içinde ödemenin yapıldığı karta iade edilir.",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Teslim Edilemeyen Gönderiler",
+          "iade-proseduru-v2#Geri Ödeme"
+        ],
+        "retrieval": {
+          "top_score": 13.39,
+          "top_coverage": 0.72,
+          "retrieval_ms": 1.2
+        },
+        "seconds": 3.75,
+        "problems": [
+          "answerable=True, beklenen False"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T09",
+    "cat": "konu-aktarimi",
+    "q": "Ürün iadesinde sipariş numarasını nereden bulurum?",
+    "expect": {
+      "answerable": false
+    },
+    "runs": [
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 7.1,
+          "top_coverage": 0.24,
+          "retrieval_ms": 0.5
+        },
+        "seconds": 2.09,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 7.1,
+          "top_coverage": 0.24,
+          "retrieval_ms": 0.9
+        },
+        "seconds": 1.32,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 7.1,
+          "top_coverage": 0.24,
+          "retrieval_ms": 1.0
+        },
+        "seconds": 1.74,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T10",
+    "cat": "kontrol-cevaplanabilir",
+    "q": "Garanti süresince onarımdayken bana yedek cihaz verilir mi?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "garanti-ve-servis"
+      ],
+      "any": [
+        [
+          "verilmez",
+          "hayir",
+          "yok"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Garanti süresince onarımdayken geçici cihaz verilmez.",
+        "mode": "llm",
+        "sources": [
+          "garanti-ve-servis#Teknik Servis Süresi"
+        ],
+        "retrieval": {
+          "top_score": 16.97,
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 4.55,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 16.97,
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.8
+        },
+        "seconds": 3.15,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "(Yapay zekâ yanıt servisine şu an ulaşılamıyor; en yakın belge bölümü aynen aşağıdadır, sorunuzu yanıtlamayabilir:) Onarım için servise ulaşan ürünler en geç 10 iş günü içinde onarılır veya değiştirilir. Servis süresince geçici cihaz verilmez.",
+        "mode": "extractive-fallback",
+        "sources": [
+          "garanti-ve-servis#Teknik Servis Süresi"
+        ],
+        "retrieval": {
+          "top_score": 16.97,
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.4
+        },
+        "seconds": 48.51,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T11",
+    "cat": "kontrol-cevaplanabilir",
+    "q": "İade için ücretsiz kargo kodunu nasıl alırım?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "iade-proseduru-v2"
+      ],
+      "any": [
+        [
+          "e-posta",
+          "eposta"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "İade başvurusu onaylandığında e-posta ile ücretsiz kargo kodu gönderilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Kargo Ücreti"
+        ],
+        "retrieval": {
+          "top_score": 9.72,
+          "top_coverage": 0.38,
+          "retrieval_ms": 0.5
+        },
+        "seconds": 44.32,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "İade başvurusu onaylandığında e-postayla ücretsiz kargo kodu gönderilir. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "mode": "llm",
+        "sources": [
+          "iade-proseduru-v2#İade Kargo Ücreti"
+        ],
+        "retrieval": {
+          "top_score": 9.72,
+          "top_coverage": 0.38,
+          "retrieval_ms": 0.6
+        },
+        "seconds": 7.74,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "extractive-fallback",
+        "sources": [],
+        "retrieval": {
+          "top_score": 9.72,
+          "top_coverage": 0.38,
+          "retrieval_ms": 0.4
+        },
+        "seconds": 48.39,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T12",
+    "cat": "kontrol-cevaplanabilir",
+    "q": "Garanti başvurusu için seri numarasını uygulamada nerede görürüm?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "garanti-ve-servis"
+      ],
+      "any": [
+        [
+          "cihaz bilgisi"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Uygulamadaki Cihaz Bilgisi ekranında görebilirsiniz.",
+        "mode": "llm",
+        "sources": [
+          "garanti-ve-servis#Garanti Başvurusu"
+        ],
+        "retrieval": {
+          "top_score": 17.65,
+          "top_coverage": 0.71,
+          "retrieval_ms": 0.4
+        },
+        "seconds": 8.61,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Uygulamada seri numarasını Cihaz Bilgisi ekranında görebilirsiniz.",
+        "mode": "llm",
+        "sources": [
+          "garanti-ve-servis#Garanti Başvurusu"
+        ],
+        "retrieval": {
+          "top_score": 17.65,
+          "top_coverage": 0.71,
+          "retrieval_ms": 1.1
+        },
+        "seconds": 10.35,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Uygulamadaki Cihaz Bilgisi ekranında görebilirsiniz.",
+        "mode": "llm",
+        "sources": [
+          "garanti-ve-servis#Garanti Başvurusu"
+        ],
+        "retrieval": {
+          "top_score": 17.65,
+          "top_coverage": 0.71,
+          "retrieval_ms": 1.1
+        },
+        "seconds": 2.11,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T13",
+    "cat": "kontrol-cevaplanabilir",
+    "q": "Kargo takip numarası bana nasıl iletilir?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "kargo-ve-teslimat"
+      ],
+      "any": [
+        [
+          "sms"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Kargo takip numarası SMS ile gönderilir.",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Kargo Takibi"
+        ],
+        "retrieval": {
+          "top_score": 14.39,
+          "top_coverage": 0.71,
+          "retrieval_ms": 1.0
+        },
+        "seconds": 27.2,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Kargo takip numarası SMS ile gönderilir.",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Kargo Takibi"
+        ],
+        "retrieval": {
+          "top_score": 14.39,
+          "top_coverage": 0.71,
+          "retrieval_ms": 0.9
+        },
+        "seconds": 6.21,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Kargo takip numarası SMS ile gönderilir.",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Kargo Takibi"
+        ],
+        "retrieval": {
+          "top_score": 14.39,
+          "top_coverage": 0.71,
+          "retrieval_ms": 0.9
+        },
+        "seconds": 8.65,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T14",
+    "cat": "kontrol-cevaplanabilir",
+    "q": "Abonelik ödemesi başarısız olursa sistem kaç kez yeniden dener?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "abonelik-ve-faturalama"
+      ],
+      "all": [
+        "3"
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Sistem, abonelik ödemesi başarısız olursa **3 kez** yeniden dener.",
+        "mode": "llm",
+        "sources": [
+          "abonelik-ve-faturalama#Ödeme Hataları"
+        ],
+        "retrieval": {
+          "top_score": 24.65,
+          "top_coverage": 1.0,
+          "retrieval_ms": 1.1
+        },
+        "seconds": 2.24,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Sistem, kart çekimi başarısız olursa **3 kez** yeniden dener.",
+        "mode": "llm",
+        "sources": [
+          "abonelik-ve-faturalama#Ödeme Hataları"
+        ],
+        "retrieval": {
+          "top_score": 24.65,
+          "top_coverage": 1.0,
+          "retrieval_ms": 1.0
+        },
+        "seconds": 3.04,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "(Yapay zekâ yanıt servisine şu an ulaşılamıyor; en yakın belge bölümü aynen aşağıdadır, sorunuzu yanıtlamayabilir:) Kart çekimi başarısız olursa sistem 3 kez yeniden dener. Üçüncü denemeden sonra abonelik askıya alınır ve kullanıcıya e-posta ile bildirilir.",
+        "mode": "extractive-fallback",
+        "sources": [
+          "abonelik-ve-faturalama#Ödeme Hataları"
+        ],
+        "retrieval": {
+          "top_score": 24.65,
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 52.21,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  },
+  {
+    "id": "T15",
+    "cat": "kontrol-cevaplanabilir",
+    "q": "Hasarlı kargo için tutanak tutulmazsa başvurum kabul edilir mi?",
+    "expect": {
+      "answerable": true,
+      "docs": [
+        "kargo-ve-teslimat"
+      ],
+      "any": [
+        [
+          "degerlendirilemeyebilir",
+          "degerlendirilemez",
+          "kabul edilmeyebilir",
+          "hayir"
+        ]
+      ]
+    },
+    "runs": [
+      {
+        "answerable": true,
+        "answer": "Hayır, tutanak olmadan yapılan hasar başvuruları değerlendirilemeyebilir.",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Hasarlı Paket"
+        ],
+        "retrieval": {
+          "top_score": 16.43,
+          "top_coverage": 0.54,
+          "retrieval_ms": 0.8
+        },
+        "seconds": 40.89,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "mode": "llm",
+        "sources": [],
+        "retrieval": {
+          "top_score": 16.43,
+          "top_coverage": 0.54,
+          "retrieval_ms": 0.8
+        },
+        "seconds": 3.27,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "Hayır, tutanak olmadan yapılan hasar başvuruları değerlendirilemeyebilir.",
+        "mode": "llm",
+        "sources": [
+          "kargo-ve-teslimat#Hasarlı Paket"
+        ],
+        "retrieval": {
+          "top_score": 16.43,
+          "top_coverage": 0.54,
+          "retrieval_ms": 0.3
+        },
+        "seconds": 4.96,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      }
+    ]
+  }
+]

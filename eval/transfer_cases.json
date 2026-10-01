@@ -1,0 +1,17 @@
+[
+  {"id": "T01", "cat": "konu-aktarimi", "q": "Garanti başvurusunu telefonla yapabilir miyim?", "expect": {"answerable": false}},
+  {"id": "T02", "cat": "konu-aktarimi", "q": "Onarım için cihazı gönderirken ücretsiz kargo kodu alır mıyım?", "expect": {"answerable": false}},
+  {"id": "T03", "cat": "konu-aktarimi", "q": "Servise gönderdiğim cihazın para iadesi kaç iş günü sürer?", "expect": {"answerable": false}},
+  {"id": "T04", "cat": "konu-aktarimi", "q": "Şifre sıfırlama bağlantısı gelmezse kaç dakika beklemeliyim?", "expect": {"answerable": false}},
+  {"id": "T05", "cat": "konu-aktarimi", "q": "Hesabım kilitliyken canlı destek kilidi açar mı?", "expect": {"answerable": false}},
+  {"id": "T06", "cat": "konu-aktarimi", "q": "Gece güncellemesi başarısız olursa ne olur?", "expect": {"answerable": false}},
+  {"id": "T07", "cat": "konu-aktarimi", "q": "Hub'ı fabrika ayarlarına döndürürsem hesabım da silinir mi?", "expect": {"answerable": false}},
+  {"id": "T08", "cat": "konu-aktarimi", "q": "Teslim edilemeyen gönderi depoya dönerse ücret iadesi nasıl olur?", "expect": {"answerable": false}},
+  {"id": "T09", "cat": "konu-aktarimi", "q": "Ürün iadesinde sipariş numarasını nereden bulurum?", "expect": {"answerable": false}},
+  {"id": "T10", "cat": "kontrol-cevaplanabilir", "q": "Garanti süresince onarımdayken bana yedek cihaz verilir mi?", "expect": {"answerable": true, "docs": ["garanti-ve-servis"], "any": [["verilmez", "hayir", "yok"]]}},
+  {"id": "T11", "cat": "kontrol-cevaplanabilir", "q": "İade için ücretsiz kargo kodunu nasıl alırım?", "expect": {"answerable": true, "docs": ["iade-proseduru-v2"], "any": [["e-posta", "eposta"]]}},
+  {"id": "T12", "cat": "kontrol-cevaplanabilir", "q": "Garanti başvurusu için seri numarasını uygulamada nerede görürüm?", "expect": {"answerable": true, "docs": ["garanti-ve-servis"], "any": [["cihaz bilgisi"]]}},
+  {"id": "T13", "cat": "kontrol-cevaplanabilir", "q": "Kargo takip numarası bana nasıl iletilir?", "expect": {"answerable": true, "docs": ["kargo-ve-teslimat"], "any": [["sms"]]}},
+  {"id": "T14", "cat": "kontrol-cevaplanabilir", "q": "Abonelik ödemesi başarısız olursa sistem kaç kez yeniden dener?", "expect": {"answerable": true, "docs": ["abonelik-ve-faturalama"], "all": ["3"]}},
+  {"id": "T15", "cat": "kontrol-cevaplanabilir", "q": "Hasarlı kargo için tutanak tutulmazsa başvurum kabul edilir mi?", "expect": {"answerable": true, "docs": ["kargo-ve-teslimat"], "any": [["degerlendirilemeyebilir", "degerlendirilemez", "kabul edilmeyebilir", "hayir"]]}}
+]

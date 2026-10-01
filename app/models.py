@@ -21,8 +21,9 @@ class Chunk:
     doc: DocMeta
     section: str
     text: str
+    tags: str = ""  # yalnizca arama icin eş anlamli sozcukler (etiketler.yaml); yanitta/kanitta gosterilmez
 
     @property
     def index_text(self) -> str:
-        # Baslik ve bolum adi da aranabilir olsun
-        return f"{self.doc.title} {self.section} {self.text}"
+        # Baslik, bolum adi ve etiketler de aranabilir olsun
+        return f"{self.doc.title} {self.section} {self.text} {self.tags}".rstrip()

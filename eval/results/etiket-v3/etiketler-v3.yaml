@@ -1,0 +1,70 @@
+# Arama etiketleri: kullanıcıların bir konuyu doküman başlığından FARKLI sözcüklerle sorabildiği durumlar için eş anlamlılar.
+# Yalnızca arama dizinine eklenir; yanıtta, kanıtta veya kaynak alıntısında GÖSTERİLMEZ ve doküman metnini DEĞİŞTİRMEZ.
+# Kural: bir bölümün etiketi yalnızca o bölümün kendi konusunu anlatır; komşu konudan sözcük eklenmez.
+# Bilgi (süre, ücret, kural) ASLA buraya yazılmaz; yalnızca kullanıcı sözcükleri.
+# Başka bir işlemin sorusuna köprü kuran genel sözcükler (iade, para, ücret iadesi, değişim, kargo kodu) KULLANILMAZ:
+# ölçümde 'servis için para iadesi' sorusunu iade bölümüne çekip uydurmaya yol açtı (bkz. eval/results/etiket-v1).
+
+kurulum-kilavuzu:
+  Kutu İçeriği: [paket, paketten ne çıkıyor, kutudan ne çıkıyor, kutuda ne var, kutu içindekiler, içerik, aksesuar]
+  İlk Kurulum Adımları: [ilk defa çalıştırma, ilk çalıştırma, ilk kullanım, cihazı kurma, nasıl kurulur, eşleştirme, başlangıç, ilk açılış]
+  Desteklenen Bağlantı: [wifi, kablosuz ağ, internet bağlantısı, ağa bağlanma, bant, modem]
+  Cihaz Sınırı: [kaç cihaz, kaç tane cihaz, maksimum cihaz, en fazla cihaz, ekleyebileceğim cihaz sayısı, ampul, lamba, sensör, limit, kapasite]
+  Fabrika Ayarlarına Dönme: [sıfırlama, sıfırla, reset, fabrika ayarı, ayarları silme, baştan kurma]
+
+hesap-ve-sifre:
+  Hesap Oluşturma: [kayıt, üye olma, üyelik açma, yeni hesap, kaydolma]
+  Şifre Kuralları: [parola kuralları, şifre şartları, güçlü şifre, şifre uzunluğu, şifre belirleme, parola oluşturma]
+  Şifre Sıfırlama: [şifremi unuttum, parolamı unuttum, parola yenileme, şifre yenileme, şifre değiştirme, parola sıfırlama, şifre kurtarma]
+  Hesap Kilidi: [hesaba giremiyorum, giriş yapamıyorum, yanlış deneme, yanlış şifre, parolayı yanlış girme, hesap kilitlendi, kilitli hesap, engellendi, bekleme süresi]
+  İki Adımlı Doğrulama: [ikinci doğrulama, çift doğrulama, 2fa, ek güvenlik, doğrulama kodu, kimlik doğrulayıcı, güvenlik kodu]
+
+iade-proseduru-v2:
+  Giriş: [yürürlük, geçerlilik tarihi, yeni sürüm]
+  İade Süresi: [kaç gün içinde iade, geri gönderme süresi, iade hakkı, ne kadar süre iade, geri verme süresi]
+  İade Başvurusu: [iade nasıl yapılır, geri göndermek, ürünü geri vermek, iade talebi, iade formu, beğenmedim, vazgeçtim, geri gönderme]
+  İade Kargo Ücreti: [iade kargosu, geri gönderim ücreti]
+  Geri Ödeme: [geri ödeme süresi, hesabıma ödeme döner, kartıma ne zaman yatar]
+  Ürün Durumu ve Kesintiler: [açılmış ürün, kullanılmış ürün, kutusu açık, ambalaj açılmış, hasarsız, değer kaybı, kesinti, kullanım izi]
+  İade Kapsamı Dışındaki Ürünler: [iade edilemeyen, iade yapılmayan, kişiye özel, gravür, iade hariç, kapsam dışı ürün]
+
+garanti-ve-servis:
+  Garanti Süresi: [garanti ne kadar, garanti kaç ay, garanti kaç yıl, garanti müddeti, garantili mi]
+  Garanti Başvurusu: [garanti talebi, garantiden yararlanma, seri numarası, seri no, fatura, cihaz etiketi, etiket, belge]
+  Garanti Kapsamı Dışındaki Durumlar: [garanti geçersiz, garanti dışı, garanti karşılamaz, kırılma, düşürme, ıslanma, su teması, darbe, hasar, kapsam dışı]
+  Teknik Servis Süresi: [tamir süresi, onarım süresi, arıza, bozuldu, arızalandı, tamir ne kadar sürer, servis ne kadar sürer, cihaz tamiri, yedek cihaz, geçici cihaz]
+  Onarım ve Değişim: [tamir, tamir edilemezse, yenisi verilir mi, cihaz değişimi, yenileme, bozuk cihaz]
+
+kargo-ve-teslimat:
+  Teslimat Süreleri: [kaç günde gelir, ne zaman gelir, teslim süresi, sipariş ne zaman ulaşır, kargo süresi, gönderim süresi, kapıya gelme]
+  Kargo Ücreti: [kargo bedeli, kargo parası, bedava kargo, ücretsiz kargo, kargo ne kadar, gönderim ücreti, sipariş tutarı, kargo bedava]
+  Kargo Takibi: [paket nerede, siparişim nerede, takip numarası, gönderi izleme, kargo takip, kargo nerede]
+  Hasarlı Paket: [kargo hasarlı, paket ezilmiş, ürün kırık geldi, hasar tutanağı, paket yırtık, hasar bildirimi, hasarlı geldi]
+  Teslim Edilemeyen Gönderiler: [kurye, kuryeye teslim, teslim alamadım, evde yoktum, adreste bulunamadı, paket şubede, kargo şubesi, adrese teslim]
+
+abonelik-ve-faturalama:
+  Abonelik Planları: [üyelik, üyelik ücreti, aylık ücret, yıllık ücret, plan, premium, lumora plus]
+  Ücretsiz Deneme: [deneme süresi, bedava deneme, ilk ay ücretsiz, denemek, deneme sürümü]
+  Abonelik İptali: [üyeliği iptal, aboneliği bitirme, üyelikten çıkma, aboneliği durdurma, iptal etmek, vazgeçme]
+  Ödeme Hataları: [ödeme alınamadı, kart çekimi, kartımdan çekilemezse, para çekilemezse, kredi kartı, yetersiz bakiye, ödeme başarısız, aylık çekim, tahsilat, üyeliğe ne olur, askıya alınma]
+  Fatura: [fatura talebi, şirket adına fatura, kurumsal fatura, e-fatura, fatura nerede, fatura indirme, firma adına]
+
+destek-kanallari-sla:
+  Canlı Destek: [chat, sohbet, yazışma, uygulama içi destek, canlı yardım, mesajlaşma]
+  Telefon Desteği: [telefonla arama, müşteri hizmetleri, çağrı merkezi, arayabilir miyim, telefon numarası, hat]
+  E-posta Desteği: [mail, e-posta ile destek, mail gönderme, eposta yazma, yazılı destek, dönüş süresi, ne zaman cevap]
+  Öncelikli Talepler: [acil destek, hızlı yanıt, öncelikli destek, acil talep, güvenlik sorunu, abone desteği]
+  Talep Takibi: [talep numarası, talebim ne durumda, başvuru durumu, destek kaydı, taleplerim]
+
+gizlilik-ve-veri-silme:
+  Kişisel Verilerin İşlenmesi: [kişisel veriler, veri toplama, hangi veriler, kvkk, bilgilerim, verilerim ne için]
+  Kamera Kayıtlarının Saklanması: [kamera görüntüleri, video kaydı, kayıt süresi, görüntüler ne kadar durur, kayıtlar silinir mi, bulut kaydı, videolar]
+  Ses Verisi: [mikrofon, dinleme, ses kaydı, sesli komut, beni dinliyor mu, gizli dinleme]
+  Hesap ve Veri Silme Talebi: [hesabı silme, hesap kapatma, üyeliği silme, verilerimi sil, kaydımı sil, kullanıcı kaydı silme, silme süresi, kayıt silinmesi]
+  Veri Erişim Talebi: [verilerimin kopyası, bilgilerimin kopyası, hakkımda tutulan bilgiler, verilerimi görmek, veri örneği, bilgi talebi]
+
+sorun-giderme:
+  LED Renklerinin Anlamı: [ışık, ışık rengi, led yanıyor, yeşil ışık, kırmızı ışık, mavi ışık, turuncu ışık, yanıp sönüyor, ne anlama gelir, lamba rengi]
+  Hub Çevrimdışı Görünüyor: [internete bağlanamıyor, bağlantı yok, offline, çevrimdışı, bağlanmıyor, internet yok, bağlantı koptu, wifi değişti]
+  Güncelleme Sırasında Yapılmaması Gerekenler: [yazılım güncelleme, güncelleme zamanı, firmware, fişi çekme, güncelleme saati, otomatik güncelleme]
+  Cihaz Uygulamada Yanıt Vermiyor: [uygulama açılmıyor, cihaz görünmüyor, cevap vermiyor, donuyor, yeniden başlatma, uygulama çalışmıyor, kontrol edemiyorum]
