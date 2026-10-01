@@ -317,6 +317,21 @@ Bu yüzden iki finalist (potion, MiniLM) ve BM25 **57 vakalık QA setinde** (inj
 
 **İsteğe bağlı kullanım** (yukarıdaki risk bilinerek): `pip install -r requirements-hybrid.txt`, `.env` içinde `RETRIEVER=hybrid` ve `EMBEDDING_MODEL=minishlab/potion-multilingual-128M`. Gömme yüklenemezse sistem uyarı verip BM25'e düşer; ağ veya API gerekmez (ONNX, CPU). Bölüm gömmeleri `.cache/` altında önbelleğe alınır.
 
+### 6) Reranker (cross-encoder) denemesi
+
+**Soru:** BM25'in bulduğu bölümleri çok dilli bir cross-encoder ile yeniden sıralamak doğruluğu artırır mı, hız bedeli değer mi?
+**Yöntem:** `jina-reranker-v2-base-multilingual` (yerel, ONNX, CPU) iki senaryoda ölçüldü, aynı 67 etiketli soru ve aynı çalıştırmadaki BM25 tabanıyla ([`eval/rerank_bench.py`](eval/rerank_bench.py), [`rerank-bench.md`](eval/results/hybrid/rerank-bench.md)). LLM kullanılmadı; yalnızca arama sırası ölçüldü, uçtan uca ölçülmedi.
+
+| Yöntem | hit@1 | hit@2 | hit@4 | MRR | reranker p50 / p90 (ms) |
+|---|---|---|---|---|---|
+| BM25 (taban) | 0,821 | 0,866 | 0,881 | 0,848 | 0 |
+| BM25 ilk 8 → rerank | 0,881 | 0,925 | 0,925 | 0,903 | 741 / 1193 |
+| tüm bölümler → rerank | 0,925 | 0,970 | 1,000 | 0,956 | 4776 / 5023 |
+
+Reranker'ın en iyi skoru "bilgi var / yok" kapısı olarak da zayıf: AUC 0,78–0,80; cevapsızların %13'ü sızarken cevaplanabilirlerin yalnızca %56'sı geçiyor.
+
+**Karar: entegre edilmedi.** Sıralama kazancı gerçek ama bedeli hız önceliğiyle çelişiyor: ilk-8 senaryosu uçtan uca ~1,3 sn'lik medyana +0,74 sn (≈ +%55) ekliyor, tüm-bölüm senaryosu 4,8 sn. Ayrıca oracle deneyi, kusursuz arama ile bile kaybın büyük kısmının LLM'in gereksiz reddinden geldiğini gösterdi; yani arama sırasını düzeltmek tavanı sınırlı artırır. Reranker, vektör aramadaki gibi "komşu bölümü öne çıkarma" riskini de taşır ve bu risk uçtan uca ölçülmeden açılamaz. Not: bu çalıştırmadaki BM25 tabanı (hit@1 0,821) 5. bölümdeki tabandan (0,866) düşük; arada çalışma ağacındaki sürüm çözümü değişikliği var, bu yüzden yalnızca aynı çalıştırma içi karşılaştırma geçerlidir.
+
 ### Ölçüm sırasında bulunan gerçek hatalar
 
 | Bulgu | Düzeltme |
