@@ -53,11 +53,7 @@ pytest                                       # birim ve API testleri; anahtar ge
 python -m eval.run_eval --no-llm             # klasik set, alıntılayan mod  -> eval/results/results-extractive.md
 python -m eval.run_eval                      # klasik set, .env'deki LLM    -> eval/results/results-llm.md
 python -m eval.qa_run --repeat 2 --pause 1.5 # 57 vakalık QA (halüsinasyon odaklı) -> eval/results/qa-<model>.md
-python -m eval.interview_70_run --no-llm  # 70 vakalık API denetimi, anahtar gerektirmez
-python -m eval.interview_70_run --pause 1.5 # 70 vakalık API denetimi, .env'deki LLM
 ```
-
-Görüşmeye hazırlık için [70 vakalık denetim ve bulgular](eval/INTERVIEW_AUDIT.md), [satır satır NVIDIA sonuçları](eval/results/interview-70-nvidia-openai_gpt-oss-20b.md), [LLM'siz sonuçlar](eval/results/interview-70-extractive.md) ve [20 dakikalık anlatım](INTERVIEW_GUIDE.md) bulunur.
 
 > Windows'ta Türkçe karakterler bozuk görünürse `PYTHONIOENCODING=utf-8` ayarlayın. `curl -d` ile Türkçe JSON göndermek de konsol kodlaması yüzünden sorun çıkarabilir; arayüz, Swagger veya Python/`httpx` daha güvenli.
 > `--pause 1.5` önemlidir: NVIDIA'nın ücretsiz katmanı dakikada ~40 istekle sınırlıdır (bunu ölçüm sırasında yaşadık).
@@ -193,8 +189,6 @@ Kural kodda, deterministik (LLM'e bırakılmadı — denetlenebilir olması içi
 ---
 
 ## Değerlendirme
-
-**Güncel uçtan uca denetim:** 70 soru/tarih kombinasyonu gerçek `/ask` API'sinden çalıştırıldı: NVIDIA ile **58/70**, LLM'siz alıntı modunda **54/70**. NVIDIA turunda yedi gereksiz ret ve beş ağ zaman aşımı vardı; tüm vaka, beklenen–gerçek karşılaştırması ve sınırlamalar [denetim raporunda](eval/INTERVIEW_AUDIT.md). Aşağıdaki 30 ve 57 vakalık sonuçlar önceki çalıştırmalardır; model ve ağ koşulları arasında doğrudan aynı test gibi karşılaştırılmamalıdır.
 
 ### 1) Klasik set — 30 soru (14 normal, 6 çelişkili, 10 cevapsız)
 
