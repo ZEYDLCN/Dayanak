@@ -25,3 +25,11 @@ def test_superseded_chunks_never_survive_resolution(kb):
 def test_no_conflict_for_unversioned_docs(kb):
     hits = kb.index.search("wi-fi 5 ghz", k=5)
     assert resolve_versions(hits, kb.metas, date(2026, 1, 1)).conflicts == []
+
+
+def test_before_first_effective_date_has_no_current_document(kb):
+    before_corpus = date(2022, 1, 1)  # hiçbir dokümanın yürürlüğe girmediği tarih
+    assert "iade-proseduru" not in current_docs(kb.metas, before_corpus)
+    result = kb.retrieve("İade süresi kaç gündü?", as_of=before_corpus)
+    assert result.hits == []
+    assert not result.sufficient and not result.plausible

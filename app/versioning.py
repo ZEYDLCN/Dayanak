@@ -48,8 +48,9 @@ def current_docs(metas: list[DocMeta], as_of: date) -> dict[str, DocMeta]:
         by_family.setdefault(m.family, []).append(m)
     result = {}
     for family, docs in by_family.items():
-        in_force = [d for d in docs if d.effective_date <= as_of] or docs
-        result[family] = max(in_force, key=lambda d: (d.version, d.effective_date))
+        in_force = [d for d in docs if d.effective_date <= as_of]
+        if in_force:  # bu tarihte ailenin hiçbir sürümü henüz yürürlükte değilse aile dışarıda kalır
+            result[family] = max(in_force, key=lambda d: (d.version, d.effective_date))
     return result
 
 
@@ -63,7 +64,10 @@ def resolve_versions(hits: list[Hit], metas: list[DocMeta], as_of: date) -> Reso
     dropped: dict[str, list[Hit]] = {}
     for hit in hits:
         doc = hit.chunk.doc
-        if doc.doc_id == current[doc.family].doc_id:
+        selected = current.get(doc.family)
+        if selected is None:  # bu tarihte ailenin henüz yürürlükte bir sürümü yok
+            continue
+        if doc.doc_id == selected.doc_id:
             kept.append(hit)
         else:
             dropped.setdefault(doc.family, []).append(hit)
