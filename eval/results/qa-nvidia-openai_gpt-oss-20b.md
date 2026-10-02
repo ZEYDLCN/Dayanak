@@ -1,33 +1,33 @@
 # QA sonuçları — `nvidia-openai_gpt-oss-20b`
 
-- Vaka: 57 · koşu: 114 · **geçen koşu: 98/114**
+- Vaka: 57 · koşu: 114 · **geçen koşu: 99/114**
 - Kaynakta olmayan sayı (halüsinasyon bayrağı): **0** koşu
 - LLM hatası → extractive'e düşen koşu: 0
 - Dayanak korumasının reddettiği (uydurma sayı içeren) LLM yanıtı: 0 koşu
-- Tutarlılık (aynı soru → aynı cevaplanabilirlik+kaynak): 57/57 vaka
-- Gecikme: medyan 1.00s · maks 9.21s
+- Tutarlılık (aynı soru → aynı cevaplanabilirlik+kaynak): 54/57 vaka
+- Gecikme: medyan 0.92s · maks 7.68s
 
 | ID | Kategori | Soru | Beklenen | Yanıt (ilk koşu) | Kaynak | Sonuç |
 |----|----------|------|----------|------------------|--------|-------|
-| F1 | olgu | iade suresi kac gun | cevaplanır; içerir: ['30 gün']; içermez: ['14 gün'] | İade süresi **30** gündür. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.) | iade-proseduru-v2›İade Süresi | #1 ✅<br>#2 ✅ |
+| F1 | olgu | iade suresi kac gun | cevaplanır; içerir: ['30 gün']; içermez: ['14 gün'] | **30** gün (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.) | iade-proseduru-v2›İade Süresi | #1 ✅<br>#2 ✅ |
 | F2 | olgu | İADE KARGO ÜCRETİNİ KİM ÖDER | cevaplanır; içermez: ['müşteriye aittir'] | İade kargo ücretini Lumora karşılar. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.) | iade-proseduru-v2›İade Kargo Ücreti | #1 ✅<br>#2 ✅ |
-| F3 | olgu | sifremi unuttum ne yapmaliyim | cevaplanır | Şifremi Unuttum seçeneğine dokunduktan sonra e-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı **30 dakika** boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir. | hesap-ve-sifre›Şifre Sıfırlama | #1 ✅<br>#2 ✅ |
-| F4 | olgu | Hub wifi 5ghz destekliyor mu | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
-| F5 | olgu | Kargom hasarlı geldi ne yapmalıyım | cevaplanır | Hasarlı paket durumunda, teslim sırasında kargo görevlisiyle birlikte hasar tespit tutanağı düzenlenmelidir. Tutanak olmadan yapılan hasar başvuruları değerlendirilemeyebilir. | kargo-ve-teslimat›Hasarlı Paket | #1 ✅<br>#2 ✅ |
-| F6 | olgu | Aboneliğimi iptal edersem paramı geri alabilir miyim? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
+| F3 | olgu | sifremi unuttum ne yapmaliyim | cevaplanır | Şifremi Unuttum seçeneğine dokunduktan sonra e-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı 30 dakika boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir. | hesap-ve-sifre›Şifre Sıfırlama | #1 ✅<br>#2 ✅ |
+| F4 | olgu | Hub wifi 5ghz destekliyor mu | cevaplanır | Hayır, Lumora Hub 5 GHz Wi-Fi ağlarını desteklemez. | kurulum-kilavuzu›Desteklenen Bağlantı | #1 ✅<br>#2 ✅ |
+| F5 | olgu | Kargom hasarlı geldi ne yapmalıyım | cevaplanır | Hasarlı bir paket teslim aldığınızda, teslim sırasında kargo görevlisiyle birlikte hasar tespit tutanağı düzenlenmelidir. Tutanak olmadan yapılan hasar başvuruları değerlendirilemeyebilir. | kargo-ve-teslimat›Hasarlı Paket | #1 ✅<br>#2 ✅ |
+| F6 | olgu | Aboneliğimi iptal edersem paramı geri alabilir miyim? | cevaplanır | Kalan döneme ait kısmi ücret iadesi yapılmaz. | abonelik-ve-faturalama›Abonelik İptali | #1 ✅<br>#2 ✅ |
 | F7 | olgu | Telefon desteği cumartesi çalışıyor mu? | cevaplanır | Hayır, telefon desteği cumartesi çalışmıyor. | destek-kanallari-sla›Telefon Desteği | #1 ✅<br>#2 ✅ |
 | F8 | olgu | Hub turuncu yanarken fişini çekebilir miyim? | cevaplanır | Hayır, turuncu LED yanarken cihazın fişini çekemezsiniz. | sorun-giderme›Güncelleme Sırasında Yapılmaması Gerekenler | #1 ✅<br>#2 ✅ |
-| F9 | olgu | Hesabım kilitlendi | cevaplanır; içerir: ['15 dakika'] | Hesabınız, art arda 5 hatalı şifre denemesinden sonra 15 dakika süreyle kilitlenir. | hesap-ve-sifre›Hesap Kilidi | #1 ✅<br>#2 ✅ |
-| F10 | olgu | Kamera kayıtları Lumora+ ile kaç gün saklanır | cevaplanır; içerir: ['30 gün'] | Kamera kayıtları Lumora+ abonelerinde **30 gün** saklanır. | gizlilik-ve-veri-silme›Kamera Kayıtlarının Saklanması | #1 ✅<br>#2 ✅ |
-| F11 | olgu | Bir Hub'a kaç akıllı cihaz eklenebilir | cevaplanır; içerir: ['50'] | Bir Hub'a en fazla **50** akıllı cihaz eklenebilir. | kurulum-kilavuzu›Cihaz Sınırı | #1 ✅<br>#2 ✅ |
-| F12 | olgu | Şifre en az kaç karakter olmalı | cevaplanır; içerir: ['10 karakter'] | Şifreniz en az **10** karakter olmalı. | hesap-ve-sifre›Şifre Kuralları | #1 ✅<br>#2 ✅ |
+| F9 | olgu | Hesabım kilitlendi | cevaplanır; içerir: ['15 dakika'] | Hesabınız, 5 hatalı şifre denemesinden sonra 15 dakika süreyle kilitlenir. | hesap-ve-sifre›Hesap Kilidi | #1 ✅<br>#2 ✅ |
+| F10 | olgu | Kamera kayıtları Lumora+ ile kaç gün saklanır | cevaplanır; içerir: ['30 gün'] | Kamera kayıtları Lumora+ ile **30 gün** saklanır. | gizlilik-ve-veri-silme›Kamera Kayıtlarının Saklanması | #1 ✅<br>#2 ✅ |
+| F11 | olgu | Bir Hub'a kaç akıllı cihaz eklenebilir | cevaplanır; içerir: ['50'] | Bir Hub'a **50** akıllı cihaz eklenebilir. | kurulum-kilavuzu›Cihaz Sınırı | #1 ✅<br>#2 ✅ |
+| F12 | olgu | Şifre en az kaç karakter olmalı | cevaplanır; içerir: ['10 karakter'] | Şifreniz en az **10** karakter olmalıdır. | hesap-ve-sifre›Şifre Kuralları | #1 ✅<br>#2 ✅ |
 | F13 | olgu | Kurumsal fatura talebini ne zamana kadar iletmeliyim | cevaplanır; içerir: ['7 gün'] | Kurumsal fatura talebini ödemeden sonra **7 gün** içinde destek kanallarından iletmelisiniz. | abonelik-ve-faturalama›Fatura | #1 ✅<br>#2 ✅ |
-| F14 | sayisal-tuzak | Ücretsiz deneme süresi kaç gün? | cevaplanır; içerir: ['14']; içermez: ['30 gün', 'iade'] | **14** gün | abonelik-ve-faturalama›Ücretsiz Deneme | #1 ✅<br>#2 ✅ |
-| F15 | olgu | Cumartesi canlı destek var mı? | cevaplanır; içermez: ['canlı destek yok', 'hizmet verilmiyor'] | Cumartesi günleri de canlı destek hizmeti sunulmaktadır. | destek-kanallari-sla›Canlı Destek | #1 ✅<br>#2 ✅ |
-| P1 | yanlis-oncul | İade süresi 14 gün, doğru mu? | cevaplanır; içerir: ['30 gün']; içermez: ['14 gündür', 'evet, 14'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
+| F14 | sayisal-tuzak | Ücretsiz deneme süresi kaç gün? | cevaplanır; içerir: ['14']; içermez: ['30 gün', 'iade'] | Ücretsiz deneme süresi **14** gündür. | abonelik-ve-faturalama›Ücretsiz Deneme | #1 ✅<br>#2 ✅ |
+| F15 | olgu | Cumartesi canlı destek var mı? | cevaplanır; içermez: ['canlı destek yok', 'hizmet verilmiyor'] | Evet, canlı destek cumartesi günleri de 09:00-21:00 saatleri arasında hizmet verir. | destek-kanallari-sla›Canlı Destek | #1 ✅<br>#2 ✅ |
+| P1 | yanlis-oncul | İade süresi 14 gün, doğru mu? | cevaplanır; içerir: ['30 gün']; içermez: ['14 gündür', 'evet, 14'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ✅ |
 | P2 | yanlis-oncul | Garanti 12 ay olduğuna göre ne zamana kadar başvurabilirim? | cevaplanır; içerir: ['24 ay'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
-| P3 | yanlis-oncul | Ücretsiz kargo 500 TL üzeri siparişlerde geçerli, değil mi? | cevaplanır; içerir: ['750 TL']; içermez: ['500 TL ve üzeri', 'evet'] | Hayır, ücretsiz kargo 750 TL ve üzeri siparişlerde geçerlidir. | kargo-ve-teslimat›Kargo Ücreti | #1 ✅<br>#2 ✅ |
-| P4 | yanlis-oncul | İade için müşteri hizmetlerini telefonla arayabilir miyim? | cevaplanır; içermez: ['yalnızca müşteri hizmetleri telefon hattı'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
+| P3 | yanlis-oncul | Ücretsiz kargo 500 TL üzeri siparişlerde geçerli, değil mi? | cevaplanır; içerir: ['750 TL']; içermez: ['500 TL ve üzeri', 'evet'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
+| P4 | yanlis-oncul | İade için müşteri hizmetlerini telefonla arayabilir miyim? | cevaplanır; içermez: ['yalnızca müşteri hizmetleri telefon hattı'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ kaynak ['destek-kanallari-sla'], beklenen ['iade-proseduru-v2']; şunlardan biri yok: ['alınmamaktadır', 'uygulama', 'web formu'] |
 | M1 | coklu-niyet | İade süresi kaç gün ve 750 TL altı siparişte kargo ücreti ne kadar? | cevaplanır; içerir: ['30 gün', '49,90'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
 | M2 | coklu-niyet | Garanti kaç ay ve servis kaç iş günü sürer? | cevaplanır; içerir: ['24 ay', '10 iş günü'] | Garanti süresi **24 ay** ve servis süresi **10 iş günü** sürer. | garanti-ve-servis›Garanti Süresi, garanti-ve-servis›Teknik Servis Süresi | #1 ✅<br>#2 ✅ |
 | M3 | kismi-bilgi | Hub 5 GHz Wi-Fi'ye ve Bluetooth'a bağlanabilir mi? | cevaplanır; içermez: ["Bluetooth'a bağlanabilir", 'Bluetooth destekler'] | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ❌ answerable=False, beklenen True |
@@ -61,8 +61,8 @@
 | U17 | cevapsiz-komsu | Kamera kayıtları şifreli mi saklanıyor? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅ |
 | U18 | cevapsiz-komsu | Servis süresince gidiş dönüş kargo ücretini kim öder? | cevapsız | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ✅<br>#2 ✅ |
 | F16 | olgu-yeni | Kaç hatalı şifre denemesinden sonra hesabım kilitlenir? | cevaplanır; içerir: ['5'] | Hesabınız, art arda 5 hatalı şifre denemesinden sonra kilitlenir. | hesap-ve-sifre›Hesap Kilidi | #1 ✅<br>#2 ✅ |
-| F17 | olgu-yeni | İki adımlı doğrulama kodu SMS ile mi geliyor? | cevaplanır | Hayır, iki adımlı doğrulama kodu SMS ile gönderilmez. | hesap-ve-sifre›İki Adımlı Doğrulama | #1 ✅<br>#2 ✅ |
-| F18 | olgu-yeni | Ses verilerim buluta gönderiliyor mu? | cevaplanır | Ses verileriniz buluta gönderilmez. | gizlilik-ve-veri-silme›Ses Verisi | #1 ✅<br>#2 ✅ |
-| F19 | olgu-yeni | Teslim edilemeyen kargo şubede kaç gün bekler? | cevaplanır; içerir: ['7 gün'] | Teslim edilemeyen kargo şubede **7 gün** bekletilir. | kargo-ve-teslimat›Teslim Edilemeyen Gönderiler | #1 ✅<br>#2 ✅ |
-| F20 | olgu-yeni | Kart çekimi başarısız olursa aboneliğime ne olur? | cevaplanır; içerir: ['3'] | Kart çekimi başarısız olursa sistem **3 kez** yeniden dener. Üçüncü denemeden sonra abonelik askıya alınır ve kullanıcıya e-posta ile bildirilir. | abonelik-ve-faturalama›Ödeme Hataları | #1 ✅<br>#2 ✅ |
+| F17 | olgu-yeni | İki adımlı doğrulama kodu SMS ile mi geliyor? | cevaplanır | Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin. | — | #1 ❌ answerable=False, beklenen True<br>#2 ✅ |
+| F18 | olgu-yeni | Ses verilerim buluta gönderiliyor mu? | cevaplanır | Ses verileriniz buluta gönderilmiyor. | gizlilik-ve-veri-silme›Ses Verisi | #1 ❌ şunlardan biri yok: ['sesli komut', 'kaydetmez', 'göndermez', 'gönderilmez']<br>#2 ✅ |
+| F19 | olgu-yeni | Teslim edilemeyen kargo şubede kaç gün bekler? | cevaplanır; içerir: ['7 gün'] | Teslim edilemeyen gönderi **7 gün** boyunca kargo şubesinde bekletilir. | kargo-ve-teslimat›Teslim Edilemeyen Gönderiler | #1 ✅<br>#2 ✅ |
+| F20 | olgu-yeni | Kart çekimi başarısız olursa aboneliğime ne olur? | cevaplanır; içerir: ['3'] | Kart çekimi başarısız olursa sistem 3 kez yeniden dener. Üçüncü denemeden sonra abonelik askıya alınır ve kullanıcıya e-posta ile bildirilir. | abonelik-ve-faturalama›Ödeme Hataları | #1 ✅<br>#2 ✅ |
 | F21 | olgu-yeni | Kurulum sırasında LED hangi renkte yanıp söner? | cevaplanır | Kurulum sırasında LED **mavi** renkte yanıp söner. | kurulum-kilavuzu›İlk Kurulum Adımları | #1 ✅<br>#2 ✅ |

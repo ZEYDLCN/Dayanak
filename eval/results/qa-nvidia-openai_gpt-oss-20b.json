@@ -18,32 +18,34 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "İade süresi **30** gündür. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "answer": "**30** gün (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
         "mode": "llm",
         "sources": [
           "iade-proseduru-v2#İade Süresi"
         ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.3
         },
-        "seconds": 9.21,
+        "seconds": 1.51,
         "problems": [],
         "grounding_fail": [],
         "review": []
       },
       {
         "answerable": true,
-        "answer": "İade süresi **30** gündür. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
+        "answer": "**30** gün (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
         "mode": "llm",
         "sources": [
           "iade-proseduru-v2#İade Süresi"
         ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 1.0
         },
-        "seconds": 2.36,
+        "seconds": 3.05,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -82,9 +84,10 @@
         ],
         "retrieval": {
           "top_score": 8.72,
-          "top_coverage": 0.53
+          "top_coverage": 0.53,
+          "retrieval_ms": 0.3
         },
-        "seconds": 2.6,
+        "seconds": 1.32,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -98,9 +101,10 @@
         ],
         "retrieval": {
           "top_score": 8.72,
-          "top_coverage": 0.53
+          "top_coverage": 0.53,
+          "retrieval_ms": 0.7
         },
-        "seconds": 1.59,
+        "seconds": 0.94,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -126,32 +130,34 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Şifremi Unuttum seçeneğine dokunduktan sonra e-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı **30 dakika** boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir.",
+        "answer": "Şifremi Unuttum seçeneğine dokunduktan sonra e-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı 30 dakika boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir.",
         "mode": "llm",
         "sources": [
           "hesap-ve-sifre#Şifre Sıfırlama"
         ],
         "retrieval": {
           "top_score": 6.68,
-          "top_coverage": 0.55
+          "top_coverage": 0.55,
+          "retrieval_ms": 0.2
         },
-        "seconds": 2.55,
+        "seconds": 2.23,
         "problems": [],
         "grounding_fail": [],
         "review": []
       },
       {
         "answerable": true,
-        "answer": "Şifremi Unuttum seçeneğine dokunup e-postanıza gönderilen sıfırlama bağlantısını kullanmalısınız. Bu bağlantı 30 dakika boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir.",
+        "answer": "Şifremi Unuttum seçeneğine dokunduktan sonra e-postanıza bir sıfırlama bağlantısı gönderilir. Bu bağlantı 30 dakika boyunca geçerlidir; süre dolarsa yeni bir bağlantı istemeniz gerekir.",
         "mode": "llm",
         "sources": [
           "hesap-ve-sifre#Şifre Sıfırlama"
         ],
         "retrieval": {
           "top_score": 6.68,
-          "top_coverage": 0.55
+          "top_coverage": 0.55,
+          "retrieval_ms": 0.6
         },
-        "seconds": 5.32,
+        "seconds": 3.09,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -177,34 +183,36 @@
     },
     "runs": [
       {
-        "answerable": false,
-        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "answerable": true,
+        "answer": "Hayır, Lumora Hub 5 GHz Wi-Fi ağlarını desteklemez.",
         "mode": "llm",
-        "sources": [],
+        "sources": [
+          "kurulum-kilavuzu#Desteklenen Bağlantı"
+        ],
         "retrieval": {
           "top_score": 14.61,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.2
         },
-        "seconds": 0.37,
-        "problems": [
-          "answerable=False, beklenen True"
-        ],
+        "seconds": 2.35,
+        "problems": [],
         "grounding_fail": [],
         "review": []
       },
       {
-        "answerable": false,
-        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "answerable": true,
+        "answer": "Hayır, Lumora Hub 5 GHz Wi-Fi ağlarını desteklemez.",
         "mode": "llm",
-        "sources": [],
+        "sources": [
+          "kurulum-kilavuzu#Desteklenen Bağlantı"
+        ],
         "retrieval": {
           "top_score": 14.61,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.3
         },
-        "seconds": 0.57,
-        "problems": [
-          "answerable=False, beklenen True"
-        ],
+        "seconds": 2.59,
+        "problems": [],
         "grounding_fail": [],
         "review": []
       }
@@ -221,23 +229,25 @@
       ],
       "any": [
         [
-          "tutanak"
+          "tutanak",
+          "tutanağ"
         ]
       ]
     },
     "runs": [
       {
         "answerable": true,
-        "answer": "Hasarlı paket durumunda, teslim sırasında kargo görevlisiyle birlikte hasar tespit tutanağı düzenlenmelidir. Tutanak olmadan yapılan hasar başvuruları değerlendirilemeyebilir.",
+        "answer": "Hasarlı bir paket teslim aldığınızda, teslim sırasında kargo görevlisiyle birlikte hasar tespit tutanağı düzenlenmelidir. Tutanak olmadan yapılan hasar başvuruları değerlendirilemeyebilir.",
         "mode": "llm",
         "sources": [
           "kargo-ve-teslimat#Hasarlı Paket"
         ],
         "retrieval": {
           "top_score": 7.83,
-          "top_coverage": 0.33
+          "top_coverage": 0.33,
+          "retrieval_ms": 0.8
         },
-        "seconds": 2.47,
+        "seconds": 3.46,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -251,9 +261,10 @@
         ],
         "retrieval": {
           "top_score": 7.83,
-          "top_coverage": 0.33
+          "top_coverage": 0.33,
+          "retrieval_ms": 0.7
         },
-        "seconds": 1.64,
+        "seconds": 1.98,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -279,34 +290,36 @@
     },
     "runs": [
       {
-        "answerable": false,
-        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "answerable": true,
+        "answer": "Kalan döneme ait kısmi ücret iadesi yapılmaz.",
         "mode": "llm",
-        "sources": [],
+        "sources": [
+          "abonelik-ve-faturalama#Abonelik İptali"
+        ],
         "retrieval": {
           "top_score": 7.79,
-          "top_coverage": 0.18
+          "top_coverage": 0.18,
+          "retrieval_ms": 0.9
         },
-        "seconds": 0.74,
-        "problems": [
-          "answerable=False, beklenen True"
-        ],
+        "seconds": 5.4,
+        "problems": [],
         "grounding_fail": [],
         "review": []
       },
       {
-        "answerable": false,
-        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "answerable": true,
+        "answer": "Hayır, iptal ettiğinizde kalan döneme ait kısmi ücret iadesi yapılmaz.",
         "mode": "llm",
-        "sources": [],
+        "sources": [
+          "abonelik-ve-faturalama#Abonelik İptali"
+        ],
         "retrieval": {
           "top_score": 7.79,
-          "top_coverage": 0.18
+          "top_coverage": 0.18,
+          "retrieval_ms": 1.1
         },
-        "seconds": 0.32,
-        "problems": [
-          "answerable=False, beklenen True"
-        ],
+        "seconds": 7.68,
+        "problems": [],
         "grounding_fail": [],
         "review": []
       }
@@ -342,9 +355,10 @@
         ],
         "retrieval": {
           "top_score": 6.22,
-          "top_coverage": 0.33
+          "top_coverage": 0.33,
+          "retrieval_ms": 0.4
         },
-        "seconds": 3.39,
+        "seconds": 2.11,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -358,9 +372,10 @@
         ],
         "retrieval": {
           "top_score": 6.22,
-          "top_coverage": 0.33
+          "top_coverage": 0.33,
+          "retrieval_ms": 0.2
         },
-        "seconds": 0.89,
+        "seconds": 2.24,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -396,9 +411,10 @@
         ],
         "retrieval": {
           "top_score": 9.89,
-          "top_coverage": 0.48
+          "top_coverage": 0.48,
+          "retrieval_ms": 0.4
         },
-        "seconds": 1.0,
+        "seconds": 2.98,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -412,9 +428,10 @@
         ],
         "retrieval": {
           "top_score": 9.89,
-          "top_coverage": 0.48
+          "top_coverage": 0.48,
+          "retrieval_ms": 0.8
         },
-        "seconds": 3.02,
+        "seconds": 1.46,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -437,6 +454,23 @@
     "runs": [
       {
         "answerable": true,
+        "answer": "Hesabınız, 5 hatalı şifre denemesinden sonra 15 dakika süreyle kilitlenir.",
+        "mode": "llm",
+        "sources": [
+          "hesap-ve-sifre#Hesap Kilidi"
+        ],
+        "retrieval": {
+          "top_score": 5.05,
+          "top_coverage": 0.5,
+          "retrieval_ms": 0.5
+        },
+        "seconds": 1.81,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
         "answer": "Hesabınız, art arda 5 hatalı şifre denemesinden sonra 15 dakika süreyle kilitlenir.",
         "mode": "llm",
         "sources": [
@@ -444,25 +478,10 @@
         ],
         "retrieval": {
           "top_score": 5.05,
-          "top_coverage": 0.5
+          "top_coverage": 0.5,
+          "retrieval_ms": 0.2
         },
-        "seconds": 2.8,
-        "problems": [],
-        "grounding_fail": [],
-        "review": []
-      },
-      {
-        "answerable": true,
-        "answer": "Hesabınız 5 hatalı şifre denemesinden sonra 15 dakika süreyle kilitlenir.",
-        "mode": "llm",
-        "sources": [
-          "hesap-ve-sifre#Hesap Kilidi"
-        ],
-        "retrieval": {
-          "top_score": 5.05,
-          "top_coverage": 0.5
-        },
-        "seconds": 1.04,
+        "seconds": 1.8,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -485,6 +504,23 @@
     "runs": [
       {
         "answerable": true,
+        "answer": "Kamera kayıtları Lumora+ ile **30 gün** saklanır.",
+        "mode": "llm",
+        "sources": [
+          "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
+        ],
+        "retrieval": {
+          "top_score": 16.44,
+          "top_coverage": 1.0,
+          "retrieval_ms": 1.3
+        },
+        "seconds": 0.91,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
         "answer": "Kamera kayıtları Lumora+ abonelerinde **30 gün** saklanır.",
         "mode": "llm",
         "sources": [
@@ -492,25 +528,10 @@
         ],
         "retrieval": {
           "top_score": 16.44,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.8
         },
-        "seconds": 0.9,
-        "problems": [],
-        "grounding_fail": [],
-        "review": []
-      },
-      {
-        "answerable": true,
-        "answer": "**30** gün",
-        "mode": "llm",
-        "sources": [
-          "gizlilik-ve-veri-silme#Kamera Kayıtlarının Saklanması"
-        ],
-        "retrieval": {
-          "top_score": 16.44,
-          "top_coverage": 1.0
-        },
-        "seconds": 2.2,
+        "seconds": 2.92,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -533,32 +554,34 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Bir Hub'a en fazla **50** akıllı cihaz eklenebilir.",
+        "answer": "Bir Hub'a **50** akıllı cihaz eklenebilir.",
         "mode": "llm",
         "sources": [
           "kurulum-kilavuzu#Cihaz Sınırı"
         ],
         "retrieval": {
           "top_score": 13.33,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.3
         },
-        "seconds": 3.62,
+        "seconds": 1.36,
         "problems": [],
         "grounding_fail": [],
         "review": []
       },
       {
         "answerable": true,
-        "answer": "Bir Hub'a en fazla **50** akıllı cihaz eklenebilir.",
+        "answer": "Bir Hub'a **50** akıllı cihaz eklenebilir.",
         "mode": "llm",
         "sources": [
           "kurulum-kilavuzu#Cihaz Sınırı"
         ],
         "retrieval": {
           "top_score": 13.33,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.8
         },
-        "seconds": 1.46,
+        "seconds": 1.09,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -581,16 +604,17 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Şifreniz en az **10** karakter olmalı.",
+        "answer": "Şifreniz en az **10** karakter olmalıdır.",
         "mode": "llm",
         "sources": [
           "hesap-ve-sifre#Şifre Kuralları"
         ],
         "retrieval": {
           "top_score": 17.86,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.5
         },
-        "seconds": 3.24,
+        "seconds": 0.79,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -604,9 +628,10 @@
         ],
         "retrieval": {
           "top_score": 17.86,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.6
         },
-        "seconds": 3.28,
+        "seconds": 0.63,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -636,9 +661,10 @@
         ],
         "retrieval": {
           "top_score": 9.05,
-          "top_coverage": 0.44
+          "top_coverage": 0.44,
+          "retrieval_ms": 0.4
         },
-        "seconds": 1.25,
+        "seconds": 6.04,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -652,7 +678,8 @@
         ],
         "retrieval": {
           "top_score": 9.05,
-          "top_coverage": 0.44
+          "top_coverage": 0.44,
+          "retrieval_ms": 0.8
         },
         "seconds": 1.93,
         "problems": [],
@@ -681,22 +708,6 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "**14** gün",
-        "mode": "llm",
-        "sources": [
-          "abonelik-ve-faturalama#Ücretsiz Deneme"
-        ],
-        "retrieval": {
-          "top_score": 9.94,
-          "top_coverage": 0.79
-        },
-        "seconds": 3.09,
-        "problems": [],
-        "grounding_fail": [],
-        "review": []
-      },
-      {
-        "answerable": true,
         "answer": "Ücretsiz deneme süresi **14** gündür.",
         "mode": "llm",
         "sources": [
@@ -704,9 +715,27 @@
         ],
         "retrieval": {
           "top_score": 9.94,
-          "top_coverage": 0.79
+          "top_coverage": 0.79,
+          "retrieval_ms": 0.9
         },
-        "seconds": 2.31,
+        "seconds": 3.99,
+        "problems": [],
+        "grounding_fail": [],
+        "review": []
+      },
+      {
+        "answerable": true,
+        "answer": "**14** gün",
+        "mode": "llm",
+        "sources": [
+          "abonelik-ve-faturalama#Ücretsiz Deneme"
+        ],
+        "retrieval": {
+          "top_score": 9.94,
+          "top_coverage": 0.79,
+          "retrieval_ms": 1.0
+        },
+        "seconds": 0.57,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -738,16 +767,17 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Cumartesi günleri de canlı destek hizmeti sunulmaktadır.",
+        "answer": "Evet, canlı destek cumartesi günleri de 09:00-21:00 saatleri arasında hizmet verir.",
         "mode": "llm",
         "sources": [
           "destek-kanallari-sla#Canlı Destek"
         ],
         "retrieval": {
           "top_score": 8.31,
-          "top_coverage": 0.53
+          "top_coverage": 0.53,
+          "retrieval_ms": 0.3
         },
-        "seconds": 5.68,
+        "seconds": 1.11,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -761,9 +791,10 @@
         ],
         "retrieval": {
           "top_score": 8.31,
-          "top_coverage": 0.53
+          "top_coverage": 0.53,
+          "retrieval_ms": 0.8
         },
-        "seconds": 0.98,
+        "seconds": 1.95,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -795,9 +826,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.45
+          "top_coverage": 0.45,
+          "retrieval_ms": 1.0
         },
-        "seconds": 0.53,
+        "seconds": 0.85,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -805,18 +837,19 @@
         "review": []
       },
       {
-        "answerable": false,
-        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "answerable": true,
+        "answer": "Hayır, iade süresi 30 gündür. (Not: Bu konuda v1 sürümünde farklı bilgi var; yürürlükteki v2 esas alınmıştır.)",
         "mode": "llm",
-        "sources": [],
+        "sources": [
+          "iade-proseduru-v2#İade Süresi"
+        ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.45
+          "top_coverage": 0.45,
+          "retrieval_ms": 0.9
         },
-        "seconds": 1.14,
-        "problems": [
-          "answerable=False, beklenen True"
-        ],
+        "seconds": 3.47,
+        "problems": [],
         "grounding_fail": [],
         "review": []
       }
@@ -843,9 +876,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 8.14,
-          "top_coverage": 0.23
+          "top_coverage": 0.23,
+          "retrieval_ms": 0.2
         },
-        "seconds": 1.36,
+        "seconds": 1.41,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -859,9 +893,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 8.14,
-          "top_coverage": 0.23
+          "top_coverage": 0.23,
+          "retrieval_ms": 0.3
         },
-        "seconds": 0.72,
+        "seconds": 1.29,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -889,34 +924,36 @@
     },
     "runs": [
       {
-        "answerable": true,
-        "answer": "Hayır, ücretsiz kargo 750 TL ve üzeri siparişlerde geçerlidir.",
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
         "mode": "llm",
-        "sources": [
-          "kargo-ve-teslimat#Kargo Ücreti"
-        ],
+        "sources": [],
         "retrieval": {
           "top_score": 18.38,
-          "top_coverage": 0.48
+          "top_coverage": 0.48,
+          "retrieval_ms": 1.2
         },
-        "seconds": 2.85,
-        "problems": [],
+        "seconds": 0.39,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
         "grounding_fail": [],
         "review": []
       },
       {
-        "answerable": true,
-        "answer": "Hayır, ücretsiz kargo 750 TL ve üzeri siparişlerde geçerlidir.",
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
         "mode": "llm",
-        "sources": [
-          "kargo-ve-teslimat#Kargo Ücreti"
-        ],
+        "sources": [],
         "retrieval": {
           "top_score": 18.38,
-          "top_coverage": 0.48
+          "top_coverage": 0.48,
+          "retrieval_ms": 0.4
         },
-        "seconds": 1.85,
-        "problems": [],
+        "seconds": 1.46,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
         "grounding_fail": [],
         "review": []
       }
@@ -950,9 +987,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.27
+          "top_coverage": 0.27,
+          "retrieval_ms": 1.0
         },
-        "seconds": 0.68,
+        "seconds": 0.73,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -960,17 +998,21 @@
         "review": []
       },
       {
-        "answerable": false,
-        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
+        "answerable": true,
+        "answer": "Evet, iade işlemleri için müşteri hizmetlerini telefonla arayabilirsiniz.",
         "mode": "llm",
-        "sources": [],
+        "sources": [
+          "destek-kanallari-sla#Telefon Desteği"
+        ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.27
+          "top_coverage": 0.27,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.35,
+        "seconds": 3.03,
         "problems": [
-          "answerable=False, beklenen True"
+          "kaynak ['destek-kanallari-sla'], beklenen ['iade-proseduru-v2']",
+          "şunlardan biri yok: ['alınmamaktadır', 'uygulama', 'web formu']"
         ],
         "grounding_fail": [],
         "review": []
@@ -996,9 +1038,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 20.82,
-          "top_coverage": 0.59
+          "top_coverage": 0.59,
+          "retrieval_ms": 2.2
         },
-        "seconds": 0.61,
+        "seconds": 0.82,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -1012,9 +1055,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 20.82,
-          "top_coverage": 0.59
+          "top_coverage": 0.59,
+          "retrieval_ms": 1.3
         },
-        "seconds": 0.42,
+        "seconds": 0.41,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -1045,9 +1089,10 @@
         ],
         "retrieval": {
           "top_score": 11.37,
-          "top_coverage": 0.57
+          "top_coverage": 0.57,
+          "retrieval_ms": 0.8
         },
-        "seconds": 1.93,
+        "seconds": 3.49,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1062,9 +1107,10 @@
         ],
         "retrieval": {
           "top_score": 11.37,
-          "top_coverage": 0.57
+          "top_coverage": 0.57,
+          "retrieval_ms": 1.1
         },
-        "seconds": 1.59,
+        "seconds": 0.97,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1099,9 +1145,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 15.55,
-          "top_coverage": 0.73
+          "top_coverage": 0.73,
+          "retrieval_ms": 0.9
         },
-        "seconds": 1.39,
+        "seconds": 1.05,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -1115,9 +1162,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 15.55,
-          "top_coverage": 0.73
+          "top_coverage": 0.73,
+          "retrieval_ms": 0.6
         },
-        "seconds": 0.74,
+        "seconds": 1.18,
         "problems": [
           "answerable=False, beklenen True"
         ],
@@ -1152,7 +1200,8 @@
         ],
         "retrieval": {
           "top_score": 7.41,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 1.0
         },
         "seconds": 0.0,
         "problems": [],
@@ -1169,7 +1218,8 @@
         ],
         "retrieval": {
           "top_score": 7.41,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 1.0
         },
         "seconds": 0.0,
         "problems": [],
@@ -1204,9 +1254,10 @@
         ],
         "retrieval": {
           "top_score": 7.79,
-          "top_coverage": 0.76
+          "top_coverage": 0.76,
+          "retrieval_ms": 0.3
         },
-        "seconds": 0.81,
+        "seconds": 3.72,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1220,9 +1271,10 @@
         ],
         "retrieval": {
           "top_score": 7.79,
-          "top_coverage": 0.76
+          "top_coverage": 0.76,
+          "retrieval_ms": 1.0
         },
-        "seconds": 4.2,
+        "seconds": 1.75,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1244,9 +1296,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.34,
-          "top_coverage": 0.36
+          "top_coverage": 0.36,
+          "retrieval_ms": 0.9
         },
-        "seconds": 0.48,
+        "seconds": 0.63,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1258,9 +1311,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.34,
-          "top_coverage": 0.36
+          "top_coverage": 0.36,
+          "retrieval_ms": 0.9
         },
-        "seconds": 1.33,
+        "seconds": 0.7,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1282,9 +1336,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 8.16,
-          "top_coverage": 0.41
+          "top_coverage": 0.41,
+          "retrieval_ms": 0.3
         },
-        "seconds": 0.34,
+        "seconds": 0.42,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1296,9 +1351,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 8.16,
-          "top_coverage": 0.41
+          "top_coverage": 0.41,
+          "retrieval_ms": 1.1
         },
-        "seconds": 1.15,
+        "seconds": 0.37,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1320,9 +1376,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 9.42,
-          "top_coverage": 0.56
+          "top_coverage": 0.56,
+          "retrieval_ms": 1.0
         },
-        "seconds": 0.56,
+        "seconds": 0.43,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1334,9 +1391,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 9.42,
-          "top_coverage": 0.56
+          "top_coverage": 0.56,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.25,
+        "seconds": 0.39,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1358,9 +1416,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 6.36,
-          "top_coverage": 0.27
+          "top_coverage": 0.27,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.57,
+        "seconds": 1.0,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1372,9 +1431,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 6.36,
-          "top_coverage": 0.27
+          "top_coverage": 0.27,
+          "retrieval_ms": 0.7
         },
-        "seconds": 0.81,
+        "seconds": 1.12,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1396,9 +1456,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 8.81,
-          "top_coverage": 0.25
+          "top_coverage": 0.25,
+          "retrieval_ms": 0.8
         },
-        "seconds": 1.62,
+        "seconds": 0.37,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1410,9 +1471,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 8.81,
-          "top_coverage": 0.25
+          "top_coverage": 0.25,
+          "retrieval_ms": 0.7
         },
-        "seconds": 0.67,
+        "seconds": 1.44,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1434,9 +1496,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.96,
-          "top_coverage": 0.37
+          "top_coverage": 0.37,
+          "retrieval_ms": 0.9
         },
-        "seconds": 1.53,
+        "seconds": 0.93,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1448,9 +1511,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.96,
-          "top_coverage": 0.37
+          "top_coverage": 0.37,
+          "retrieval_ms": 0.9
         },
-        "seconds": 0.58,
+        "seconds": 0.5,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1472,9 +1536,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.77,
-          "top_coverage": 0.27
+          "top_coverage": 0.27,
+          "retrieval_ms": 1.2
         },
-        "seconds": 1.29,
+        "seconds": 1.4,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1486,9 +1551,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.77,
-          "top_coverage": 0.27
+          "top_coverage": 0.27,
+          "retrieval_ms": 0.4
         },
-        "seconds": 0.74,
+        "seconds": 0.83,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1510,7 +1576,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 1.35,
-          "top_coverage": 0.16
+          "top_coverage": 0.16,
+          "retrieval_ms": 0.7
         },
         "seconds": 0.0,
         "problems": [],
@@ -1524,7 +1591,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 1.35,
-          "top_coverage": 0.16
+          "top_coverage": 0.16,
+          "retrieval_ms": 0.9
         },
         "seconds": 0.0,
         "problems": [],
@@ -1548,7 +1616,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 3.92,
-          "top_coverage": 0.13
+          "top_coverage": 0.13,
+          "retrieval_ms": 0.7
         },
         "seconds": 0.0,
         "problems": [],
@@ -1562,7 +1631,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 3.92,
-          "top_coverage": 0.13
+          "top_coverage": 0.13,
+          "retrieval_ms": 0.7
         },
         "seconds": 0.0,
         "problems": [],
@@ -1586,9 +1656,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.39,
-          "top_coverage": 0.22
+          "top_coverage": 0.22,
+          "retrieval_ms": 0.4
         },
-        "seconds": 0.59,
+        "seconds": 0.46,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1600,9 +1671,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.39,
-          "top_coverage": 0.22
+          "top_coverage": 0.22,
+          "retrieval_ms": 1.0
         },
-        "seconds": 0.53,
+        "seconds": 0.28,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1630,7 +1702,8 @@
         ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.2
+          "top_coverage": 0.2,
+          "retrieval_ms": 1.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1647,7 +1720,8 @@
         ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.2
+          "top_coverage": 0.2,
+          "retrieval_ms": 0.4
         },
         "seconds": 0.0,
         "problems": [],
@@ -1677,7 +1751,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.19,
-          "top_coverage": 0.17
+          "top_coverage": 0.17,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1691,7 +1766,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.19,
-          "top_coverage": 0.17
+          "top_coverage": 0.17,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1715,7 +1791,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.59,
-          "top_coverage": 0.13
+          "top_coverage": 0.13,
+          "retrieval_ms": 1.1
         },
         "seconds": 0.0,
         "problems": [],
@@ -1729,7 +1806,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 4.59,
-          "top_coverage": 0.13
+          "top_coverage": 0.13,
+          "retrieval_ms": 0.3
         },
         "seconds": 0.0,
         "problems": [],
@@ -1753,7 +1831,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 3.08,
-          "top_coverage": 0.07
+          "top_coverage": 0.07,
+          "retrieval_ms": 0.9
         },
         "seconds": 0.0,
         "problems": [],
@@ -1767,7 +1846,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 3.08,
-          "top_coverage": 0.07
+          "top_coverage": 0.07,
+          "retrieval_ms": 1.0
         },
         "seconds": 0.0,
         "problems": [],
@@ -1795,9 +1875,10 @@
         ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.3
+          "top_coverage": 0.3,
+          "retrieval_ms": 1.1
         },
-        "seconds": 4.19,
+        "seconds": 3.34,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1811,9 +1892,10 @@
         ],
         "retrieval": {
           "top_score": 5.99,
-          "top_coverage": 0.3
+          "top_coverage": 0.3,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.54,
+        "seconds": 0.9,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -1835,7 +1917,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1849,7 +1932,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1873,7 +1957,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.3
         },
         "seconds": 0.0,
         "problems": [],
@@ -1887,7 +1972,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1918,7 +2004,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.5
         },
         "seconds": 0.0,
         "problems": [
@@ -1934,7 +2021,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.7
         },
         "seconds": 0.0,
         "problems": [
@@ -1960,7 +2048,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1974,7 +2063,8 @@
         "sources": [],
         "retrieval": {
           "top_score": 0.0,
-          "top_coverage": 0.0
+          "top_coverage": 0.0,
+          "retrieval_ms": 0.2
         },
         "seconds": 0.0,
         "problems": [],
@@ -1998,9 +2088,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 9.27,
-          "top_coverage": 0.42
+          "top_coverage": 0.42,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.06,
+        "seconds": 0.57,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2012,9 +2103,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 9.27,
-          "top_coverage": 0.42
+          "top_coverage": 0.42,
+          "retrieval_ms": 1.1
         },
-        "seconds": 0.93,
+        "seconds": 1.21,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2036,9 +2128,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 10.15,
-          "top_coverage": 0.45
+          "top_coverage": 0.45,
+          "retrieval_ms": 0.8
         },
-        "seconds": 1.28,
+        "seconds": 0.49,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2050,9 +2143,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 10.15,
-          "top_coverage": 0.45
+          "top_coverage": 0.45,
+          "retrieval_ms": 0.7
         },
-        "seconds": 0.54,
+        "seconds": 0.8,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2074,9 +2168,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.94,
-          "top_coverage": 0.76
+          "top_coverage": 0.76,
+          "retrieval_ms": 1.0
         },
-        "seconds": 0.49,
+        "seconds": 0.55,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2088,9 +2183,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 5.94,
-          "top_coverage": 0.76
+          "top_coverage": 0.76,
+          "retrieval_ms": 1.1
         },
-        "seconds": 0.88,
+        "seconds": 0.5,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2112,9 +2208,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 6.94,
-          "top_coverage": 0.34
+          "top_coverage": 0.34,
+          "retrieval_ms": 0.2
         },
-        "seconds": 0.79,
+        "seconds": 0.93,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2126,9 +2223,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 6.94,
-          "top_coverage": 0.34
+          "top_coverage": 0.34,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.0,
+        "seconds": 0.92,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2150,9 +2248,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 11.23,
-          "top_coverage": 0.46
+          "top_coverage": 0.46,
+          "retrieval_ms": 0.5
         },
-        "seconds": 0.68,
+        "seconds": 0.58,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2164,9 +2263,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 11.23,
-          "top_coverage": 0.46
+          "top_coverage": 0.46,
+          "retrieval_ms": 0.8
         },
-        "seconds": 0.61,
+        "seconds": 0.9,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2188,9 +2288,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 10.75,
-          "top_coverage": 0.5
+          "top_coverage": 0.5,
+          "retrieval_ms": 0.6
         },
-        "seconds": 1.47,
+        "seconds": 0.54,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2202,9 +2303,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 10.75,
-          "top_coverage": 0.5
+          "top_coverage": 0.5,
+          "retrieval_ms": 0.3
         },
-        "seconds": 0.72,
+        "seconds": 2.05,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2226,9 +2328,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 13.14,
-          "top_coverage": 0.81
+          "top_coverage": 0.81,
+          "retrieval_ms": 0.6
         },
-        "seconds": 1.43,
+        "seconds": 0.63,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2240,9 +2343,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 13.14,
-          "top_coverage": 0.81
+          "top_coverage": 0.81,
+          "retrieval_ms": 0.2
         },
-        "seconds": 0.5,
+        "seconds": 0.69,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2264,9 +2368,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 6.91,
-          "top_coverage": 0.19
+          "top_coverage": 0.19,
+          "retrieval_ms": 1.1
         },
-        "seconds": 0.81,
+        "seconds": 0.74,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2278,9 +2383,10 @@
         "sources": [],
         "retrieval": {
           "top_score": 6.91,
-          "top_coverage": 0.19
+          "top_coverage": 0.19,
+          "retrieval_ms": 1.1
         },
-        "seconds": 0.79,
+        "seconds": 0.84,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2310,9 +2416,10 @@
         ],
         "retrieval": {
           "top_score": 15.53,
-          "top_coverage": 0.79
+          "top_coverage": 0.79,
+          "retrieval_ms": 0.4
         },
-        "seconds": 2.32,
+        "seconds": 1.85,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2326,9 +2433,10 @@
         ],
         "retrieval": {
           "top_score": 15.53,
-          "top_coverage": 0.79
+          "top_coverage": 0.79,
+          "retrieval_ms": 0.9
         },
-        "seconds": 3.74,
+        "seconds": 1.95,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2354,33 +2462,35 @@
     },
     "runs": [
       {
-        "answerable": true,
-        "answer": "Hayır, iki adımlı doğrulama kodu SMS ile gönderilmez.",
+        "answerable": false,
+        "answer": "Bu soruyla ilgili doküman kayıtlarında yeterli bilgi bulunmuyor. Lütfen destek ekibiyle iletişime geçin.",
         "mode": "llm",
-        "sources": [
-          "hesap-ve-sifre#İki Adımlı Doğrulama"
-        ],
+        "sources": [],
         "retrieval": {
           "top_score": 17.18,
-          "top_coverage": 0.6
+          "top_coverage": 0.6,
+          "retrieval_ms": 0.7
         },
-        "seconds": 1.75,
-        "problems": [],
+        "seconds": 0.74,
+        "problems": [
+          "answerable=False, beklenen True"
+        ],
         "grounding_fail": [],
         "review": []
       },
       {
         "answerable": true,
-        "answer": "Hayır, iki adımlı doğrulama kodu SMS ile gönderilmez.",
+        "answer": "Hayır, iki adımlı doğrulama kodları SMS ile gönderilmez.",
         "mode": "llm",
         "sources": [
           "hesap-ve-sifre#İki Adımlı Doğrulama"
         ],
         "retrieval": {
           "top_score": 17.18,
-          "top_coverage": 0.6
+          "top_coverage": 0.6,
+          "retrieval_ms": 0.7
         },
-        "seconds": 1.68,
+        "seconds": 2.21,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2408,17 +2518,20 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Ses verileriniz buluta gönderilmez.",
+        "answer": "Ses verileriniz buluta gönderilmiyor.",
         "mode": "llm",
         "sources": [
           "gizlilik-ve-veri-silme#Ses Verisi"
         ],
         "retrieval": {
           "top_score": 9.18,
-          "top_coverage": 0.81
+          "top_coverage": 0.81,
+          "retrieval_ms": 0.9
         },
-        "seconds": 3.27,
-        "problems": [],
+        "seconds": 1.73,
+        "problems": [
+          "şunlardan biri yok: ['sesli komut', 'kaydetmez', 'göndermez', 'gönderilmez']"
+        ],
         "grounding_fail": [],
         "review": []
       },
@@ -2431,9 +2544,10 @@
         ],
         "retrieval": {
           "top_score": 9.18,
-          "top_coverage": 0.81
+          "top_coverage": 0.81,
+          "retrieval_ms": 0.3
         },
-        "seconds": 1.91,
+        "seconds": 1.85,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2456,16 +2570,17 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Teslim edilemeyen kargo şubede **7 gün** bekletilir.",
+        "answer": "Teslim edilemeyen gönderi **7 gün** boyunca kargo şubesinde bekletilir.",
         "mode": "llm",
         "sources": [
           "kargo-ve-teslimat#Teslim Edilemeyen Gönderiler"
         ],
         "retrieval": {
           "top_score": 13.83,
-          "top_coverage": 0.7
+          "top_coverage": 0.7,
+          "retrieval_ms": 0.9
         },
-        "seconds": 1.46,
+        "seconds": 2.13,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2479,9 +2594,10 @@
         ],
         "retrieval": {
           "top_score": 13.83,
-          "top_coverage": 0.7
+          "top_coverage": 0.7,
+          "retrieval_ms": 1.7
         },
-        "seconds": 2.93,
+        "seconds": 1.21,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2509,16 +2625,17 @@
     "runs": [
       {
         "answerable": true,
-        "answer": "Kart çekimi başarısız olursa sistem **3 kez** yeniden dener. Üçüncü denemeden sonra abonelik askıya alınır ve kullanıcıya e-posta ile bildirilir.",
+        "answer": "Kart çekimi başarısız olursa sistem 3 kez yeniden dener. Üçüncü denemeden sonra abonelik askıya alınır ve kullanıcıya e-posta ile bildirilir.",
         "mode": "llm",
         "sources": [
           "abonelik-ve-faturalama#Ödeme Hataları"
         ],
         "retrieval": {
           "top_score": 16.55,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.7
         },
-        "seconds": 1.75,
+        "seconds": 1.37,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2532,9 +2649,10 @@
         ],
         "retrieval": {
           "top_score": 16.55,
-          "top_coverage": 1.0
+          "top_coverage": 1.0,
+          "retrieval_ms": 0.7
         },
-        "seconds": 3.2,
+        "seconds": 2.16,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2567,9 +2685,10 @@
         ],
         "retrieval": {
           "top_score": 9.13,
-          "top_coverage": 0.6
+          "top_coverage": 0.6,
+          "retrieval_ms": 1.2
         },
-        "seconds": 2.4,
+        "seconds": 2.17,
         "problems": [],
         "grounding_fail": [],
         "review": []
@@ -2583,9 +2702,10 @@
         ],
         "retrieval": {
           "top_score": 9.13,
-          "top_coverage": 0.6
+          "top_coverage": 0.6,
+          "retrieval_ms": 0.9
         },
-        "seconds": 1.27,
+        "seconds": 2.48,
         "problems": [],
         "grounding_fail": [],
         "review": []

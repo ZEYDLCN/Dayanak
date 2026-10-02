@@ -101,7 +101,7 @@ def main() -> None:
 
     passed = sum(1 for r in rows if not r["problems"])
     lines = [
-        f"# Değerlendirme sonuçları (mod: `{mode}`" + (f", model: `{settings.llm_model}`" if mode == "llm" else "") + ")",
+        f"# Değerlendirme sonuçları (mod: `{mode}`" + (f", sağlayıcı: `{service.default_provider}`, model: `{getattr(service.generator, 'model', '?')}`" if mode == "llm" else "") + ")",
         "",
         f"**Genel: {passed}/{len(rows)} geçti.** "
         + " · ".join(f"{TYPE_TR[t]}: {p}/{n}" for t, (p, n) in by_type.items()),

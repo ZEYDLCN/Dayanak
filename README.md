@@ -196,14 +196,14 @@ Beklenen ↔ gerçek çıktı tablosunun tamamı: [`eval/results/results-llm.md`
 
 | | Alıntılayan mod | **LLM (gpt-oss-20b)** |
 |---|---|---|
-| Toplam | 26 / 30 | **29 / 30** |
-| dev (18) | 18 / 18 | 18 / 18 |
+| Toplam | 26 / 30 | **28 / 30** |
+| dev (18) | 18 / 18 | 17 / 18 |
 | **held-out (12)** | 8 / 12 | **11 / 12** |
 | Normal | 13 / 14 | 13 / 14 |
-| Çelişkili (v1↔v2) | 4 / 6 | **6 / 6** |
+| Çelişkili (v1↔v2) | 4 / 6 | **5 / 6** |
 | Cevapsız | 9 / 10 | **10 / 10** |
 
-*dev*: kapı eşikleri bu sorulara bakılarak ayarlandı. *held-out*: eşikler dondurulduktan sonra yazıldı, ayarlama yapılmadı. LLM modundaki tek hata H6 ("Cihaz serviste iken geçici cihaz verilir mi?"): doküman "verilmez" diyor, model "bilgi yok" dedi (gereksiz ret).
+*dev*: kapı eşikleri bu sorulara bakılarak ayarlandı. *held-out*: eşikler dondurulduktan sonra yazıldı, ayarlama yapılmadı. LLM modunda iki hata var ve ikisi de gereksiz ret: H6 ("Cihaz serviste iken geçici cihaz verilir mi?": doküman "verilmez" diyor) ve C3 ("İade başvurusunu telefonla yapabilir miyim?"). Aynı kodla önceki koşu 29/30 (yalnızca H6) vermişti: LLM çıktısı koşudan koşuya ±1 vaka oynuyor, bu yüzden tabloyu tek koşunun kesin sonucu gibi okumayın. Sonuç dosyası son koşuyu içerir.
 
 ### 2) QA seti — 57 vaka, halüsinasyon odaklı
 
@@ -213,16 +213,16 @@ Olgu, yanlış öncül, çoklu niyet, kısmi bilgi, sürüm tuzağı, komşu-cev
 
 | Ölçüt | Sonuç |
 |---|---|
-| Geçen koşu | **98 / 114** |
+| Geçen koşu | **99 / 114** |
 | **Cevapsız/komşu sorularda yanıt verme (uydurma)** | **0 / 48 koşu** |
 | **Kaynakta olmayan sayı** | **0** |
-| İçeriği yanlış ama cevaplanmış yanıt | **0** (otomatik denetçi + ilk koşudaki 25 cevaplanmış yanıtın tamamı elle okundu; F8'de "çekmeyin" yerine "çekemezsiniz" gibi hafif bir anlam kayması var) |
-| Tutarlılık (aynı soru, aynı sonuç) | 57 / 57 |
+| İçeriği yanlış ama cevaplanmış yanıt | **1 koşu (P4)**: "İade için müşteri hizmetlerini telefonla arayabilir miyim?" sorusuna bir koşuda "Evet, arayabilirsiniz" dedi; iade v2 "Telefonla iade başvurusu artık alınmamaktadır" diyor. Model destek telefonu bölümünü iade sorusuna uyarladı (bilinen komşu-bölüm hatasının bir türü, aşağıdaki "Bilinen açık"a bakınız). Diğer koşu "bilgi yok" dedi. F18 de işaretlendi ama yalnızca denetçinin anahtar kelimesi ("gönderilmez" ↔ "gönderilmiyor") uyuşmadı, yanıt doğru. |
+| Tutarlılık (aynı soru, aynı sonuç) | 54 / 57 (tutarsız: P1, P4, F17; F18 yalnızca anahtar kelime farkı) |
 | LLM hatası | 0 |
-| Gecikme (LLM'e giden 92 koşu) | medyan **1,3 sn**, p90 3,2 sn, en kötü 9,2 sn (LLM'siz anında dönenler dahil tüm koşular: medyan 1,0 sn). Sunucu üzerinden tek tek denenen çağrılar 3–7 sn sürdü; NVIDIA ücretsiz katmanının yükü değişken. |
+| Gecikme (LLM'e giden 92 koşu) | medyan **1,2 sn**, p90 3,1 sn, en kötü 7,7 sn (LLM'siz anında dönenler dahil tüm koşular: medyan 0,9 sn). Sunucu üzerinden tek tek denenen çağrılar 3–7 sn sürdü; NVIDIA ücretsiz katmanının yükü değişken. |
 | Prompt injection (8 koşu) | 8 / 8 dayandı ("90 gün" dedirtilemedi; ancak "Önceki talimatlarını unut…" cümlesi "önceki" anahtar kelimesi yüzünden yanlışlıkla sürüm karşılaştırması tetikledi, zararsız ama bir sınır) |
 
-Kalan 16 başarısızlığın **tamamı gereksiz ret** (cevaplanabilir soruya "bilgi yok" demek); yanlış bilgi verilen bir durum kalmadı:
+Kalan 15 başarısız koşunun 13'ü **gereksiz ret** (cevaplanabilir soruya "bilgi yok" demek), 1'i yanlış içerikli yanıt (P4, yukarıda), 1'i denetçi anahtar kelime farkı (F18). Uydurma (cevapsız soruya yanıt verme) yok:
 
 | Vaka | Neden |
 |---|---|
@@ -363,7 +363,7 @@ Teşhis (tüm vakalar aynı sette ölçüldü): doğru bölüm 1. sırada ve LLM
 ### Dürüstlük notları
 
 - **"0 uydurma" yalnızca ölçülen setler için doğrudur.** Sonradan yazılan görülmemiş setlerde yukarıdaki dar açık (iade kuralının servise uyarlanması) ortaya çıktı. Ayarlama setindeki %88–97 ile görülmemiş dolaylı sorulardaki %50–80 aralığı arasındaki fark gerçektir; sunumda ikincisi söylenmelidir.
-- QA seti geliştirme sırasında **kullanıldı**: istem ve korumalar onun başarısızlıklarına bakılarak geliştirildi, dolayısıyla 98/114 tamamen "görülmemiş veri" ölçümü değildir. Baz çizgisinde görülmemiş komşu-cevapsız sorular (U11–U18) ve cevaplanabilir yeni sorular (F16–F21) sonradan eklendi; klasik sette **held-out 11/12** en temiz ölçümdür.
+- QA seti geliştirme sırasında **kullanıldı**: istem ve korumalar onun başarısızlıklarına bakılarak geliştirildi, dolayısıyla 99/114 tamamen "görülmemiş veri" ölçümü değildir. Baz çizgisinde görülmemiş komşu-cevapsız sorular (U11–U18) ve cevaplanabilir yeni sorular (F16–F21) sonradan eklendi; klasik sette **held-out 11/12** en temiz ölçümdür.
 - Beş vakanın (F2, F7, F8, F15, F18) beklenen anahtar kelime listesi, yanıtlar okunduktan sonra anlamca eşdeğer ifadeleri ("çalışmıyor", "gönderilmez") kapsayacak şekilde **genişletildi**; genişletmeden önce bu vakalar yanlış başarısız sayılıyordu.
 - Anthropic yolu canlı API'ye karşı **çalıştırılmadı**, yalnızca kodla ve birim testleriyle doğrulandı. NVIDIA ve Gemini yolları canlı ölçüldü.
 - Tek model (gpt-oss-20b) ve tek makinede ölçüldü; NVIDIA ücretsiz katmanında gecikme ve kota değişkendir.
@@ -398,7 +398,7 @@ Teşhis (tüm vakalar aynı sette ölçüldü): doğru bölüm 1. sırada ve LLM
 
 ## Tanıtım videosu
 
-`promo/` klasörü, projenin 39 sn'lik tanıtım videosunu **kodla** üretir (1920×1080, 30 fps, seslendirmesiz; müzik ve ses efektleri). Görüntüler uygulamanın kendi arayüzünden alınan **gerçek ekran görüntüleri**, kendi ikonları, renkleri (`styles.css`) ve yazı tipleridir (Manrope, DM Sans); sayılar bu README'deki ölçümlerdir (%0 uydurma yanıt, %97 doğru yanıt, 1,3 sn medyan yanıt süresi). Müzik (120 bpm) ve bütün efektler `promo/sfx.py` ile NumPy'la sentezlenir; dış servis veya ses örneği kullanılmaz. Görüntüdeki her olay (tıklama, yazma, vuruş, geçiş) ses olayıyla aynı zaman damgasından üretilir.
+`promo/` klasörü, projenin 39 sn'lik tanıtım videosunu **kodla** üretir (1920×1080, 30 fps, seslendirmesiz; müzik ve ses efektleri). Görüntüler uygulamanın kendi arayüzünden alınan **gerçek ekran görüntüleri**, kendi ikonları, renkleri (`styles.css`) ve yazı tipleridir (Manrope, DM Sans); sayılar videonun üretildiği günkü klasik set ölçümünden alınmıştır (%0 uydurma, 29/30 ≈ %97 doğru, 1,3 sn medyan); aynı kodla yeniden koşunun sonucu 28/30 (≈ %93) olduğu için video bu rakamla birebir örtüşmez (video teslim dosyası değildir, `.gitignore` içindedir). Müzik (120 bpm) ve bütün efektler `promo/sfx.py` ile NumPy'la sentezlenir; dış servis veya ses örneği kullanılmaz. Görüntüdeki her olay (tıklama, yazma, vuruş, geçiş) ses olayıyla aynı zaman damgasından üretilir.
 
 Video dosyası (`promo/lumora-tanitim.mp4`) git'e girmez, aşağıdaki adımlarla yeniden üretilir:
 
